@@ -102,3 +102,5 @@ TODO:
  - [ ] more/better automated tests
  - [ ] how to handle cases where there are other qrel fields (e.g., subtopics for diversity measures)
  - [ ] documentation
+ - [ ] fix calc_aggregate -- currently broken
+ - [ ] move this list to github issues
