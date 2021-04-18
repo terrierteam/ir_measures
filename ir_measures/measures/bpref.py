@@ -3,13 +3,11 @@ from .base import BaseMeasure, ParamInfo
 
 
 class _Bpref(measures.BaseMeasure):
-    NAME = 'Bpref'
-    DESC = '''
-<p>
-Binary Preference (Bpref).
-TODO: write
-</p>
-'''
+	"""
+	Binary Preference (Bpref).
+	TODO: write
+	"""
+	__name__ = 'Bpref'
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
     }

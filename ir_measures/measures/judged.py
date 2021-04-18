@@ -3,13 +3,11 @@ from .base import BaseMeasure, ParamInfo
 
 
 class _Judged(measures.BaseMeasure):
-    NAME = 'Judged'
-    DESC = '''
-<p>
-Percentage of results in the top k (cutoff) results that have relevance judgments. Equivalent to P@k with
-a rel lower than any judgment.
-</p>
-'''
+	"""
+	Percentage of results in the top k (cutoff) results that have relevance judgments. Equivalent to P@k with
+	a rel lower than any judgment.
+	"""
+    __name__ = 'Judged'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=True, desc='ranking cutoff threshold'),
     }
