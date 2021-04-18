@@ -8,10 +8,10 @@ class _AP(measures.BaseMeasure):
 	TODO: finish
 	"""
 	__name__ = 'AP'
-    SUPPORTED_PARAMS = {
-        'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
-        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
-    }
+	SUPPORTED_PARAMS = {
+		'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
+		'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
+	}
 
 
 AP = _AP()

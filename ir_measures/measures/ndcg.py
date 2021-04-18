@@ -3,10 +3,10 @@ from .base import BaseMeasure, ParamInfo
 
 
 class _nDCG(measures.BaseMeasure):
-	"""
-	The normalized Discounted Cumulative Gain (nDCG).
-	TODO: finish
-	"""
+    """
+    The normalized Discounted Cumulative Gain (nDCG).
+    TODO: finish
+    """
     __name__ = 'nDCG'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),

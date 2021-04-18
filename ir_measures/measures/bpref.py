@@ -8,9 +8,9 @@ class _Bpref(measures.BaseMeasure):
 	TODO: write
 	"""
 	__name__ = 'Bpref'
-    SUPPORTED_PARAMS = {
-        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
-    }
+	SUPPORTED_PARAMS = {
+		'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
+	}
 
 
 Bpref = _Bpref()

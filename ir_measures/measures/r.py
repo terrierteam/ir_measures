@@ -3,10 +3,10 @@ from .base import BaseMeasure, ParamInfo
 
 
 class _R(measures.BaseMeasure):
-	"""
-	Recall@k (R@k).
-	TODO: write
-	"""
+    """
+    Recall@k (R@k).
+    TODO: write
+    """
     __name__ = 'R'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=True, desc='ranking cutoff threshold'),
