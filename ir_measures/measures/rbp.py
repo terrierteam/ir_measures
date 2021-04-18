@@ -3,11 +3,12 @@ from .base import BaseMeasure, ParamInfo
 
 
 class _RBP(measures.BaseMeasure):
-	"""
-	The Rank-Biased Precision (RBP)
-	TODO: write
-	"""
+    """
+    The Rank-Biased Precision (RBP)
+    TODO: write
+    """
     __name__ = 'RBP'
+    NAME = __name__
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'p': measures.ParamInfo(dtype=float, default=0.8, desc='persistence'),

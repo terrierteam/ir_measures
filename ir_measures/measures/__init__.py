@@ -1,7 +1,7 @@
 registry = {}
 def register(measure):
-	registry[measure.NAME] = measure
-	return registry
+    registry[measure.__name__] = measure
+    return registry
 
 from .base import BaseMeasure, ParamInfo, MultiMeasures
 from .p import P, _P

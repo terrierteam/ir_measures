@@ -67,7 +67,7 @@ class BaseMeasure:
         return repr(self)
 
     def __repr__(self):
-        result = self.NAME
+        result = self.__name__
         params = ', '.join(f'{k}={repr(v)}' for k, v in self.params.items() if k != self.AT_PARAM and v != self.SUPPORTED_PARAMS[k].default)
         if params:
             result = f'{result}({params})'
