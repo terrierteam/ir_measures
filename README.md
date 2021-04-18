@@ -97,9 +97,3 @@ run = [
     GenericScoredDoc("Q1", "D3", 3.6),
 ]
 ```
-
-TODO:
- - [ ] more/better automated tests
- - [ ] how to handle cases where there are other qrel fields (e.g., subtopics for diversity measures)
- - [ ] documentation
- - [ ] move this list to github issues
