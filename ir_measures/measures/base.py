@@ -83,6 +83,22 @@ class BaseMeasure:
     def __hash__(self):
         return hash(repr(self))
 
+    def aggregator(self):
+        return MeanAgg()
+
+
+class MeanAgg:
+    def __init__(self):
+        self.sum = 0.
+        self.count = 0
+
+    def add(self, value):
+        self.sum += value
+        self.count += 1
+
+    def result(self):
+        return self.sum / self.count
+
 
 class MultiMeasures:
     def __init__(self, *measures):

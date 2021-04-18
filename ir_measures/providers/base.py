@@ -34,8 +34,11 @@ class MeasureProvider:
         with self.calc_ctxt(measures, qrels) as _iter_calc:
             yield from _iter_calc(run)
 
-    def calc_aggregate():
-        pass
+    def calc_aggregate(self, measures, qrels, run):
+        aggregators = {m: m.aggregator() for m in measures}
+        for metric in self.iter_calc(measures, qrels, run):
+            aggregators[metric.measure].add(metric.value)
+        return {m: agg.result() for m, agg in aggregators.items()}
 
     def supports(self, measure):
         measure.validate_params()
