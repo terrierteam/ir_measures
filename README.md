@@ -20,8 +20,8 @@ measure = P@5
 measure.iter_calc(qrels, run) # works
 
 from ir_measures import iter_calc, calc_aggregate
-iter_calc([AP, AP(rel=2), nDCG, nDCG@10, P@5]) # calculate multiple measures at once
-iter_calc([P@[1,5,10]]) # expands to multiple cutoffs
+iter_calc([AP, AP(rel=2), nDCG, nDCG@10, P@5], qrels, run) # calculate multiple measures at once
+iter_calc([P@[1,5,10]], qrels, run) # expands to multiple cutoffs
 
 # The above use a global priority list of measure providers. You
 # can also choose a specific one to use.
