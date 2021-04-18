@@ -107,7 +107,7 @@ class RunConverter:
             return 'dict_of_dict'
         if hasattr(self.run, 'itertuples'):
             cols = self.run.columns
-            if all(i in columns for i in GenericScoredDoc._fields):
+            if all(i in cols for i in GenericScoredDoc._fields):
                 return 'pd_dataframe'
         if hasattr(self.run, '__iter__'):
             # peek
