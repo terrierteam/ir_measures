@@ -1,7 +1,7 @@
 
 # ir_measures
 
-Check out our documentation website: [ir-measur.es](ir-measur.es)
+Check out our documentation website: [ir-measur.es](https://ir-measur.es/)
 
 
 Provides a common interface to many IR measure tools.

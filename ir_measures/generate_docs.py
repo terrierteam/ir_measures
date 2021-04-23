@@ -7,7 +7,7 @@ def main():
                 f.write('''
 # ir_measures
 
-Check out our documentation website: [ir-measur.es](ir-measur.es)
+Check out our documentation website: [ir-measur.es](https://ir-measur.es/)
 
 ''')
             f.write('''
