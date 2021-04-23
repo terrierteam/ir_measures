@@ -4,8 +4,7 @@ from .base import BaseMeasure, ParamInfo, SumAgg
 
 class _NumRel(measures.BaseMeasure):
     """
-    The number of relevant documents the query has (independent of run)
-    TODO: finish
+    The number of relevant documents the query has (independent of what the system retrieved).
     """
     __name__ = 'NumRel'
     NAME = __name__
