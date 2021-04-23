@@ -221,7 +221,7 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
         'gm_map': (None, None, None),
         'binG': (None, None, None),
         'set_P': (ir_measures.SetP, None, None),
-        'infAP': (None, None, None),
+        'infAP': (ir_measures.infAP, None, None),
         'bpref': (ir_measures.Bpref, None, None),
         'num_rel_ret': (ir_measures.NumRelRet, None, None),
         'ndcg_rel': (None, None, None),
