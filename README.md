@@ -340,6 +340,7 @@ run = [
 ## Aliases
 - `BPref` &rarr; `Bpref`
 - `MAP` &rarr; `AP`
+- `MRR` &rarr; `RR`
 - `NDCG` &rarr; `nDCG`
 - `NumRelRet` &rarr; `NumRet(rel=1)`
 - `RPrec` &rarr; `Rprec`

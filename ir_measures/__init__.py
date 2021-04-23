@@ -2,7 +2,7 @@ __version__ = "0.1.0"
 from . import util
 from .util import convert_trec_name
 from . import measures
-from .measures import P, RR, Rprec, AP, nDCG, R, Bpref, Judged, ERR, RBP, NumRet, NumRelRet, NumQ, NumRel, SetP, Success, IPrec, infAP
+from .measures import P, RR, MRR, Rprec, AP, nDCG, R, Bpref, Judged, ERR, RBP, NumRet, NumRelRet, NumQ, NumRel, SetP, Success, IPrec, infAP
 from . import providers
 
 

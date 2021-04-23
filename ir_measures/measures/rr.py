@@ -17,4 +17,5 @@ class _RR(measures.BaseMeasure):
 
 
 RR = _RR()
-measures.register(RR)
+MRR = RR
+measures.register(RR, ['MRR'])
