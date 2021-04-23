@@ -1,8 +1,16 @@
 import ir_measures
 
 def main():
-	with open('docs/index.md', 'wt') as f:
-		f.write('''
+    for file in ['README.md', 'docs/index.md']:
+        with open(file, 'wt') as f:
+            if file == 'README.md':
+                f.write('''
+# ir_measures
+
+Check out our documentation website: [ir-measur.es](ir-measur.es)
+
+''')
+            f.write('''
 Provides a common interface to many IR measure tools.
 
 Provided by the [Terrier Team @ Glasgow](http://terrierteam.dcs.gla.ac.uk/). Find us at [terrierteam/ir_measures](https://github.com/terrierteam/ir_measures).
@@ -36,7 +44,7 @@ calc_aggregate([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run)
 
 # by query
 for metric in iter_calc([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run):
-	print(x)
+    print(x)
 # Metric(query_id='Q0', measure=AP, value=0.5)
 # Metric(query_id='Q0', measure=RR, value=0.5)
 # Metric(query_id='Q0', measure=nDCG, value=0.6309297535714575)
@@ -117,33 +125,41 @@ run = [
 
 
 ''')
-		measures, aliases = [], []
-		for name, val in ir_measures.measures.registry.items():
-			if name == val.NAME:
-				measures.append((name, val))
-			else:
-				aliases.append((name, val))
-		measures = sorted(measures)
-		aliases = sorted(aliases)
-		f.write('''
+            measures, aliases = [], []
+            for name, val in ir_measures.measures.registry.items():
+                if name == val.NAME:
+                    measures.append((name, val))
+                else:
+                    aliases.append((name, val))
+            measures = sorted(measures)
+            aliases = sorted(aliases)
+            f.write('''
 ## Measures
 ''')
-		for name, val in measures:
-			f.write(f'''
+            for name, val in measures:
+                f.write(f'''
 ### `{name}`
 
 {val.__doc__.replace('    ', ' ')}
 ''')
-			if val.SUPPORTED_PARAMS:
-				f.write('''**Parameters:**\n\n''')
-				for p, param in val.SUPPORTED_PARAMS.items():
-					f.write(f' - `{p}` ({param.dtype.__name__}) - {param.desc}\n')
-				f.write('\n\n')
-		f.write('''
+                if val.SUPPORTED_PARAMS:
+                    f.write('''**Parameters:**\n\n''')
+                    for p, param in val.SUPPORTED_PARAMS.items():
+                        f.write(f' - `{p}` ({param.dtype.__name__}) - {param.desc}\n')
+                    f.write('\n\n')
+            f.write('''
 ## Aliases
 ''')
-		for name, val in aliases:
-			f.write(f'- `{name}` &rarr; `{val}`\n')
+            for name, val in aliases:
+                f.write(f'- `{name}` &rarr; `{val}`\n')
+
+            f.write('''
+## Credits
+
+ - Sean MacAvaney, University of Glasgow
+ - Craig Macdonald, University of Glasgow
+
+''')
 
 if __name__ == '__main__':
-	main()
+    main()

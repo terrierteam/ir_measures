@@ -32,7 +32,7 @@ calc_aggregate([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run)
 
 # by query
 for metric in iter_calc([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run):
-	print(x)
+    print(x)
 # Metric(query_id='Q0', measure=AP, value=0.5)
 # Metric(query_id='Q0', measure=RR, value=0.5)
 # Metric(query_id='Q0', measure=nDCG, value=0.6309297535714575)
@@ -336,3 +336,9 @@ run = [
 - `NDCG` &rarr; `nDCG`
 - `NumRelRet` &rarr; `NumRet(rel=1)`
 - `RPrec` &rarr; `Rprec`
+
+## Credits
+
+ - Sean MacAvaney, University of Glasgow
+ - Craig Macdonald, University of Glasgow
+
