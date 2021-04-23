@@ -3,7 +3,7 @@ import ir_measures
 from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
 from ir_measures.bin import msmarco_eval
-
+import sys
 
 class MsMarcoProvider(providers.MeasureProvider):
     NAME = 'msmarco'
