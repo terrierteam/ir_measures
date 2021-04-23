@@ -20,4 +20,5 @@ class _AP(measures.BaseMeasure):
 
 
 AP = _AP()
-measures.register(AP)
+MAP = AP
+measures.register(AP, ['MAP'])
