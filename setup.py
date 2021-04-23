@@ -42,7 +42,6 @@ setuptools.setup(
         'console_scripts': ['ir_measures=ir_measures:main_cli'],
     },
     package_data={
-        'ir_measures': glob('bin/gdeval.pl'),
-        '': ['LICENSE.txt', 'requirements.txt', 'requirements-test.txt']
+        '': ['ir_measures/bin/gdeval.pl', 'LICENSE.txt', 'requirements.txt', 'requirements-test.txt'],
     },
 )
