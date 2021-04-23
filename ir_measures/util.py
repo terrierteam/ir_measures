@@ -1,7 +1,9 @@
+import re
 import io
 import contextlib
 import itertools
 import tempfile
+from typing import List
 from collections import namedtuple
 import ir_measures
 
@@ -203,4 +205,90 @@ def flatten_measures(measures):
             result = result | measure.measures
         else:
             result.add(measure)
+    return result
+
+
+def convert_trec_name(measure: str) -> List['BaseMeasure']:
+    TREC_NAME_MAP = {
+        'ndcg': (ir_measures.nDCG, None, None),
+        'P': (ir_measures.P, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
+        'map_cut': (ir_measures.AP, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
+        'Rndcg': (None, None, None),
+        'num_nonrel_judged_ret': (None, None, None),
+        'set_map': (None, None, None),
+        '11pt_avg': (None, None, None),
+        'relative_P': (None, None, None),
+        'gm_map': (None, None, None),
+        'binG': (None, None, None),
+        'set_P': (ir_measures.SetP, None, None),
+        'infAP': (None, None, None),
+        'bpref': (ir_measures.Bpref, None, None),
+        'num_rel_ret': (ir_measures.NumRelRet, None, None),
+        'ndcg_rel': (None, None, None),
+        'recip_rank': (ir_measures.RR, None, None),
+        'recall': (ir_measures.R, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
+        'set_recall': (None, None, None),
+        'utility': (None, None, None),
+        'set_relative_P': (None, None, None),
+        'num_ret': (ir_measures.NumRet, None, None),
+        'num_rel': (ir_measures.NumRel, None, None),
+        'ndcg_cut': (ir_measures.nDCG, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
+        'runid': (None, None, None),
+        'Rprec': (ir_measures.Rprec, None, None),
+        'Rprec_mult': (None, None, None),
+        'relstring': (None, None, None),
+        'gm_bpref': (None, None, None),
+        'num_q': (ir_measures.NumQ, None, None),
+        'map': (ir_measures.AP, None, None),
+        'G': (None, None, None),
+        'success': (ir_measures.Success, 'cutoff', [1, 5, 10]),
+        'set_F': (None, None, None),
+        'iprec_at_recall': (ir_measures.IPrec, 'recall', [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
+    }
+    import pytrec_eval
+    if measure in pytrec_eval.supported_nicknames:
+        result = []
+        skipped = []
+        for sub_name in sorted(pytrec_eval.supported_nicknames[measure]):
+            try:
+                result += convert_trec_name(sub_name)
+            except ValueError:
+                skipped.append(sub_name)
+        if skipped:
+            print(f'skipped {skipped}: measures not yet supported')
+        return result
+
+    # Adapted from <https://github.com/cvangysel/pytrec_eval/blob/master/py/__init__.py#L76>
+    RE_BASE = r'{}[\._]([0-9]+(\.[0-9]+)?(,[0-9]+(\.[0-9]+)?)*)'
+
+    # break apart measures in any of the following formats and combine
+    #  1) meas          -> {meas: {}}  # either non-parameterized measure or use default params
+    #  2) meas.p1       -> {meas: {p1}}
+    #  3) meas_p1       -> {meas: {p1}}
+    #  4) meas.p1,p2,p3 -> {meas: {p1, p2, p3}}
+    #  5) meas_p1,p2,p3 -> {meas: {p1, p2, p3}}
+    if measure in TREC_NAME_MAP:
+        meas, arg_name, default_args = TREC_NAME_MAP[measure]
+        if meas is None:
+            raise ValueError(f'known trec name {measure}, but not yet supported')
+        if arg_name is not None and default_args is not None:
+            result = []
+            for arg in default_args:
+                result.append(meas(**{arg_name: arg}))
+            return result
+        return [meas]
+    matches = ((m, re.match(RE_BASE.format(re.escape(m)), measure)) for m in TREC_NAME_MAP)
+    match = next(filter(lambda x: x[1] is not None, matches), None)
+    if match is None:
+        raise ValueError('unkonwn measure {}'.format(measure))
+    base_meas, meas_args = match[0], match[1].group(1)
+    meas, arg_name, _ = TREC_NAME_MAP[base_meas]
+    if meas is None:
+        raise ValueError(f'known trec name {measure}, but not yet supported')
+    if arg_name is None:
+        raise ValueError(f'unknown argument for {measure}: {meas_args}')
+    result = []
+    dtype = meas.SUPPORTED_PARAMS[arg_name].dtype
+    for arg in meas_args.split(','):
+        result.append(meas(**{arg_name: dtype(arg)}))
     return result
