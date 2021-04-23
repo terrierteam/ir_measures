@@ -156,7 +156,7 @@ run = [
                 f.write(f'- `{name}` &rarr; `{val}`\n')
 
             f.write('''
-## Measures
+## Providers
 ''')
             for name, val in sorted(ir_measures.providers.registry.items()):
                 f.write(f'''
