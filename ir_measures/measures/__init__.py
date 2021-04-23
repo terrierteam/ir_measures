@@ -23,4 +23,5 @@ from .r import R, _R
 from .rbp import RBP, _RBP
 from .rprec import Rprec, _Rprec
 from .rr import RR, _RR
+from .setp import SetP, _SetP
 from .success import Success, _Success

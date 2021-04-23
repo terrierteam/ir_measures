@@ -17,6 +17,7 @@ class PytrecEvalProvider(providers.MeasureProvider):
         measures._NumRet(rel=Any()),
         measures._NumQ(rel=Any()),
         measures._NumRel(rel=1), # for some reason, relevance_level doesn't flow through to num_rel, so can only support rel=1
+        measures._SetP(rel=Any()),
         measures._Success(rel=Any(), cutoff=Any()),
         # Cannot support Judged because software doesn't support negative relevance levels: <https://github.com/cvangysel/pytrec_eval/blob/2362660e02c324df281932cc23ad7efd31cd3957/src/pytrec_eval.cpp#L354>
     ]
@@ -98,6 +99,9 @@ class PytrecEvalProvider(providers.MeasureProvider):
             elif measure.NAME == 'NumRel':
                 invocation_key = (measure['rel'],)
                 measure_str = 'num_rel'
+            elif measure.NAME == 'SetP':
+                invocation_key = (measure['rel'],)
+                measure_str = f'set_P'
             elif measure.NAME == 'Success':
                 invocation_key = (measure['rel'],)
                 measure_str = f'success_{measure["cutoff"]}'
