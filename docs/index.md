@@ -1,7 +1,7 @@
 
-# ir-measures
-
 Provides a common interface to many IR measure tools.
+
+Provided by the Terrier Team. Find us at <a href="https://github.com/terrierteam/ir_measures">terrierteam/ir_measures</a>.
 
 
 ## Measures
