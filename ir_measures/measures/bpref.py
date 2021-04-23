@@ -15,4 +15,5 @@ class _Bpref(measures.BaseMeasure):
 
 
 Bpref = _Bpref()
-measures.register(Bpref)
+BPref = Bpref
+measures.register(Bpref, ['BPref'])

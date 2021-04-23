@@ -53,16 +53,6 @@ class BaseMeasure:
     def calc_aggregate(self, qrels, run):
         return ir_measures.calc_aggregate([self], qrels, run)[self]
 
-    @classmethod
-    def aggregate(cls, calc_iter):
-        result = 0.
-        count = 0
-        for metric in calc_iter:
-            if metric.measure is self:
-                result += metric.value
-                count += 1
-        return result / count
-
     def __str__(self):
         return repr(self)
 
@@ -98,6 +88,17 @@ class MeanAgg:
 
     def result(self):
         return self.sum / self.count
+
+
+class SumAgg:
+    def __init__(self):
+        self.sum = 0.
+
+    def add(self, value):
+        self.sum += value
+
+    def result(self):
+        return self.sum
 
 
 class MultiMeasures:

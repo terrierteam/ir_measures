@@ -1,16 +1,23 @@
 registry = {}
-def register(measure):
-    registry[measure.__name__] = measure
+def register(measure, aliases=[], name=None):
+    if name is None:
+        name = measure.__name__
+    assert name not in registry
+    registry[name] = measure
+    for alias in aliases:
+        assert alias not in registry
+        registry[alias] = measure
     return registry
 
-from .base import BaseMeasure, ParamInfo, MultiMeasures
-from .p import P, _P
-from .rr import RR, _RR
-from .rprec import Rprec, _Rprec
-from .ap import AP, _AP
-from .ndcg import nDCG, _nDCG
-from .r import R, _R
-from .bpref import Bpref, _Bpref
-from .judged import Judged, _Judged
+from .base import BaseMeasure, ParamInfo, MultiMeasures, MeanAgg, SumAgg
+from .ap import AP, MAP, _AP
+from .bpref import Bpref, BPref, _Bpref
 from .err import ERR, _ERR
+from .judged import Judged, _Judged
+from .ndcg import nDCG, NDCG, _nDCG
+from .numret import NumRet, NumRelRet, _NumRet
+from .p import P, _P
+from .r import R, _R
 from .rbp import RBP, _RBP
+from .rprec import Rprec, _Rprec
+from .rr import RR, _RR

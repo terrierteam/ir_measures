@@ -15,4 +15,5 @@ class _Rprec(measures.BaseMeasure):
 
 
 Rprec = _Rprec()
-measures.register(Rprec)
+RPrec = Rprec
+measures.register(Rprec, ['RPrec'])

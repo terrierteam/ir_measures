@@ -16,4 +16,5 @@ class _nDCG(measures.BaseMeasure):
 
 
 nDCG = _nDCG()
-measures.register(nDCG)
+NDCG = nDCG
+measures.register(nDCG, ['NDCG'])
