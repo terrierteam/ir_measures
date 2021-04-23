@@ -5,7 +5,7 @@ def main():
 		f.write('''
 Provides a common interface to many IR measure tools.
 
-Provided by the Terrier Team. Find us at <a href="https://github.com/terrierteam/ir_measures">terrierteam/ir_measures</a>.
+Provided by the [Terrier Team @ Glasgow](http://terrierteam.dcs.gla.ac.uk/). Find us at [terrierteam/ir_measures](https://github.com/terrierteam/ir_measures).
 
 ## Getting Started
 
