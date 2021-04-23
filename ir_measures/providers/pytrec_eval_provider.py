@@ -20,6 +20,7 @@ class PytrecEvalProvider(providers.MeasureProvider):
         measures._SetP(rel=Any()),
         measures._Success(rel=Any(), cutoff=Any()),
         measures._IPrec(recall=Any()),
+        measures._infAP(rel=Any()),
         # Cannot support Judged because software doesn't support negative relevance levels: <https://github.com/cvangysel/pytrec_eval/blob/2362660e02c324df281932cc23ad7efd31cd3957/src/pytrec_eval.cpp#L354>
     ]
 
@@ -63,6 +64,9 @@ class PytrecEvalProvider(providers.MeasureProvider):
                     measure_str = f'map'
                 else:
                     measure_str = f'map_cut_{measure["cutoff"]}'
+            elif measure.NAME == 'infAP':
+                invocation_key = (measure['rel'],)
+                measure_str = f'infAP'
             elif measure.NAME == 'nDCG':
                 # Doesn't matter where this goes... Put it in an existing invocation, or just (1,) if none yet exist
                 if invocations:

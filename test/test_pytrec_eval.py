@@ -297,6 +297,64 @@ class TestPytrecEval(unittest.TestCase):
         self.assertAlmostEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.4583, places=4)
 
 
+    def test_infAP(self):
+        qrels = list(ir_measures.util.parse_trec_qrels('''
+0 0 D0 1
+0 0 D1 -1
+0 0 D2 0
+0 0 D3 2
+0 0 D4 0
+1 0 D0 1
+1 0 D3 2
+1 0 D4 -1
+1 0 D5 0
+'''))
+        run = list(ir_measures.util.parse_trec_run('''
+0 0 D0 1 0.8 run
+0 0 D2 2 0.7 run
+0 0 D1 3 0.3 run
+0 0 D3 4 0.4 run
+0 0 D4 5 0.1 run
+1 0 D1 1 0.8 run
+1 0 D4 2 0.7 run
+1 0 D3 3 0.3 run
+1 0 D2 4 0.4 run
+'''))
+        provider = ir_measures.providers.PytrecEvalProvider()
+        measure = ir_measures.AP
+        result = list(provider.iter_calc([measure], qrels, run))
+        self.assertEqual(result[0].query_id, "0")
+        self.assertAlmostEqual(result[0].value, 0.8333, places=4)
+        self.assertEqual(result[1].query_id, "1")
+        self.assertEqual(result[1].value, .125)
+        self.assertAlmostEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.47916666666666663, places=4)
+
+        measure = ir_measures.infAP
+        result = list(provider.iter_calc([measure], qrels, run))
+        self.assertEqual(result[0].query_id, "0")
+        self.assertAlmostEqual(result[0].value, 0.8333, places=4)
+        self.assertEqual(result[1].query_id, "1")
+        self.assertEqual(result[1].value, 0.1875)
+        self.assertAlmostEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.510416, places=4)
+
+        provider = ir_measures.providers.PytrecEvalProvider()
+        measure = ir_measures.AP(rel=2)
+        result = list(provider.iter_calc([measure], qrels, run))
+        self.assertEqual(result[0].query_id, "0")
+        self.assertAlmostEqual(result[0].value, 0.33333, places=4)
+        self.assertEqual(result[1].query_id, "1")
+        self.assertAlmostEqual(result[1].value, 0.25, places=4)
+        self.assertAlmostEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.2917, places=4)
+
+        measure = ir_measures.infAP(rel=2)
+        result = list(provider.iter_calc([measure], qrels, run))
+        self.assertEqual(result[0].query_id, "0")
+        self.assertAlmostEqual(result[0].value, 0.33333, places=4)
+        self.assertEqual(result[1].query_id, "1")
+        self.assertAlmostEqual(result[1].value, 0.375, places=4)
+        self.assertAlmostEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.3542, places=4)
+
+
 
 if __name__ == '__main__':
     unittest.main()

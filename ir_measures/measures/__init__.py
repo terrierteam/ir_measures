@@ -13,6 +13,7 @@ from .base import BaseMeasure, ParamInfo, MultiMeasures, MeanAgg, SumAgg
 from .ap import AP, MAP, _AP
 from .bpref import Bpref, BPref, _Bpref
 from .err import ERR, _ERR
+from .infap import infAP, _infAP
 from .iprec import IPrec, _IPrec
 from .judged import Judged, _Judged
 from .ndcg import nDCG, NDCG, _nDCG
