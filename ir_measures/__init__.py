@@ -1,7 +1,7 @@
 __version__ = "0.1.0"
 from . import util
 from . import measures
-from .measures import P, RR, Rprec, AP, nDCG, R, Bpref, Judged, ERR, RBP, NumRet, NumRelRet, NumQ, NumRel
+from .measures import P, RR, Rprec, AP, nDCG, R, Bpref, Judged, ERR, RBP, NumRet, NumRelRet, NumQ, NumRel, Success
 from . import providers
 
 
