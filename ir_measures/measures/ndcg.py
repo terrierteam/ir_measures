@@ -5,7 +5,8 @@ from .base import BaseMeasure, ParamInfo
 class _nDCG(measures.BaseMeasure):
     """
     The normalized Discounted Cumulative Gain (nDCG).
-    TODO: finish
+    Uses graded labels - systems that put the highest graded documents at the top of the ranking.
+    It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order of graded label.
     """
     __name__ = 'nDCG'
     NAME = __name__

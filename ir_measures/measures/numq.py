@@ -4,8 +4,7 @@ from .base import BaseMeasure, ParamInfo, SumAgg
 
 class _NumQ(measures.BaseMeasure):
     """
-    The total number of queries
-    TODO: finish
+    The total number of queries.
     """
     __name__ = 'NumQ'
     NAME = __name__
