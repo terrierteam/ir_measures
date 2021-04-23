@@ -5,7 +5,7 @@ from .base import BaseMeasure, ParamInfo
 class _Bpref(measures.BaseMeasure):
     """
     Binary Preference (Bpref).
-    TODO: write
+    This measure examines the relative ranks of judged relevant and non-relevant documents. Non-judged documents are not considered. 
     """
     __name__ = 'Bpref'
     NAME = __name__

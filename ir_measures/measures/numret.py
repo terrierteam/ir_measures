@@ -6,7 +6,6 @@ class _NumRet(measures.BaseMeasure):
     """
     The number of results returned. When rel is provided, counts the number of documents
     returned with at least that relevance score (inclusive).
-    TODO: finish
     """
     __name__ = 'NumRet'
     NAME = __name__

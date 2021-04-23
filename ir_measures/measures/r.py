@@ -4,8 +4,7 @@ from .base import BaseMeasure, ParamInfo
 
 class _R(measures.BaseMeasure):
     """
-    Recall@k (R@k).
-    TODO: write
+    Recall@k (R@k). The fraction of relevant documents for a query that have been retrieved by rank k.
     """
     __name__ = 'R'
     NAME = __name__
