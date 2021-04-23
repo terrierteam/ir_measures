@@ -16,6 +16,7 @@ class PytrecEvalProvider(providers.MeasureProvider):
         measures._Bpref(rel=Any()),
         measures._NumRet(rel=Any()),
         measures._NumQ(rel=Any()),
+        measures._NumRel(rel=1), # for some reason, relevance_level doesn't flow through to num_rel, so can only support rel=1
         # Cannot support Judged because software doesn't support negative relevance levels: <https://github.com/cvangysel/pytrec_eval/blob/2362660e02c324df281932cc23ad7efd31cd3957/src/pytrec_eval.cpp#L354>
     ]
 
@@ -93,6 +94,9 @@ class PytrecEvalProvider(providers.MeasureProvider):
                 else:
                     invocation_key = (1,)
                 measure_str = 'num_q'
+            elif measure.NAME == 'NumRel':
+                invocation_key = (measure['rel'],)
+                measure_str = 'num_rel'
             else:
                 raise ValueError(f'unsupported measure {measure}')
 
