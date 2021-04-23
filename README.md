@@ -1,3 +1,5 @@
+[![Python package](https://github.com/terrierteam/ir_measures/actions/workflows/push.yml/badge.svg)](https://github.com/terrierteam/ir_measures/actions/workflows/push.yml)
+
 # ir_measures
 
 ```python
