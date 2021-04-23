@@ -34,7 +34,6 @@ setuptools.setup(
     packages=setuptools.find_packages(include=['ir_measures', 'ir_measures.*']),
     install_requires=list(open('requirements.txt')),
     extras_require={
-        "pytrec_eval": ["pytrec-eval==0.5"],
         "trectools": ["trectools>=0.0.44"],
     },
     classifiers=[],

@@ -1,1 +1,1 @@
-trectools
+trectools>=0.0.44
