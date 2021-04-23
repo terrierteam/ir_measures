@@ -4,8 +4,12 @@ from .base import BaseMeasure, ParamInfo
 
 class _AP(measures.BaseMeasure):
     """
-    The [Mean] Average Precision ([M]AP).
-    TODO: finish
+    The [Mean] Average Precision ([M]AP). The average precision of a single query is the mean
+    of the precision scores at each relevant item returned in a search results list.
+    
+    AP is typically used for adhoc ranking tasks where getting as many relevant items as possible is. It is commonly referred to as MAP,
+    by taking the mean of AP over the query set.
+    
     """
     __name__ = 'AP'
     NAME = __name__
@@ -16,5 +20,4 @@ class _AP(measures.BaseMeasure):
 
 
 AP = _AP()
-MAP = AP
-measures.register(AP, ['MAP'])
+measures.register(AP)
