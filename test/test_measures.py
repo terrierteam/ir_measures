@@ -133,7 +133,7 @@ class TestMeasures(unittest.TestCase):
             print(measure, len(values))
             for (v1, p1), (v2, p2) in itertools.combinations(values, 2):
                 with self.subTest(measure=measure, p1=p1, p2=p2):
-                    self.assertAlmostEquals(v1.value, v2.value, places=4)
+                    self.assertAlmostEqual(v1.value, v2.value, places=4)
 
 
 
