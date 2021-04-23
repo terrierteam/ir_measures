@@ -1,6 +1,6 @@
-reigistry = {}
+registry = {}
 def register(provider):
-	reigistry[provider.NAME] = provider
+	registry[provider.NAME] = provider
 	return provider
 
 from .base import MeasureProvider

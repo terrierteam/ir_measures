@@ -156,6 +156,20 @@ run = [
                 f.write(f'- `{name}` &rarr; `{val}`\n')
 
             f.write('''
+## Measures
+''')
+            for name, val in sorted(ir_measures.providers.registry.items()):
+                f.write(f'''
+### `{name}`
+
+{val.__doc__.replace('    ', ' ')}
+''')
+                f.write('''**Supported Measures:**\n\n''')
+                for measure in val.SUPPORTED_MEASURES:
+                    f.write(f' - `{measure.NAME}`\n')
+                f.write('\n\n')
+
+            f.write('''
 ## Credits
 
  - Sean MacAvaney, University of Glasgow

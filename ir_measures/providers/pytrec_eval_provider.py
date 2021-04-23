@@ -5,6 +5,21 @@ from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
 
 
 class PytrecEvalProvider(providers.MeasureProvider):
+    """
+    pytrec_eval
+
+    https://github.com/cvangysel/pytrec_eval
+
+```
+@inproceedings{VanGysel2018pytreceval,
+  title={Pytrec\\_eval: An Extremely Fast Python Interface to trec\\_eval},
+  author={Van Gysel, Christophe and de Rijke, Maarten},
+  publisher={ACM},
+  booktitle={SIGIR},
+  year={2018},
+}
+```
+    """
     NAME = 'pytrec_eval'
     SUPPORTED_MEASURES = [
         measures._P(cutoff=Any(), rel=Any()),

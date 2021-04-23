@@ -6,6 +6,9 @@ from ir_measures.bin import msmarco_eval
 import sys
 
 class MsMarcoProvider(providers.MeasureProvider):
+    """
+    MS MARCO's implementation of RR
+    """
     NAME = 'msmarco'
     SUPPORTED_MEASURES = [
         measures._RR(cutoff=Any(), rel=Any()),

@@ -8,6 +8,9 @@ from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
 
 
 class GdevalProvider(providers.MeasureProvider):
+    """
+    gdeval
+    """
     NAME = 'gdeval'
     SUPPORTED_MEASURES = [
         measures._nDCG(cutoff=Any(required=True), dcg=Choices('exp-log2')),

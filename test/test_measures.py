@@ -127,7 +127,7 @@ class TestMeasures(unittest.TestCase):
             #ir_measures.RBP(p=[0.5, 0.8, 1.0, 1.2, 1.5]),
             #ir_measures.RBP(p=[0.5, 0.8, 1.0, 1.2, 1.5])@[1,5,10,20,50,100],
         ])
-        providers = [v for k, v in ir_measures.providers.reigistry.items() if k != 'trectools']
+        providers = [v for k, v in ir_measures.providers.registry.items() if k != 'trectools']
         for measure in measures:
             values = [(next(p.iter_calc([measure], qrels, run)), p) for p in providers if p.supports(measure)]
             print(measure, len(values))

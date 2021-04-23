@@ -6,6 +6,9 @@ from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
 
 
 class JudgedProvider(providers.MeasureProvider):
+    """
+    python implementation of judgment rate
+    """
     NAME = 'judged'
     SUPPORTED_MEASURES = [
         measures._Judged(cutoff=Any())
