@@ -20,7 +20,7 @@ class MeasureProvider:
         if self.is_available():
             return self._iter_calc(measures, qrels, run)
         else:
-            raise RuntimeError('provider not available')
+            raise RuntimeError('provider %s not available' % self.NAME)
 
     @contextlib.contextmanager
     def _calc_ctxt(self, measures, qrels):
