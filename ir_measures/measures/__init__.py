@@ -16,6 +16,7 @@ from .err import ERR, _ERR
 from .judged import Judged, _Judged
 from .ndcg import nDCG, NDCG, _nDCG
 from .numret import NumRet, NumRelRet, _NumRet
+from .numq import NumQ, _NumQ
 from .p import P, _P
 from .r import R, _R
 from .rbp import RBP, _RBP

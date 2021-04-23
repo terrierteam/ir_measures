@@ -1,6 +1,6 @@
 from . import util
 from . import measures
-from .measures import P, RR, Rprec, AP, nDCG, R, Bpref, Judged, ERR, RBP, NumRet, NumRelRet
+from .measures import P, RR, Rprec, AP, nDCG, R, Bpref, Judged, ERR, RBP, NumRet, NumRelRet, NumQ
 from . import providers
 
 
