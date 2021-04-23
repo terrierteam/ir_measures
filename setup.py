@@ -31,6 +31,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/terrierteam/ir_measures",
     include_package_data = True,
+    package_data={'': ['LICENSE.txt', 'requirements.txt', 'requirements-test.txt']},
     packages=setuptools.find_packages(include=['ir_measures', 'ir_measures.*']),
     install_requires=list(open('requirements.txt')),
     extras_require={
