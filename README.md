@@ -1,4 +1,6 @@
 
+[![Python package](https://github.com/terrierteam/ir_measures/actions/workflows/push.yml/badge.svg)](https://github.com/terrierteam/ir_measures/actions/workflows/push.yml)
+
 # ir_measures
 
 Check out our documentation website: [ir-measur.es](https://ir-measur.es/)
