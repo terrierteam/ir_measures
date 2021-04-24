@@ -30,8 +30,8 @@ class PytrecEvalProvider(providers.MeasureProvider):
         measures._R(cutoff=Any()),
         measures._Bpref(rel=Any()),
         measures._NumRet(rel=Any()),
-        measures._NumQ(rel=Any()),
-        measures._NumRel(rel=1), # for some reason, relevance_level doesn't flow through to num_rel, so can only support rel=1
+        measures._NumQ(),
+        measures._NumRel(rel=Choices(1)), # for some reason, relevance_level doesn't flow through to num_rel, so can only support rel=1
         measures._SetP(rel=Any()),
         measures._Success(rel=Any(), cutoff=Any()),
         measures._IPrec(recall=Any()),
