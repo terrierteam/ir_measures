@@ -1,4 +1,4 @@
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 from . import util
 from .util import convert_trec_name
 from . import measures

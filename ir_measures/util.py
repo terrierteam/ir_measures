@@ -233,7 +233,7 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
         'num_ret': (ir_measures.NumRet, None, None),
         'num_rel': (ir_measures.NumRel, None, None),
         'ndcg_cut': (ir_measures.nDCG, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
-        'runid': (None, None, None),
+        # 'runid': (None, None, None), # not really a measure
         'Rprec': (ir_measures.Rprec, None, None),
         'Rprec_mult': (None, None, None),
         'relstring': (None, None, None),
@@ -253,7 +253,8 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
             try:
                 result += convert_trec_name(sub_name)
             except ValueError:
-                skipped.append(sub_name)
+                if sub_name != 'runid':
+                    skipped.append(sub_name)
         if skipped:
             print(f'skipped {skipped}: measures not yet supported')
         return result

@@ -148,7 +148,8 @@ run = [
 
 
  The Expected Reciprocal Rank (ERR) is a precision-focused measure.
- TODO: finish
+ In essence, an extension of reciprocal rank that encapsulates both graded relevance and
+ a more realistic cascade-based user model of how users brwose a ranking.
  
 **Parameters:**
 
