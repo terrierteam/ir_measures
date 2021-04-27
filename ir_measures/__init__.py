@@ -1,4 +1,4 @@
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 from . import util
 from .util import convert_trec_name
 from . import measures
@@ -10,7 +10,7 @@ DefaultPipeline = providers.FallbackProvider([
 	providers.PytrecEvalProvider(),
 	# providers.TrectoolsProvider(),  # buggy; will add back later
 	providers.JudgedProvider(),
-	providers.GdevalProvider(),
+	# providers.GdevalProvider(),  # doesn't work when installed from package #9
 	providers.MsMarcoProvider(),
 ])
 calc_ctxt = DefaultPipeline.calc_ctxt
