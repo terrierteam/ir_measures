@@ -69,7 +69,7 @@ qrels = pd.DataFrame([
 ])
 
 # any iterable of namedtuples (e.g., list, generator, etc)
-from ir_measurs.util import GenericQrel
+from ir_measures.util import GenericQrel
 qrels = [
     GenericQrel("Q0", "D0", 1),
     GenericQrel("Q0", "D1", 0),
@@ -102,7 +102,7 @@ run = pd.DataFrame([
 ])
 
 # any iterable of namedtuples (e.g., list, generator, etc)
-from ir_measurs.util import GenericScoredDoc
+from ir_measures.util import GenericScoredDoc
 run = [
     GenericScoredDoc("Q0", "D0", 1.2),
     GenericScoredDoc("Q0", "D1", 1.0),
