@@ -76,18 +76,18 @@ class TestMeasures(unittest.TestCase):
         measure = ir_measures.Judged@20
         result = list(measure.iter_calc(qrels, run))
         print(result)
-        measure = ir_measures.ERR@2
-        result = list(measure.iter_calc(qrels, run))
-        print(result)
-        measure = ir_measures.ERR@20
-        result = list(measure.iter_calc(qrels, run))
-        print(result)
-        measure = ir_measures.nDCG(dcg='exp-log2')@2
-        result = list(measure.iter_calc(qrels, run))
-        print(result)
-        measure = ir_measures.nDCG(dcg='exp-log2')@5
-        result = list(measure.iter_calc(qrels, run))
-        print(result)
+        # measure = ir_measures.ERR@2
+        # result = list(measure.iter_calc(qrels, run))
+        # print(result)
+        # measure = ir_measures.ERR@20
+        # result = list(measure.iter_calc(qrels, run))
+        # print(result)
+        # measure = ir_measures.nDCG(dcg='exp-log2')@2
+        # result = list(measure.iter_calc(qrels, run))
+        # print(result)
+        # measure = ir_measures.nDCG(dcg='exp-log2')@5
+        # result = list(measure.iter_calc(qrels, run))
+        # print(result)
         # measure = ir_measures.RBP(p=[0.5, 0.8, 1.0, 1.2, 1.5])
         # result = list(measure.iter_calc(qrels, run))
         # print(result)
