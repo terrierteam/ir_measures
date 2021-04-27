@@ -1,2 +1,3 @@
 include requirements.txt requirements-test.txt
 include LICENSE.txt
+include ir_measures/bin/gdeval.pl

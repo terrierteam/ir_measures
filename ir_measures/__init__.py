@@ -10,8 +10,8 @@ DefaultPipeline = providers.FallbackProvider([
 	providers.PytrecEvalProvider(),
 	# providers.TrectoolsProvider(),  # buggy; will add back later
 	providers.JudgedProvider(),
-	# providers.GdevalProvider(),  # doesn't work when installed from package #9
 	providers.MsMarcoProvider(),
+	providers.GdevalProvider(),  # doesn't work when installed from package #9
 ])
 calc_ctxt = DefaultPipeline.calc_ctxt
 iter_calc = DefaultPipeline.iter_calc
