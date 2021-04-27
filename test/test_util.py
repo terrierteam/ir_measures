@@ -3,7 +3,7 @@ import itertools
 import ir_measures
 from ir_measures import AP, P, nDCG, NumRel, NumRelRet, Bpref, NumQ, RR, Rprec, NumRet, IPrec
 
-class TestConvertTrecName(unittest.TestCase):
+class TestUtil(unittest.TestCase):
 
     def test_convert_trec_name(self):
         cases = {
@@ -24,6 +24,25 @@ class TestConvertTrecName(unittest.TestCase):
         for case in cases:
             with self.subTest(case):
                 self.assertEqual(ir_measures.convert_trec_name(case), cases[case])
+
+    def test_parse_measure(self):
+        tests = {
+            'AP': AP,
+            'MAP': AP,
+            'P@10': P@10,
+            'nDCG@10': nDCG@10,
+            'P(rel=2)@10': P(rel=2)@10,
+            'nDCG(dcg="exp-log2")@10': nDCG(dcg='exp-log2')@10,
+            'nDCG(dcg="exp-log2", cutoff=20)@10': nDCG(dcg='exp-log2')@10,
+            'nDCG(dcg="exp-log2", cutoff=20)': nDCG(dcg='exp-log2')@20,
+            'IPrec@0.2': IPrec@0.2,
+            'IPrec(rel=2)@0.2': IPrec(rel=2)@0.2,
+            'IPrec(rel=2, recall=0.4)@0.2': IPrec(rel=2)@0.2,
+            'IPrec(rel=2, recall=0.4)': IPrec(rel=2)@0.4,
+        }
+        for key, value in tests.items():
+            with self.subTest(key):
+                self.assertEqual(ir_measures.parse_measure(key), value)
 
 
 if __name__ == '__main__':

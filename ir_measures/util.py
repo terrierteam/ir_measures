@@ -1,5 +1,6 @@
 import re
 import io
+import ast
 import contextlib
 import itertools
 import tempfile
@@ -206,6 +207,54 @@ def flatten_measures(measures):
         else:
             result.add(measure)
     return result
+
+
+_AST_PARSE_ERROR = 'problem parsing measure {}; must be in format Measure(k1=v1, k2=v2)@c'
+
+
+def _ast_to_value(node):
+    if isinstance(node, ast.Num):
+        return node.n
+    if isinstance(node, ast.Str):
+        return node.s
+    if isinstance(node, ast.NameConstant):
+        return node.value
+    raise ValueError(_AST_PARSE_ERROR.format('values must be str, float, int, bool, etc.'))
+
+
+def parse_measure(measure: str) -> 'BaseMeasure':
+    try:
+        node = ast.parse(measure).body
+    except SyntaxError as e:
+        raise ValueError(_AST_PARSE_ERROR.format(str(e)))
+    if len(node) != 1:
+        raise ValueError(_AST_PARSE_ERROR.format('multiple expressions'))
+    node = node[0]
+    if not isinstance(node, ast.Expr):
+        raise ValueError(_AST_PARSE_ERROR.format('not an expression'))
+    node = node.value
+    at_param = None
+    args = {}
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.MatMult):
+        at_param = _ast_to_value(node.right)
+        node = node.left
+    if isinstance(node, ast.Call):
+        if len(node.args):
+            raise ValueError(_AST_PARSE_ERROR.format('args must be named'))
+        for keyword in node.keywords:
+            args[keyword.arg] = _ast_to_value(keyword.value)
+        node = node.func
+    if not isinstance(node, ast.Name):
+        raise ValueError(_AST_PARSE_ERROR.format('unexpected expression'))
+    measure_name = node.id
+    if measure_name not in ir_measures.measures.registry:
+        raise ValueError(f'measure not found: {measure_name}')
+    measure = ir_measures.measures.registry[measure_name]
+    if at_param is not None:
+        args[measure.AT_PARAM] = at_param
+    return measure(**args)
+
+
 
 
 def convert_trec_name(measure: str) -> List['BaseMeasure']:
