@@ -126,6 +126,39 @@ run = [
 ```
 
 
+## Commnad Line Interface
+
+ir_measures also functions as a command line interface, with syntax similar to
+trec_eval.
+
+Example:
+
+```bash
+ir_measures /path/to/qrels /path/to/run P@10 'P(rel=2)@5 nDCG@15 Judged@10' NumQ NumRel NumRet NumRelRet
+P@10    0.4382
+P(rel=2)@5  0.0827
+nDCG@15 0.4357
+Judged@10   0.9812
+NumQ    249.0000
+NumRel  17412.0000
+NumRet  241339.0000
+NumRet(rel=1)   10272.0000
+```
+
+Syntax:
+
+```
+ir_measures qrels run measures... [-q] [-n]
+```
+
+ - `qrels`: a TREC-formatted QRELS file
+ - `run`: a TREC-formatted results file
+ - `measures`: one or more measure name strings. Note that in bash, `()` must be in single quotes. For simplicity, you can provide multiple meaures in a single quotation, which are split on whitespace.
+ - `-q`: provide results for each query individually
+ - `-n`: when used with `-q`, skips summary statistics
+ - `-p`: number of decimal places to report results (default: 4)
+
+
 ''')
             measures, aliases = [], []
             for name, val in ir_measures.measures.registry.items():

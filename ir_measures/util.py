@@ -248,7 +248,7 @@ def parse_measure(measure: str) -> 'BaseMeasure':
         raise ValueError(_AST_PARSE_ERROR.format('unexpected expression'))
     measure_name = node.id
     if measure_name not in ir_measures.measures.registry:
-        raise ValueError(f'measure not found: {measure_name}')
+        raise NameError(f'measure not found: {measure_name}')
     measure = ir_measures.measures.registry[measure_name]
     if at_param is not None:
         args[measure.AT_PARAM] = at_param
