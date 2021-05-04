@@ -1,1 +1,1 @@
-pytrec-eval==0.5
+pytrec-eval-terrier==0.5.1
