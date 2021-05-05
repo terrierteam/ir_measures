@@ -33,7 +33,7 @@ class QrelsConverter:
             result = 'dict_of_dict'
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
-            if all(i in columns for i in GenericQrel._fields):
+            if all(i in cols for i in GenericQrel._fields):
                 result = 'pd_dataframe'
         elif hasattr(self.qrels, '__iter__'):
             # peek
