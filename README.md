@@ -119,7 +119,7 @@ run = [
 ```
 
 
-## Commnad Line Interface
+## Command Line Interface
 
 ir_measures also functions as a command line interface, with syntax similar to
 trec_eval.
