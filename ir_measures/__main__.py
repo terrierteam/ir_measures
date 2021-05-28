@@ -17,7 +17,7 @@ def main_cli():
     run = (l.split() for l in open(args.run))
     run = (GenericScoredDoc(cols[0], cols[2], float(cols[4])) for cols in run)
     qrels = (l.split() for l in open(args.qrels))
-    qrels = (GenericQrel(cols[0], cols[2], int(cols[3])) for cols in qrels)
+    qrels = (GenericQrel(cols[0], cols[2], int(cols[3]), cols[1]) for cols in qrels)
     measures, errors = [], []
     for mstr in args.measures:
         for m in mstr.split():
@@ -50,4 +50,4 @@ def main_cli():
 
 
 if __name__ == '__main__':
-    ir_measures.main_cli()
+    main_cli()

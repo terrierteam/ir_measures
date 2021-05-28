@@ -5,6 +5,7 @@ def register(provider):
 
 from .base import MeasureProvider
 from .fallback_provider import FallbackProvider
+from .py_ndeval_provider import PyNdEvalProvider
 from .pytrec_eval_provider import PytrecEvalProvider
 from .judged_provider import JudgedProvider
 from .gdeval_provider import GdevalProvider

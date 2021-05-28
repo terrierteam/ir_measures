@@ -4,13 +4,20 @@ import ast
 import contextlib
 import itertools
 import tempfile
-from typing import List
-from collections import namedtuple
+from typing import List, NamedTuple
 import ir_measures
 
+class GenericQrel(NamedTuple):
+    query_id: str
+    doc_id: str
+    relevance: int
+    iteration: str = '0'
 
-GenericQrel = namedtuple('GenericQrel', ['query_id', 'doc_id', 'relevance'])
-GenericScoredDoc = namedtuple('GenericScoredDoc', ['query_id', 'doc_id', 'score'])
+
+class GenericScoredDoc(NamedTuple):
+    query_id: str
+    doc_id: str
+    score: float
 
 
 class QrelsConverter:
@@ -33,7 +40,7 @@ class QrelsConverter:
             result = 'dict_of_dict'
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
-            if all(i in cols for i in GenericQrel._fields):
+            if all(i in cols or i in GenericQrel._field_defaults for i in GenericQrel._fields):
                 result = 'pd_dataframe'
         elif hasattr(self.qrels, '__iter__'):
             # peek
@@ -42,7 +49,7 @@ class QrelsConverter:
             sentinal = object()
             item = next(peek_qrels, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
-                if all(i in item._fields for i in GenericQrel._fields):
+                if all(i in item._fields or i in GenericQrel._field_defaults for i in GenericQrel._fields):
                     result = 'namedtuple_iter'
             elif item is sentinal:
                 result = 'namedtuple_iter'
@@ -70,7 +77,11 @@ class QrelsConverter:
                 for doc_id, relevance in docs.items():
                     yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
         if t == 'pd_dataframe':
-            yield from self.qrels.itertuples()
+            if 'iteration' in self.qrels.columns:
+                yield from self.qrels.itertuples()
+            else:
+                for tup in self.qrels.itertuples():
+                    yield GenericQrel(query_id=tup.query_id, doc_id=tup.doc_id, relevance=tup.relevance)
         if t == 'UNKNOWN':
             raise ValueError('unknown qrels format')
 
@@ -177,7 +188,7 @@ def parse_trec_qrels(file):
         for line in file:
             if line.strip():
                 query_id, iteration, doc_id, relevance = line.split()
-                yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance))
+                yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance), iteration=iteration)
     elif isinstance(file, str):
         if '\n' in file:
             yield from parse_trec_qrels(io.StringIO(file))
