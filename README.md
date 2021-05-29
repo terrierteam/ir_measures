@@ -85,7 +85,7 @@ qrels = [
 ]
 
 # TREC-formatted qrels file
-qrels = ir_measures.parse_trec_qrels('qrels.txt')
+qrels = ir_measures.read_trec_qrels('qrels.txt')
 
 # qrels from the ir_datasets package (https://ir-datasets.com/)
 import ir_datasets

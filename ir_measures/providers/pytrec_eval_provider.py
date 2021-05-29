@@ -10,15 +10,16 @@ class PytrecEvalProvider(providers.MeasureProvider):
 
     https://github.com/cvangysel/pytrec_eval
 
-```
-@inproceedings{VanGysel2018pytreceval,
-  title={Pytrec\\_eval: An Extremely Fast Python Interface to trec\\_eval},
-  author={Van Gysel, Christophe and de Rijke, Maarten},
-  publisher={ACM},
-  booktitle={SIGIR},
-  year={2018},
-}
-```
+::
+
+    @inproceedings{VanGysel2018pytreceval,
+        title={Pytrec\\_eval: An Extremely Fast Python Interface to trec\\_eval},
+        author={Van Gysel, Christophe and de Rijke, Maarten},
+        publisher={ACM},
+        booktitle={SIGIR},
+        year={2018},
+    }
+
     """
     NAME = 'pytrec_eval'
     SUPPORTED_MEASURES = [
@@ -51,7 +52,7 @@ class PytrecEvalProvider(providers.MeasureProvider):
         # Depending on the measure params, we may need multiple invocations of pytrec_eval
         # (e.g., with different rel_level, since it only supports running with 1 rel_level at a time)
         invokers = self._build_invokers(measures, qrels)
-        return PyTrecEvalEvaluator(measures, invokers)
+        return PytrecEvalEvaluator(measures, invokers)
 
     def _build_invokers(self, measures, qrels):
         invocations = {}
@@ -141,7 +142,7 @@ class PytrecEvalProvider(providers.MeasureProvider):
             raise RuntimeError('pytrec_eval not available', ex)
 
 
-class PyTrecEvalEvaluator(providers.BaseMeasureEvaluator):
+class PytrecEvalEvaluator(providers.BaseMeasureEvaluator):
     def __init__(self, measures, invokers):
         super().__init__(measures)
         self.invokers = invokers

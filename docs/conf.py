@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'ir-measures'
-copyright = '2021, Sean MacAvaney'
+copyright = '2021'
 author = 'Sean MacAvaney'
 
 

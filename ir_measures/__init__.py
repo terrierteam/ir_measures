@@ -1,6 +1,6 @@
 __version__ = "0.1.4"
 from . import util
-from .util import parse_measure, convert_trec_name, parse_trec_qrels, parse_trec_run, GenericQrel, GenericScoredDoc
+from .util import parse_measure, convert_trec_name, read_trec_qrels, read_trec_run, GenericQrel, GenericScoredDoc
 from . import measures
 from .measures import *
 from . import providers

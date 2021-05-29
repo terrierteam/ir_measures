@@ -1,3 +1,4 @@
+import deprecation
 import re
 import io
 import ast
@@ -172,7 +173,13 @@ class RunConverter:
             yield f
 
 
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.read_trec_qrels() instead")
 def parse_trec_qrels(file):
+    return read_trec_qrels(file)
+
+
+def read_trec_qrels(file):
     if hasattr(file, 'read'):
         for line in file:
             if line.strip():
@@ -180,13 +187,17 @@ def parse_trec_qrels(file):
                 yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance))
     elif isinstance(file, str):
         if '\n' in file:
-            yield from parse_trec_qrels(io.StringIO(file))
+            yield from read_trec_qrels(io.StringIO(file))
         else:
             with open(file, 'rt') as f:
-                yield from parse_trec_qrels(f)
+                yield from read_trec_qrels(f)
 
-
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.read_trec_run() instead")
 def parse_trec_run(file):
+    return read_trec_run(file)
+
+def read_trec_run(file):
     if hasattr(file, 'read'):
         for line in file:
             if line.strip():
@@ -194,10 +205,10 @@ def parse_trec_run(file):
                 yield GenericScoredDoc(query_id=query_id, doc_id=doc_id, score=float(score))
     elif isinstance(file, str):
         if '\n' in file:
-            yield from parse_trec_run(io.StringIO(file))
+            yield from read_trec_run(io.StringIO(file))
         else:
             with open(file, 'rt') as f:
-                yield from parse_trec_run(f)
+                yield from read_trec_run(f)
 
 def flatten_measures(measures):
     result = set()

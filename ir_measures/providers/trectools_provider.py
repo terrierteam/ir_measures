@@ -13,16 +13,17 @@ class TrectoolsProvider(providers.MeasureProvider):
 
     https://github.com/joaopalotti/trectools
 
-```
-@inproceedings{palotti2019,
- author = {Palotti, Joao and Scells, Harrisen and Zuccon, Guido},
- title = {TrecTools: an open-source Python library for Information Retrieval practitioners involved in TREC-like campaigns},
- series = {SIGIR'19},
- year = {2019},
- location = {Paris, France},
- publisher = {ACM}
-}
-```
+::
+
+    @inproceedings{palotti2019,
+       author = {Palotti, Joao and Scells, Harrisen and Zuccon, Guido},
+       title = {TrecTools: an open-source Python library for Information Retrieval practitioners involved in TREC-like campaigns},
+       series = {SIGIR'19},
+       year = {2019},
+       location = {Paris, France},
+       publisher = {ACM}
+    }
+
     """
     NAME = 'trectools'
     SUPPORTED_MEASURES = [
