@@ -10,8 +10,8 @@ Providers
  
 **Supported Measures:**
 
- - ``nDCG``
- - ``ERR``
+ - ``nDCG(dcg='exp-log2')@REQUIRED``
+ - ``ERR@REQUIRED``
 
 
 
@@ -23,7 +23,7 @@ Providers
  
 **Supported Measures:**
 
- - ``Judged``
+ - ``Judged@ANY``
 
 
 
@@ -35,7 +35,7 @@ Providers
  
 **Supported Measures:**
 
- - ``RR``
+ - ``RR(rel=ANY)@ANY``
 
 
 
@@ -60,20 +60,20 @@ Providers
  
 **Supported Measures:**
 
- - ``P``
- - ``RR``
- - ``Rprec``
- - ``AP``
- - ``nDCG``
- - ``R``
- - ``Bpref``
- - ``NumRet``
+ - ``P(rel=ANY)@ANY``
+ - ``RR(rel=ANY)@NOT_PROVIDED``
+ - ``Rprec(rel=ANY)``
+ - ``AP(rel=ANY)@ANY``
+ - ``nDCG(dcg='log2')@ANY``
+ - ``R@ANY``
+ - ``Bpref(rel=ANY)``
+ - ``NumRet(rel=ANY)``
  - ``NumQ``
- - ``NumRel``
- - ``SetP``
- - ``Success``
- - ``IPrec``
- - ``infAP``
+ - ``NumRel(rel=1)``
+ - ``SetP(rel=ANY)``
+ - ``Success(rel=ANY)@ANY``
+ - ``IPrec@ANY``
+ - ``infAP(rel=ANY)``
 
 
 
@@ -99,12 +99,12 @@ Providers
  
 **Supported Measures:**
 
- - ``P``
- - ``RR``
- - ``Rprec``
- - ``AP``
- - ``nDCG``
- - ``Bpref``
- - ``RBP``
+ - ``P(rel=1)@ANY``
+ - ``RR(rel=1)@NOT_PROVIDED``
+ - ``Rprec(rel=1)``
+ - ``AP(rel=1)@ANY``
+ - ``nDCG(dcg=ANY)@ANY``
+ - ``Bpref(rel=1)``
+ - ``RBP(p=ANY, rel=ANY)@ANY``
 
 

@@ -15,10 +15,11 @@ You can also install from current development version::
     $ python setup.py install
 
 
-Basic usage
+Command Line Interface
 ---------------------------------------
 
-Compute measures from the command line::
+``ir_measures`` can be used on the command line with an interface similar to
+`trec_eval <https://github.com/usnistgov/trec_eval>`_::
 
     $ ir_measures path/to/qrels path/to/run nDCG@10 P@5 'P(rel=2)@5' Judged@10
     nDCG@10  0.6251
@@ -43,8 +44,20 @@ You can see per-topic results using the ``-q`` flag (similar to trec_eval)::
     all Judged@10   0.9486
 
 The first column in the output is the query ID (or ``all`` for the aggregated results, which
-can be disabled with the ``-n`` flat). Results are written to the output stream as they are
-calcualted by ``iter_calc``. Thus, they may not be in a predictable order [1]_.
+can be disabled with the ``-n`` flag). Results are written to the output stream as they are
+calculated by ``iter_calc``. Thus, they may not be in a predictable order [1]_.
+
+Full list of command line arguments:
+
+ - ``-h`` (``--help``): print information about running the command
+ - ``-p X`` (``--places X``): number of decimal places to use when writing the output. Default: ``4``.
+ - ``-q`` (``--by_query``): print the results by query (topic), as shown above.
+ - ``-n`` (``--no_summary``): when used with ``-q``, does not print aggregated (``all``) values.
+ - ``--provider X``: forces the use of a particular provider, rather than using the default fallback approach.
+   Possible values are: ``pytrec_eval``, ``judged``, ``gdeval``, ``trectools``, and ``msmarco``.
+
+Python Interface
+---------------------------------------
 
 Compute measures from python:
 

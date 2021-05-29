@@ -1,7 +1,6 @@
 import sys
 import contextlib
 import functools
-import pandas as pd
 import ir_measures
 from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
@@ -42,6 +41,7 @@ class TrectoolsProvider(providers.MeasureProvider):
         self.trectools = None
 
     def _evaluator(self, measures, qrels):
+        import pandas as pd
         measures = ir_measures.util.flatten_measures(measures)
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         tmp_qrels = ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()
@@ -115,6 +115,7 @@ class TrectoolsEvaluator(providers.BaseMeasureEvaluator):
         self.trectools = trectools
 
     def iter_calc(self, run):
+        import pandas as pd
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         tmp_run = ir_measures.util.RunConverter(run).as_namedtuple_iter()
         tmp_run = pd.DataFrame(tmp_run)

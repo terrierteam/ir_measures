@@ -165,8 +165,5 @@ class PytrecEvalInvoker:
             for measure_str, value in measures.items():
                 yield Metric(query_id=query_id, measure=self.measure_map[measure_str], value=value)
 
-    def __del__(self):
-        del self.evaluator
-
 
 providers.register(PytrecEvalProvider())

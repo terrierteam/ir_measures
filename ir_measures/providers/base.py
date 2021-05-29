@@ -42,7 +42,7 @@ class MeasureProvider:
         return self._evaluator(measures, qrels).iter_calc(run)
 
     def calc_aggregate(self, measures, qrels, run):
-        return self._evaluator(measures, qrels).calc_aggregate(run)
+        return self.evaluator(measures, qrels).calc_aggregate(run)
 
     def supports(self, measure):
         measure.validate_params()
@@ -99,12 +99,24 @@ class Any:
             return value is not NOT_PROVIDED
         return True
 
+    def __repr__(self):
+        if not self.required:
+            return 'ANY'
+        return 'REQUIRED'
+
 class Choices:
     def __init__(self, *args):
         self.choices = args
 
     def validate(self, value):
         return value in self.choices
+
+    def __repr__(self):
+        if len(self.choices) == 1:
+            if self.choices[0] == NOT_PROVIDED:
+                return 'NOT_PROVIDED'
+            return repr(self.choices[0])
+        return repr(self.choices)
 
 NOT_PROVIDED = measures.base._NOT_PROVIDED
 

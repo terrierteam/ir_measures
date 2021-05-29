@@ -1,5 +1,4 @@
 import contextlib
-import pytrec_eval
 import ir_measures
 from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
