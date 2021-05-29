@@ -40,8 +40,8 @@ class TrectoolsProvider(providers.MeasureProvider):
         super().__init__()
         self.trectools = None
 
-    @contextlib.contextmanager
-    def _calc_ctxt(self, measures, qrels):
+    def _evaluator(self, measures, qrels):
+        measures = ir_measures.util.flatten_measures(measures)
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         tmp_qrels = ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()
         tmp_qrels = pd.DataFrame(tmp_qrels)
@@ -49,27 +49,13 @@ class TrectoolsProvider(providers.MeasureProvider):
         qrels = self.trectools.TrecQrel()
         qrels.qrels_data = tmp_qrels
 
-        invocations = self._build_invocations(measures, qrels)
+        invocations = self._build_invocations(measures)
 
-        def _iter_calc(run):
-            # Convert qrels to dict_of_dict (input format used by pytrec_eval)
-            tmp_run = ir_measures.util.RunConverter(run).as_namedtuple_iter()
-            tmp_run = pd.DataFrame(tmp_run)
-            tmp_run = tmp_run.rename(columns={'query_id': 'query', 'doc_id': 'docid', 'score': 'score'})
-            tmp_run.sort_values(['query', 'score'], ascending=[True, False], inplace=True)
-            run = self.trectools.TrecRun()
-            run.run_data = tmp_run
-            evaluator = self.trectools.TrecEval(run, qrels)
-            for invocation, measure in invocations:
-                print(measure)
-                for query_id, value in invocation(evaluator).itertuples():
-                    yield Metric(query_id=query_id, measure=measure, value=value)
+        return TrectoolsEvaluator(measures, qrels, invocations, self.trectools)
 
-        yield _iter_calc
-
-    def _build_invocations(self, measures, qrels):
+    def _build_invocations(self, measures):
         invocations = []
-        for measure in ir_measures.util.flatten_measures(measures):
+        for measure in measures:
             def depth():
                 try:
                     cutoff = measure['cutoff']
@@ -118,6 +104,28 @@ class TrectoolsProvider(providers.MeasureProvider):
             self.trectools = trectools
         except ImportError as ex:
             raise RuntimeError('trectools not available', ex)
+
+
+class TrectoolsEvaluator(providers.BaseMeasureEvaluator):
+    def __init__(self, measures, qrels, invocations, trectools):
+        super().__init__(measures)
+        self.qrels = qrels
+        self.invocations = invocations
+        self.trectools = trectools
+
+    def iter_calc(self, run):
+        # Convert qrels to dict_of_dict (input format used by pytrec_eval)
+        tmp_run = ir_measures.util.RunConverter(run).as_namedtuple_iter()
+        tmp_run = pd.DataFrame(tmp_run)
+        tmp_run = tmp_run.rename(columns={'query_id': 'query', 'doc_id': 'docid', 'score': 'score'})
+        tmp_run.sort_values(['query', 'score'], ascending=[True, False], inplace=True)
+        run = self.trectools.TrecRun()
+        run.run_data = tmp_run
+        evaluator = self.trectools.TrecEval(run, self.qrels)
+        for invocation, measure in self.invocations:
+            for query_id, value in invocation(evaluator).itertuples():
+                yield Metric(query_id=query_id, measure=measure, value=value)
+
 
 
 providers.register(TrectoolsProvider())

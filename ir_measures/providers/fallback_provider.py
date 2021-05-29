@@ -8,9 +8,9 @@ class FallbackProvider(providers.MeasureProvider):
         super().__init__()
         self.providers = providers
 
-    @contextlib.contextmanager
-    def _calc_ctxt(self, measures, qrels):
+    def _evaluator(self, measures, qrels):
         measures = flatten_measures(measures)
+        orig_measures = list(measures)
         provider_measure_pairs = []
         for provider in self.providers:
             if not provider.is_available():
@@ -27,19 +27,24 @@ class FallbackProvider(providers.MeasureProvider):
         if measures:
             raise ValueError(f'unsupported measures {measures}')
 
-        with contextlib.ExitStack() as stack:
-            contexts = []
-            qrels_teed = QrelsConverter(qrels).tee(len(provider_measure_pairs))
-            for (provider, provider_measures), qrels in zip(provider_measure_pairs, qrels_teed):
-                contexts.append(stack.enter_context(provider.calc_ctxt(provider_measures, qrels.qrels)))
-            def _iter_calc(run):
-                runs_teed = RunConverter(run).tee(len(contexts))
-                for ctxt, run in zip(contexts, runs_teed):
-                    yield from ctxt(run.run)
-            yield _iter_calc
+        evaluators = []
+        qrels_teed = QrelsConverter(qrels).tee(len(provider_measure_pairs))
+        for (provider, provider_measures), qrels in zip(provider_measure_pairs, qrels_teed):
+            evaluators.append(provider.evaluator(provider_measures, qrels.qrels))
+        if len(evaluators) == 1:
+            return evaluators[0] # skip the overhead of FallbackEvaluator if there's only one
+        return FallbackEvaluator(orig_measures, evaluators)
 
     def supports(self, measure):
-        for provider in self.providers:
-            if provider.is_available() and provider.supports(measure):
-                return True
-        return False
+        return any(p.is_available() and p.supports(measure) for p in self.providers)
+
+
+class FallbackEvaluator(providers.BaseMeasureEvaluator):
+    def __init__(self, measures, evaluators):
+        super().__init__(measures)
+        self.evaluators = evaluators
+
+    def iter_calc(self, run):
+        runs_teed = RunConverter(run).tee(len(self.evaluators))
+        for evaluator, run in zip(self.evaluators, runs_teed):
+            yield from evaluator.iter_calc(run.run)

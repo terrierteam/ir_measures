@@ -1,3 +1,4 @@
+import deprecation
 import contextlib
 from collections import namedtuple
 from ir_measures import providers, measures
@@ -10,9 +11,21 @@ class MeasureProvider:
     def __init__(self):
         self._is_available = None
 
+    def evaluator(self, measures, qrels):
+        if self.is_available():
+            return self._evaluator(measures, qrels)
+        else:
+            raise RuntimeError('provider not available')
+
+    @contextlib.contextmanager
+    @deprecation.deprecated(deprecated_in="0.2.0",
+                            details="Please use ir_measures.evaluator() instead")
     def calc_ctxt(self, measures, qrels):
         if self.is_available():
-            return self._calc_ctxt(measures, qrels)
+            evaluator = self._evaluator(measures, qrels)
+            def _eval(run):
+                yield from evaluator.iter_calc(run)
+            yield _eval
         else:
             raise RuntimeError('provider not available')
 
@@ -22,23 +35,14 @@ class MeasureProvider:
         else:
             raise RuntimeError('provider %s not available' % self.NAME)
 
-    @contextlib.contextmanager
-    def _calc_ctxt(self, measures, qrels):
-        # Implementations must either provide _calc_ctxt or _iter_calc
-        def _iter_calc(run):
-            yield from self.iter_calc(measures, qrels, run)
-        yield _iter_calc
+    def _evaluator(self, measures, qrels):
+        raise NotImplementedError()
 
     def _iter_calc(self, measures, qrels, run):
-        # Implementations must either provide _calc_ctxt or _iter_calc
-        with self.calc_ctxt(measures, qrels) as _iter_calc:
-            yield from _iter_calc(run)
+        return self._evaluator(measures, qrels).iter_calc(run)
 
     def calc_aggregate(self, measures, qrels, run):
-        aggregators = {m: m.aggregator() for m in measures}
-        for metric in self.iter_calc(measures, qrels, run):
-            aggregators[metric.measure].add(metric.value)
-        return {m: agg.result() for m, agg in aggregators.items()}
+        return self._evaluator(measures, qrels).calc_aggregate(run)
 
     def supports(self, measure):
         measure.validate_params()
@@ -65,6 +69,20 @@ class MeasureProvider:
 
     def initialize(self):
         pass
+
+
+class BaseMeasureEvaluator:
+    def __init__(self, measures):
+        self.measures = measures
+
+    def iter_calc(self, run):
+        raise NotImplementedError()
+
+    def calc_aggregate(self, run):
+        aggregators = {m: m.aggregator() for m in self.measures}
+        for metric in self.iter_calc(run):
+            aggregators[metric.measure].add(metric.value)
+        return {m: agg.result() for m, agg in aggregators.items()}
 
 
 

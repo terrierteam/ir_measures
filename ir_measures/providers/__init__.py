@@ -3,7 +3,7 @@ def register(provider):
 	registry[provider.NAME] = provider
 	return provider
 
-from .base import MeasureProvider
+from .base import MeasureProvider, BaseMeasureEvaluator
 from .fallback_provider import FallbackProvider
 from .pytrec_eval_provider import PytrecEvalProvider
 from .judged_provider import JudgedProvider

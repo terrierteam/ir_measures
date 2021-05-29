@@ -14,8 +14,8 @@ pip install ir-measures
 ## Python API
 
 ```python
-from ir_measures import iter_calc, calc_aggregate
-from ir_measures import AP, nDCG, RR, P
+import ir_measures
+from ir_measures import * # imports all supported measures, e.g., AP, nDCG, RR, P
 
 qrels = {
     'Q0': {"D0": 0, "D1": 1},
@@ -27,12 +27,12 @@ run = {
 }
 
 # aggregated results
-calc_aggregate([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run)
+ir_measures.calc_aggregate([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run)
 # {AP: 0.75, nDCG: 0.8154648767857288, RR: 0.75, nDCG@10: 0.8154648767857288, P(rel=2)@10: 0.05}
 
 # by query
-for metric in iter_calc([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run):
-    print(x)
+for m in ir_measures.iter_calc([AP, nDCG, RR, nDCG@10, P(rel=2)@10], qrels, run):
+    print(m)
 # Metric(query_id='Q0', measure=AP, value=0.5)
 # Metric(query_id='Q0', measure=RR, value=0.5)
 # Metric(query_id='Q0', measure=nDCG, value=0.6309297535714575)
@@ -51,8 +51,8 @@ Qrels can be provided in the following formats:
 # dict of dict
 qrels = {
     'Q0': {
-        "D0": 1,
-        "D1": 0,
+        "D0": 0,
+        "D1": 1,
     },
     "Q1": {
         "D0": 0,
@@ -61,21 +61,28 @@ qrels = {
 }
 
 # dataframe
+import pandas as pd
 qrels = pd.DataFrame([
-    {'query_id': "Q0", 'doc_id': "D0", 'relevance': 1},
-    {'query_id': "Q0", 'doc_id': "D1", 'relevance': 0},
+    {'query_id': "Q0", 'doc_id': "D0", 'relevance': 0},
+    {'query_id': "Q0", 'doc_id': "D1", 'relevance': 1},
     {'query_id': "Q1", 'doc_id': "D0", 'relevance': 0},
     {'query_id': "Q1", 'doc_id': "D3", 'relevance': 2},
 ])
 
 # any iterable of namedtuples (e.g., list, generator, etc)
-from ir_measures.util import GenericQrel
 qrels = [
-    GenericQrel("Q0", "D0", 1),
-    GenericQrel("Q0", "D1", 0),
-    GenericQrel("Q1", "D0", 0),
-    GenericQrel("Q1", "D3", 2),
+    ir_measures.GenericQrel("Q0", "D0", 0),
+    ir_measures.GenericQrel("Q0", "D1", 1),
+    ir_measures.GenericQrel("Q1", "D0", 0),
+    ir_measures.GenericQrel("Q1", "D3", 2),
 ]
+
+# TREC-formatted qrels file
+qrels = ir_measures.parse_trec_qrels('qrels.txt')
+
+# qrels from the ir_datasets package (https://ir-datasets.com/)
+import ir_datasets
+qrels = ir_datasets.load('trec-robust04').qrels_iter()
 ```
 
 Runs can be provided in the following formats:
@@ -94,6 +101,7 @@ run = {
 }
 
 # dataframe
+import pandas as pd
 run = pd.DataFrame([
     {'query_id': "Q0", 'doc_id': "D0", 'score': 1.2},
     {'query_id': "Q0", 'doc_id': "D1", 'score': 1.0},
@@ -102,17 +110,16 @@ run = pd.DataFrame([
 ])
 
 # any iterable of namedtuples (e.g., list, generator, etc)
-from ir_measures.util import GenericScoredDoc
 run = [
-    GenericScoredDoc("Q0", "D0", 1.2),
-    GenericScoredDoc("Q0", "D1", 1.0),
-    GenericScoredDoc("Q1", "D0", 2.4),
-    GenericScoredDoc("Q1", "D3", 3.6),
+    ir_measures.GenericScoredDoc("Q0", "D0", 1.2),
+    ir_measures.GenericScoredDoc("Q0", "D1", 1.0),
+    ir_measures.GenericScoredDoc("Q1", "D0", 2.4),
+    ir_measures.GenericScoredDoc("Q1", "D3", 3.6),
 ]
 ```
 
 
-## Commnad Line Interface
+## Command Line Interface
 
 ir_measures also functions as a command line interface, with syntax similar to
 trec_eval.
@@ -134,7 +141,7 @@ NumRet(rel=1)   10272.0000
 Syntax:
 
 ```
-ir_measures qrels run measures... [-q] [-n]
+ir_measures qrels run measures... [-q] [-n] [-p 4]
 ```
 
  - `qrels`: a TREC-formatted QRELS file

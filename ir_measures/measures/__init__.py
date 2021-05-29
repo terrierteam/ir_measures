@@ -23,7 +23,11 @@ from .numret import NumRet, NumRelRet, _NumRet
 from .p import P, _P
 from .r import R, _R
 from .rbp import RBP, _RBP
-from .rprec import Rprec, _Rprec
+from .rprec import Rprec, RPrec, _Rprec
 from .rr import RR, MRR, _RR
 from .setp import SetP, _SetP
 from .success import Success, _Success
+
+# enable from "ir_measures.measures import *" --- on purpuse, do not include _-prefixed versions,
+# as these are intended for internal use
+__all__ = list(registry.keys())

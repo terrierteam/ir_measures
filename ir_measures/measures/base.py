@@ -53,6 +53,9 @@ class BaseMeasure:
     def calc_aggregate(self, qrels, run):
         return ir_measures.calc_aggregate([self], qrels, run)[self]
 
+    def evaluator(self, qrels):
+        return ir_measures.evaluator([self], qrels)
+
     def __str__(self):
         return repr(self)
 

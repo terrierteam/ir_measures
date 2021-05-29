@@ -43,27 +43,19 @@ class PytrecEvalProvider(providers.MeasureProvider):
         super().__init__()
         self.pytrec_eval = None
 
-    @contextlib.contextmanager
-    def _calc_ctxt(self, measures, qrels):
+    def _evaluator(self, measures, qrels):
+        measures = ir_measures.util.flatten_measures(measures)
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         qrels = ir_measures.util.QrelsConverter(qrels).as_dict_of_dict()
 
         # Depending on the measure params, we may need multiple invocations of pytrec_eval
         # (e.g., with different rel_level, since it only supports running with 1 rel_level at a time)
         invokers = self._build_invokers(measures, qrels)
-
-        def _iter_calc(run):
-            # Convert qrels to dict_of_dict (input format used by pytrec_eval)
-            run = ir_measures.util.RunConverter(run).as_dict_of_dict()
-            for invoker in invokers:
-                yield from invoker.iter_calc(run)
-
-        yield _iter_calc
-        del invokers
+        return PyTrecEvalEvaluator(measures, invokers)
 
     def _build_invokers(self, measures, qrels):
         invocations = {}
-        for measure in ir_measures.util.flatten_measures(measures):
+        for measure in measures:
             if measure.NAME == 'P':
                 invocation_key = (measure['rel'],)
                 measure_str = f'P_{measure["cutoff"]}'
@@ -147,6 +139,18 @@ class PytrecEvalProvider(providers.MeasureProvider):
             self.pytrec_eval = pytrec_eval
         except ImportError as ex:
             raise RuntimeError('pytrec_eval not available', ex)
+
+
+class PyTrecEvalEvaluator(providers.BaseMeasureEvaluator):
+    def __init__(self, measures, invokers):
+        super().__init__(measures)
+        self.invokers = invokers
+
+    def iter_calc(self, run):
+        # Convert qrels to dict_of_dict (input format used by pytrec_eval)
+        run = ir_measures.util.RunConverter(run).as_dict_of_dict()
+        for invoker in self.invokers:
+            yield from invoker.iter_calc(run)
 
 
 class PytrecEvalInvoker:

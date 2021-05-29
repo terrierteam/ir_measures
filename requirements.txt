@@ -1,1 +1,2 @@
 pytrec-eval-terrier==0.5.1
+deprecation
