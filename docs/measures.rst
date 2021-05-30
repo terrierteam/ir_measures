@@ -293,6 +293,41 @@ depth explored. rel (default 1) controls which relevance level is considered rel
 
 
 
+``SetAP``
+-------------------------
+
+
+The unranked Set AP (SetAP); i.e., SetP * SetR
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+
+
+**Provided by:**
+
+- ``pytrec_eval``: ``SetAP(rel=ANY)``
+
+
+
+``SetF``
+-------------------------
+
+
+The Set F measure (SetF); i.e., the harmonic mean of SetP and SetR
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``beta`` (float) - relative importance of R to P in the harmonic mean
+
+
+**Provided by:**
+
+- ``pytrec_eval``: ``SetF(rel=ANY, beta=ANY)``
+
+
+
 ``SetP``
 -------------------------
 
@@ -302,11 +337,29 @@ The Set Precision (SetP); i.e., the number of relevant docs divided by the total
 **Parameters:**
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``relative`` (bool) - calculate the measure using the maximum possible SetP for the provided result size
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``SetP(rel=ANY)``
+- ``pytrec_eval``: ``SetP(rel=ANY, relative=ANY)``
+
+
+
+``SetR``
+-------------------------
+
+
+The Set Recall (SetR); i.e., the number of relevant docs divided by the total number of relevant documents
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+
+
+**Provided by:**
+
+- ``pytrec_eval``: ``SetR(rel=ANY)``
 
 
 
@@ -342,3 +395,4 @@ canonical form when printed.
 - ``NDCG`` → ``nDCG``
 - ``NumRelRet`` → ``NumRet(rel=1)``
 - ``RPrec`` → ``Rprec``
+- ``SetRelP`` → ``SetP(relative=True)``

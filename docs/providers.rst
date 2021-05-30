@@ -70,7 +70,10 @@ Providers
  - ``NumRet(rel=ANY)``
  - ``NumQ``
  - ``NumRel(rel=1)``
- - ``SetP(rel=ANY)``
+ - ``SetAP(rel=ANY)``
+ - ``SetF(rel=ANY, beta=ANY)``
+ - ``SetP(rel=ANY, relative=ANY)``
+ - ``SetR(rel=ANY)``
  - ``Success(rel=ANY)@ANY``
  - ``IPrec@ANY``
  - ``infAP(rel=ANY)``
