@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _Success(measures.BaseMeasure):
+class _Success(measures.Measure):
     """
     1 if a document with at least rel relevance is found in the first cutoff documents, else 0.
     """

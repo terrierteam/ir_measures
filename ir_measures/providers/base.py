@@ -1,17 +1,44 @@
 import deprecation
 import contextlib
-from collections import namedtuple
+from typing import Iterator, Dict, Union
 from ir_measures import providers, measures
 
 
-class MeasureProvider:
+class Evaluator:
+    """
+    The base class for scoring runs for a given set of measures and qrels.
+    Returned from ``.evaluator(measures, qrels)`` calls.
+    """
+    def __init__(self, measures):
+        self.measures = measures
+
+    def iter_calc(self, run) -> Iterator['Metric']:
+        """
+        Yields per-topic metrics this run.
+        """
+        raise NotImplementedError()
+
+    def calc_aggregate(self, run) -> Dict[measures.Measure, Union[float, int]]:
+        """
+        Returns aggregated measure values for this run.
+        """
+        aggregators = {m: m.aggregator() for m in self.measures}
+        for metric in self.iter_calc(run):
+            aggregators[metric.measure].add(metric.value)
+        return {m: agg.result() for m, agg in aggregators.items()}
+
+
+class Provider:
+    """
+    The base class for all measure providers (e.g., pytrec_eval, gdeval, etc.).
+    """
     NAME = None
     SUPPORTED_MEASURES = []
 
     def __init__(self):
         self._is_available = None
 
-    def evaluator(self, measures, qrels):
+    def evaluator(self, measures, qrels) -> Evaluator:
         if self.is_available():
             return self._evaluator(measures, qrels)
         else:
@@ -71,21 +98,6 @@ class MeasureProvider:
         pass
 
 
-class BaseMeasureEvaluator:
-    def __init__(self, measures):
-        self.measures = measures
-
-    def iter_calc(self, run):
-        raise NotImplementedError()
-
-    def calc_aggregate(self, run):
-        aggregators = {m: m.aggregator() for m in self.measures}
-        for metric in self.iter_calc(run):
-            aggregators[metric.measure].add(metric.value)
-        return {m: agg.result() for m, agg in aggregators.items()}
-
-
-
 class ParamSpec:
     def validate(self, value):
         raise NotImplementedError()
@@ -119,5 +131,3 @@ class Choices:
         return repr(self.choices)
 
 NOT_PROVIDED = measures.base._NOT_PROVIDED
-
-Metric = namedtuple('Metric', ['query_id', 'measure', 'value'])

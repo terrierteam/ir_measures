@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _RBP(measures.BaseMeasure):
+class _RBP(measures.Measure):
     """
     The Rank-Biased Precision (RBP)
     TODO: write

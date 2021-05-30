@@ -2,7 +2,7 @@ import re
 import sys
 import argparse
 import ir_measures
-from ir_measures.util import GenericScoredDoc, GenericQrel
+from ir_measures.util import ScoredDoc, Qrel
 
 
 def main_cli():
@@ -15,10 +15,8 @@ def main_cli():
     parser.add_argument('--no_summary', '-n', action='store_true')
     parser.add_argument('--provider', choices=ir_measures.providers.registry.keys())
     args = parser.parse_args()
-    run = (l.split() for l in open(args.run))
-    run = (GenericScoredDoc(cols[0], cols[2], float(cols[4])) for cols in run)
-    qrels = (l.split() for l in open(args.qrels))
-    qrels = (GenericQrel(cols[0], cols[2], int(cols[3])) for cols in qrels)
+    run = ir_measures.read_trec_run(args.run)
+    qrels = ir_measures.read_trec_qrels(args.qrels)
     measures, errors = [], []
     for mstr in args.measures:
         for m in mstr.split():

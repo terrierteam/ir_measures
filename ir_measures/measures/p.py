@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _P(measures.BaseMeasure):
+class _P(measures.Measure):
     """
     Basic measure for that computes the percentage of documents in the top cutoff results
     that are labeled as relevant. cutoff is a required parameter, and can be provided as

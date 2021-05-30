@@ -1,11 +1,11 @@
 import contextlib
 import ir_measures
-from ir_measures import providers, measures
-from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
+from ir_measures import providers, measures, Metric
+from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 from ir_measures.bin import msmarco_eval
 import sys
 
-class MsMarcoProvider(providers.MeasureProvider):
+class MsMarcoProvider(providers.Provider):
     """
     MS MARCO's implementation of RR
     """
@@ -27,7 +27,7 @@ class MsMarcoProvider(providers.MeasureProvider):
         return MsMarcoEvaluator(measures, qrels, invocations)
 
 
-class MsMarcoEvaluator(providers.BaseMeasureEvaluator):
+class MsMarcoEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations):
         super().__init__(measures)
         self.qrels_by_rel = {rel: {} for _, rel, _ in invocations}

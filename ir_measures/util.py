@@ -7,11 +7,36 @@ import itertools
 import tempfile
 from typing import List
 from collections import namedtuple
+from typing import NamedTuple, Union
 import ir_measures
 
+class Qrel(NamedTuple):
+    query_id: str
+    doc_id: str
+    relevance: int
 
-GenericQrel = namedtuple('GenericQrel', ['query_id', 'doc_id', 'relevance'])
-GenericScoredDoc = namedtuple('GenericScoredDoc', ['query_id', 'doc_id', 'score'])
+class ScoredDoc(NamedTuple):
+    query_id: str
+    doc_id: str
+    score: float
+
+class Metric(NamedTuple):
+    query_id: str
+    measure: 'Measure'
+    value: Union[float, int]
+
+
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.Qrel() instead")
+class GenericQrel(Qrel):
+    pass
+GenericQrel._fields = Qrel._fields
+
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.ScoredDoc() instead")
+class GenericScoredDoc(ScoredDoc):
+    pass
+GenericScoredDoc._fields = ScoredDoc._fields
 
 
 class QrelsConverter:
@@ -34,7 +59,7 @@ class QrelsConverter:
             result = 'dict_of_dict'
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
-            if all(i in cols for i in GenericQrel._fields):
+            if all(i in cols for i in Qrel._fields):
                 result = 'pd_dataframe'
         elif hasattr(self.qrels, '__iter__'):
             # peek
@@ -43,7 +68,7 @@ class QrelsConverter:
             sentinal = object()
             item = next(peek_qrels, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
-                if all(i in item._fields for i in GenericQrel._fields):
+                if all(i in item._fields for i in Qrel._fields):
                     result = 'namedtuple_iter'
             elif item is sentinal:
                 result = 'namedtuple_iter'
@@ -69,7 +94,7 @@ class QrelsConverter:
         if t == 'dict_of_dict':
             for query_id, docs in self.qrels.items():
                 for doc_id, relevance in docs.items():
-                    yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
+                    yield Qrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
         if t == 'pd_dataframe':
             yield from self.qrels.itertuples()
         if t == 'UNKNOWN':
@@ -111,7 +136,7 @@ class RunConverter:
             return 'dict_of_dict'
         if hasattr(self.run, 'itertuples'):
             cols = self.run.columns
-            if all(i in cols for i in GenericScoredDoc._fields):
+            if all(i in cols for i in ScoredDoc._fields):
                 return 'pd_dataframe'
         if hasattr(self.run, '__iter__'):
             # peek
@@ -120,7 +145,7 @@ class RunConverter:
             sentinal = object()
             item = next(peek_run, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
-                if all(i in item._fields for i in GenericScoredDoc._fields):
+                if all(i in item._fields for i in ScoredDoc._fields):
                     return 'namedtuple_iter'
             if item is sentinal:
                 return 'namedtuple_iter'
@@ -145,7 +170,7 @@ class RunConverter:
         if t == 'dict_of_dict':
             for query_id, docs in self.run.items():
                 for doc_id, score in docs.items():
-                    yield GenericScoredDoc(query_id=query_id, doc_id=doc_id, score=score)
+                    yield ScoredDoc(query_id=query_id, doc_id=doc_id, score=score)
         if t == 'pd_dataframe':
             yield from self.run.itertuples()
         if t == 'UNKNOWN':
@@ -184,7 +209,7 @@ def read_trec_qrels(file):
         for line in file:
             if line.strip():
                 query_id, iteration, doc_id, relevance = line.split()
-                yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance))
+                yield Qrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance))
     elif isinstance(file, str):
         if '\n' in file:
             yield from read_trec_qrels(io.StringIO(file))
@@ -202,7 +227,7 @@ def read_trec_run(file):
         for line in file:
             if line.strip():
                 query_id, iteration, doc_id, rank, score, tag = line.split()
-                yield GenericScoredDoc(query_id=query_id, doc_id=doc_id, score=float(score))
+                yield ScoredDoc(query_id=query_id, doc_id=doc_id, score=float(score))
     elif isinstance(file, str):
         if '\n' in file:
             yield from read_trec_run(io.StringIO(file))
@@ -233,7 +258,7 @@ def _ast_to_value(node):
     raise ValueError(_AST_PARSE_ERROR.format('values must be str, float, int, bool, etc.'))
 
 
-def parse_measure(measure: str) -> 'BaseMeasure':
+def parse_measure(measure: str) -> 'Measure':
     try:
         node = ast.parse(measure).body
     except SyntaxError as e:
@@ -266,9 +291,7 @@ def parse_measure(measure: str) -> 'BaseMeasure':
     return measure(**args)
 
 
-
-
-def convert_trec_name(measure: str) -> List['BaseMeasure']:
+def parse_trec_measure(measure: str) -> List['Measure']:
     TREC_NAME_MAP = {
         'ndcg': (ir_measures.nDCG, None, None),
         'P': (ir_measures.P, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
@@ -311,7 +334,7 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
         skipped = []
         for sub_name in sorted(pytrec_eval.supported_nicknames[measure]):
             try:
-                result += convert_trec_name(sub_name)
+                result += parse_trec_measure(sub_name)
             except ValueError:
                 if sub_name != 'runid':
                     skipped.append(sub_name)
@@ -353,3 +376,9 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
     for arg in meas_args.split(','):
         result.append(meas(**{arg_name: dtype(arg)}))
     return result
+
+
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.parse_trec_measure() instead")
+def convert_trec_name(measure: str) -> List['Measure']:
+    return parse_trec_measure(measure)

@@ -2,7 +2,7 @@ import itertools
 import ir_measures
 
 
-class BaseMeasure:
+class Measure:
     NAME = None
     AT_PARAM = 'cutoff' # allows measures to configure which param measure@X updates (default is cutoff)
     SUPPORTED_PARAMS = {}
@@ -69,7 +69,7 @@ class BaseMeasure:
         return result
 
     def __eq__(self, other):
-        if isinstance(other, BaseMeasure):
+        if isinstance(other, Measure):
             return repr(self) == repr(other)
         return False
 

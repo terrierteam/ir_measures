@@ -3,7 +3,7 @@ from ir_measures import providers, measures
 from ir_measures.util import QrelsConverter, RunConverter, flatten_measures
 
 
-class FallbackProvider(providers.MeasureProvider):
+class FallbackProvider(providers.Provider):
     def __init__(self, providers):
         super().__init__()
         self.providers = providers
@@ -39,7 +39,7 @@ class FallbackProvider(providers.MeasureProvider):
         return any(p.is_available() and p.supports(measure) for p in self.providers)
 
 
-class FallbackEvaluator(providers.BaseMeasureEvaluator):
+class FallbackEvaluator(providers.Evaluator):
     def __init__(self, measures, evaluators):
         super().__init__(measures)
         self.evaluators = evaluators

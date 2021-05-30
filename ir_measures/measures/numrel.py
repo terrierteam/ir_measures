@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo, SumAgg
+from .base import Measure, ParamInfo, SumAgg
 
 
-class _NumRel(measures.BaseMeasure):
+class _NumRel(measures.Measure):
     """
     The number of relevant documents the query has (independent of what the system retrieved).
     """

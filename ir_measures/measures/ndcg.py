@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _nDCG(measures.BaseMeasure):
+class _nDCG(measures.Measure):
     """
     The normalized Discounted Cumulative Gain (nDCG).
     Uses graded labels - systems that put the highest graded documents at the top of the ranking.

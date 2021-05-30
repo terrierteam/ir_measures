@@ -5,7 +5,7 @@ from ir_measures import AP, P, nDCG, NumRel, NumRelRet, Bpref, NumQ, RR, Rprec, 
 
 class TestUtil(unittest.TestCase):
 
-    def test_convert_trec_name(self):
+    def test_parse_trec_measure(self):
         cases = {
             'map': [AP],
             'P_5': [P@5],
@@ -23,7 +23,7 @@ class TestUtil(unittest.TestCase):
         }
         for case in cases:
             with self.subTest(case):
-                self.assertEqual(ir_measures.convert_trec_name(case), cases[case])
+                self.assertEqual(ir_measures.parse_trec_measure(case), cases[case])
 
     def test_parse_measure(self):
         tests = {

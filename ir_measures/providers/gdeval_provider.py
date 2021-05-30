@@ -4,11 +4,11 @@ import subprocess
 import tempfile
 import contextlib
 import ir_measures
-from ir_measures import providers, measures
-from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
+from ir_measures import providers, measures, Metric
+from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 
 
-class GdevalProvider(providers.MeasureProvider):
+class GdevalProvider(providers.Provider):
     """
     gdeval
     """
@@ -41,7 +41,7 @@ class GdevalProvider(providers.MeasureProvider):
             raise RuntimeError('perl not available', ex)
 
 
-class GdevalEvaluator(providers.BaseMeasureEvaluator):
+class GdevalEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations):
         super().__init__(measures)
         self.qrels = qrels

@@ -1,10 +1,10 @@
 import contextlib
 import ir_measures
-from ir_measures import providers, measures
-from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
+from ir_measures import providers, measures, Metric
+from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 
 
-class PytrecEvalProvider(providers.MeasureProvider):
+class PytrecEvalProvider(providers.Provider):
     """
     pytrec_eval
 
@@ -142,7 +142,7 @@ class PytrecEvalProvider(providers.MeasureProvider):
             raise RuntimeError('pytrec_eval not available', ex)
 
 
-class PytrecEvalEvaluator(providers.BaseMeasureEvaluator):
+class PytrecEvalEvaluator(providers.Evaluator):
     def __init__(self, measures, invokers):
         super().__init__(measures)
         self.invokers = invokers

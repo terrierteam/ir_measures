@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _SetP(measures.BaseMeasure):
+class _SetP(measures.Measure):
     """
     The Set Precision (SetP); i.e., the number of relevant docs divided by the total number retrieved
     """

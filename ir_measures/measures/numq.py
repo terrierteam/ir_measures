@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo, SumAgg
+from .base import Measure, ParamInfo, SumAgg
 
 
-class _NumQ(measures.BaseMeasure):
+class _NumQ(measures.Measure):
     """
     The total number of queries.
     """

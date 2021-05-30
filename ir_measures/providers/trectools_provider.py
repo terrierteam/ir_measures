@@ -2,11 +2,11 @@ import sys
 import contextlib
 import functools
 import ir_measures
-from ir_measures import providers, measures
-from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
+from ir_measures import providers, measures, Metric
+from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 
 
-class TrectoolsProvider(providers.MeasureProvider):
+class TrectoolsProvider(providers.Provider):
     """
     trectools
 
@@ -107,7 +107,7 @@ class TrectoolsProvider(providers.MeasureProvider):
             raise RuntimeError('trectools not available', ex)
 
 
-class TrectoolsEvaluator(providers.BaseMeasureEvaluator):
+class TrectoolsEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations, trectools):
         super().__init__(measures)
         self.qrels = qrels

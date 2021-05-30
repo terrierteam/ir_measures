@@ -1,6 +1,14 @@
 __version__ = "0.1.4"
 from . import util
-from .util import parse_measure, convert_trec_name, read_trec_qrels, read_trec_run, GenericQrel, GenericScoredDoc
+from .util import (parse_measure, parse_trec_measure,
+	               read_trec_qrels, read_trec_run,
+	               Qrel, ScoredDoc, Metric,
+	               GenericQrel, # deprecated; replaced with Qrel
+	               GenericScoredDoc, # deprecated; replaced with ScoredDoc
+	               convert_trec_name, # deprecated; replaced with parse_trec_measure
+	               parse_trec_qrels, # deprecated; replaced with read_trec_qrels
+	               parse_trec_run, # deprecated; replaced with read_trec_run
+	              )
 from . import measures
 from .measures import *
 from . import providers
@@ -20,7 +28,7 @@ DefaultPipeline = providers.FallbackProvider([
 	gdeval,  # doesn't work when installed from package #9
 ])
 evaluator = DefaultPipeline.evaluator
-calc_ctxt = DefaultPipeline.calc_ctxt # deprecated
+calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
 iter_calc = DefaultPipeline.iter_calc
 calc_aggregate = DefaultPipeline.calc_aggregate
 

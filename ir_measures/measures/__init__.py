@@ -9,7 +9,7 @@ def register(measure, aliases=[], name=None):
         registry[alias] = measure
     return registry
 
-from .base import BaseMeasure, ParamInfo, MultiMeasures, MeanAgg, SumAgg
+from .base import Measure, ParamInfo, MultiMeasures, MeanAgg, SumAgg
 from .ap import AP, MAP, _AP
 from .bpref import Bpref, BPref, _Bpref
 from .err import ERR, _ERR

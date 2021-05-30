@@ -78,10 +78,10 @@ qrels = pd.DataFrame([
 
 # any iterable of namedtuples (e.g., list, generator, etc)
 qrels = [
-    ir_measures.GenericQrel("Q0", "D0", 0),
-    ir_measures.GenericQrel("Q0", "D1", 1),
-    ir_measures.GenericQrel("Q1", "D0", 0),
-    ir_measures.GenericQrel("Q1", "D3", 2),
+    ir_measures.Qrel("Q0", "D0", 0),
+    ir_measures.Qrel("Q0", "D1", 1),
+    ir_measures.Qrel("Q1", "D0", 0),
+    ir_measures.Qrel("Q1", "D3", 2),
 ]
 
 # TREC-formatted qrels file
@@ -118,10 +118,10 @@ run = pd.DataFrame([
 
 # any iterable of namedtuples (e.g., list, generator, etc)
 run = [
-    ir_measures.GenericScoredDoc("Q0", "D0", 1.2),
-    ir_measures.GenericScoredDoc("Q0", "D1", 1.0),
-    ir_measures.GenericScoredDoc("Q1", "D0", 2.4),
-    ir_measures.GenericScoredDoc("Q1", "D3", 3.6),
+    ir_measures.ScoredDoc("Q0", "D0", 1.2),
+    ir_measures.ScoredDoc("Q0", "D1", 1.0),
+    ir_measures.ScoredDoc("Q1", "D0", 2.4),
+    ir_measures.ScoredDoc("Q1", "D3", 3.6),
 ]
 ```
 

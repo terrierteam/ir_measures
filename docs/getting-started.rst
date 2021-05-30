@@ -110,14 +110,14 @@ map to (integer) relevance scores::
         }
     }
 
-**namedtuple iterable**: Any iterable of named tuples. You can use ``ir_measures.GenericQrel``,
+**namedtuple iterable**: Any iterable of named tuples. You can use ``ir_measures.Qrel``,
 or any other NamedTuple with the fields ``query_id``, ``doc_id``, and ``relevance``::
 
     qrels = [
-        ir_measures.GenericQrel("Q0", "D0", 0),
-        ir_measures.GenericQrel("Q0", "D1", 1),
-        ir_measures.GenericQrel("Q1", "D0", 0),
-        ir_measures.GenericQrel("Q1", "D3", 2),
+        ir_measures.Qrel("Q0", "D0", 0),
+        ir_measures.Qrel("Q0", "D1", 1),
+        ir_measures.Qrel("Q1", "D0", 0),
+        ir_measures.Qrel("Q1", "D3", 2),
     ]
 
 Note that if the results are an iterator (such as the result of a generator), ``ir_measures`` will consume
@@ -182,14 +182,14 @@ map to (float) ranking scores::
         }
     }
 
-**namedtuple iterable**: Any iterable of named tuples. You can use ``ir_measures.GenericScoredDoc``,
+**namedtuple iterable**: Any iterable of named tuples. You can use ``ir_measures.ScoredDoc``,
 or any other NamedTuple with the fields ``query_id``, ``doc_id``, and ``score``::
 
     run = [
-        ir_measures.GenericScoredDoc("Q0", "D0", 1.2),
-        ir_measures.GenericScoredDoc("Q0", "D1", 1.0),
-        ir_measures.GenericScoredDoc("Q1", "D0", 2.4),
-        ir_measures.GenericScoredDoc("Q1", "D3", 3.6),
+        ir_measures.ScoredDoc("Q0", "D0", 1.2),
+        ir_measures.ScoredDoc("Q0", "D1", 1.0),
+        ir_measures.ScoredDoc("Q1", "D0", 2.4),
+        ir_measures.ScoredDoc("Q1", "D3", 3.6),
     ]
 
 Note that if the results are an iterator (such as the result of a generator), ``ir_measures`` will consume
@@ -227,6 +227,76 @@ easily make a qrels dataframe that is compatible with ir-measures like so::
 Note that ``read_trec_run`` returns a generator. If you need to use the qrels multiple times,
 wrap it in the ``list`` constructor to read the all qrels into memory.
 
+Measure Objects
+---------------------------------------
+
+Measure objects speficy the measure you want to calculate, along with any
+parameters they may have. There are several ways to create them. The
+easiest is to specify them directly in code:
+
+    >>> from ir_measures import * # imports all measure names
+    >>> AP
+    AP
+    >>> AP(rel=2)
+    AP(rel=2)
+    >>> nDCG@20
+    nDCG@20
+    >>> P(rel=2)@10
+    P(rel=2)@10
+
+Notice that measures can include parameters. For instance, ``AP(rel=2)`` is the
+average precision measure with a minimum relevance level of 2 (i.e., documents
+need to be scored at least 2 to count as relevant.) Or ``nDCG@20``, which specifies
+a ranking cutoff threshold of 20. See the measure's documentation for full details
+of available parameters.
+
+If you need to get a measure object from a string (e.g., if specified by the user
+as a command line argument), use the ``ir_measures.parse_measure`` function:
+
+    >>> ir_measures.parse_measure('AP')
+    AP
+    >>> ir_measures.parse_measure('AP(rel=2)') 
+    AP(rel=2)
+    >>> ir_measures.parse_measure('nDCG@20')
+    nDCG@20
+    >>> ir_measures.parse_measure('P(rel=2)@10')
+    P(rel=2)@10
+
+If you are familiar with the measure and family names from ``trec_eval``, you can
+map them to measure objects using ``ir_measures.parse_trec_measure()``:
+
+    >>> ir_measures.parse_trec_measure('map')
+    [AP]
+    >>> ir_measures.parse_trec_measure('P') # expands to multiple levels
+    [P@5, P@10, P@15, P@20, P@30, P@100, P@200, P@500, P@1000]
+    >>> ir_measures.parse_trec_measure('P_3,8') # or 'P.3,8'
+    [P@3, P@8]
+    >>> ir_measures.parse_trec_measure('ndcg')
+    [nDCG]
+    >>> ir_measures.parse_trec_measure('ndcg_cut_10')
+    [nDCG@10]
+    >>> ir_measures.parse_trec_measure('official')
+    [P@5, P@10, P@15, P@20, P@30, P@100, P@200, P@500, P@1000, Rprec, Bpref, IPrec@0.0, IPrec@0.1, IPrec@0.2, IPrec@0.3, IPrec@0.4, IPrec@0.5, IPrec@0.6, IPrec@0.7, IPrec@0.8, IPrec@0.9, IPrec@1.0, AP, NumQ, NumRel, NumRet(rel=1), NumRet, RR]
+
+Note that a single ``trec_eval`` measure name can map to multiple measures,
+so measures are returned as a list.
+
+Measures are be passed into methods like ``ir_measures.calc_aggregate``, ``ir_measures.iter_calc``,
+and ``ir_measures.evaluator``. You can also calculate values from the measure object itself:
+
+    >>> AP.calc_aggregate(qrels, run)
+    0.2842120439595336
+    >>> (nDCG@10).calc_aggregate(qrels, run) # parens needed when @cutoff is used
+    0.6250748053944134
+    >>> for metric in (P(rel=2)@10).iter_calc(qrels, run):
+    ...     print(metric)
+    Metric(query_id='1', measure=P(rel=2)@10, value=0.5)
+    Metric(query_id='2', measure=P(rel=2)@10, value=0.8)
+    ...
+    Metric(query_id='35', measure=P(rel=2)@10, value=0.9)
+
+
+
 Scoring multiple runs
 ---------------------------------------
 
@@ -242,7 +312,6 @@ An evaluator object has ``calc_aggregate(run)`` and ``calc_iter(run)`` methods.
     {nDCG@10: 0.6285, P@5: 0.7771, P(rel=2)@5: 0.6285, Judged@10: 0.9400}
     >>> evaluator.calc_aggregate(run3)
     {nDCG@10: 0.5286, P@5: 0.6228, P(rel=2)@5: 0.4628, Judged@10: 0.8485}
-
 
 
 .. [1] In the examples, ``P@5`` and ``nDCG@10`` are returned first, as they are both calculated

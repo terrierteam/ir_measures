@@ -52,3 +52,4 @@ Table of Contents
    getting-started
    measures
    providers
+   api

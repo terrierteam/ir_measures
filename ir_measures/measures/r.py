@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _R(measures.BaseMeasure):
+class _R(measures.Measure):
     """
     Recall@k (R@k). The fraction of relevant documents for a query that have been retrieved by rank k.
     """

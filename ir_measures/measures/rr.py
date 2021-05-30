@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _RR(measures.BaseMeasure):
+class _RR(measures.Measure):
     """
     The [Mean] Reciprocal Rank ([M]RR) is a precision-focused measure that scores based on the reciprocal of the rank of the
     highest-scoring relevance document. An optional cutoff can be provided to limit the
