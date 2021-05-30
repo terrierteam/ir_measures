@@ -298,7 +298,7 @@ def parse_trec_measure(measure: str) -> List['Measure']:
         'map_cut': (ir_measures.AP, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
         'Rndcg': (None, None, None),
         'num_nonrel_judged_ret': (None, None, None),
-        'set_map': (None, None, None),
+        'set_map': (ir_measures.SetAP, None, None),
         '11pt_avg': (None, None, None),
         'relative_P': (None, None, None),
         'gm_map': (None, None, None),

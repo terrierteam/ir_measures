@@ -115,6 +115,9 @@ class PytrecEvalProvider(providers.Provider):
             elif measure.NAME == 'NumRel':
                 invocation_key = (measure['rel'], 0)
                 measure_str = 'num_rel'
+            elif measure.NAME == 'SetAP':
+                invocation_key = (measure['rel'], 0)
+                measure_str = f'set_map'
             elif measure.NAME == 'SetF':
                 # set_F is strange (or buggy?) in both trec_eval and pytrec_eval. It only accepts
                 # the first beta argument it's given, which is why we use the setf_count approach

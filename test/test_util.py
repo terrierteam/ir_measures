@@ -23,6 +23,7 @@ class TestUtil(unittest.TestCase):
             'set_recall': [SetR],
             'set_F': [SetF],
             'set_relative_P': [SetRelP],
+            'set_map': [SetAP],
             'set_F.1.0,0.5,2.4': [SetF, SetF(beta=0.5), SetF(beta=2.4)],
             'official': [P@5, P@10, P@15, P@20, P@30, P@100, P@200, P@500, P@1000, Rprec, Bpref, IPrec@0.0, IPrec@0.1, IPrec@0.2, IPrec@0.3, IPrec@0.4, IPrec@0.5, IPrec@0.6, IPrec@0.7, IPrec@0.8, IPrec@0.9, IPrec@1.0, AP, NumQ, NumRel, NumRelRet, NumRet, RR],
         }

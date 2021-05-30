@@ -45,3 +45,16 @@ class _SetF(measures.Measure):
 
 SetF = _SetF()
 measures.register(SetF)
+
+class _SetAP(measures.Measure):
+    """
+    The unranked Set AP (SetAP); i.e., SetP * SetR
+    """
+    __name__ = 'SetAP'
+    NAME = __name__
+    SUPPORTED_PARAMS = {
+        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
+    }
+
+SetAP = _SetAP()
+measures.register(SetAP)
