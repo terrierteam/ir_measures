@@ -325,7 +325,7 @@ def parse_trec_measure(measure: str) -> List['Measure']:
         'map': (ir_measures.AP, None, None),
         'G': (None, None, None),
         'success': (ir_measures.Success, 'cutoff', [1, 5, 10]),
-        'set_F': (None, None, None),
+        'set_F': (ir_measures.SetF, 'beta', [1.]),
         'iprec_at_recall': (ir_measures.IPrec, 'recall', [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
     }
     import pytrec_eval

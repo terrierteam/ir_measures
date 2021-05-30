@@ -28,3 +28,17 @@ class _SetR(measures.Measure):
 
 SetR = _SetR()
 measures.register(SetR)
+
+class _SetF(measures.Measure):
+    """
+    The Set F measure (SetF); i.e., the harmonic mean of SetP and SetR
+    """
+    __name__ = 'SetF'
+    NAME = __name__
+    SUPPORTED_PARAMS = {
+        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
+        'beta': measures.ParamInfo(dtype=float, default=1., desc='relative importance of R to P in the harmonic mean'),
+    }
+
+SetF = _SetF()
+measures.register(SetF)

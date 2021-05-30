@@ -21,6 +21,8 @@ class TestUtil(unittest.TestCase):
             'ndcg_cut': [nDCG@5, nDCG@10, nDCG@15, nDCG@20, nDCG@30, nDCG@100, nDCG@200, nDCG@500, nDCG@1000],
             'set_P': [SetP],
             'set_recall': [SetR],
+            'set_F': [SetF],
+            'set_F.1.0,0.5,2.4': [SetF, SetF(beta=0.5), SetF(beta=2.4)],
             'official': [P@5, P@10, P@15, P@20, P@30, P@100, P@200, P@500, P@1000, Rprec, Bpref, IPrec@0.0, IPrec@0.1, IPrec@0.2, IPrec@0.3, IPrec@0.4, IPrec@0.5, IPrec@0.6, IPrec@0.7, IPrec@0.8, IPrec@0.9, IPrec@1.0, AP, NumQ, NumRel, NumRelRet, NumRet, RR],
         }
         for case in cases:

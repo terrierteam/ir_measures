@@ -57,40 +57,42 @@ class PytrecEvalProvider(providers.Provider):
 
     def _build_invokers(self, measures, qrels):
         invocations = {}
+        setf_count = 0
         for measure in measures:
+            match_str = None
             if measure.NAME == 'P':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'P_{measure["cutoff"]}'
             elif measure.NAME == 'RR':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'recip_rank'
             elif measure.NAME == 'Rprec':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'Rprec'
             elif measure.NAME == 'AP':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 if measure['cutoff'] is NOT_PROVIDED:
                     measure_str = f'map'
                 else:
                     measure_str = f'map_cut_{measure["cutoff"]}'
             elif measure.NAME == 'infAP':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'infAP'
             elif measure.NAME == 'nDCG':
                 # Doesn't matter where this goes... Put it in an existing invocation, or just (1,) if none yet exist
                 if invocations:
                     invocation_key = next(iter(invocations))
                 else:
-                    invocation_key = (1,)
+                    invocation_key = (1, 0)
                 if measure['cutoff'] is NOT_PROVIDED:
                     measure_str = f'ndcg'
                 else:
                     measure_str = f'ndcg_cut_{measure["cutoff"]}'
             elif measure.NAME == 'R':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'recall_{measure["cutoff"]}'
             elif measure.NAME == 'Bpref':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'bpref'
             elif measure.NAME == 'NumRet':
                 if measure['rel'] is NOT_PROVIDED:
@@ -98,42 +100,58 @@ class PytrecEvalProvider(providers.Provider):
                     if invocations:
                         invocation_key = next(iter(invocations))
                     else:
-                        invocation_key = (1,)
+                        invocation_key = (1, 0)
                     measure_str = 'num_ret'
                 else:
-                    invocation_key = (measure['rel'],)
+                    invocation_key = (measure['rel'], 0)
                     measure_str = 'num_rel_ret'
             elif measure.NAME == 'NumQ':
                 # Doesn't matter where this goes... Put it in an existing invocation, or just (1,) if none yet exist
                 if invocations:
                     invocation_key = next(iter(invocations))
                 else:
-                    invocation_key = (1,)
+                    invocation_key = (1, 0)
                 measure_str = 'num_q'
             elif measure.NAME == 'NumRel':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = 'num_rel'
+            elif measure.NAME == 'SetF':
+                # set_F is strange (or buggy?) in both trec_eval and pytrec_eval. It only accepts
+                # the first beta argument it's given, which is why we use the setf_count approach
+                # to handle multiple invocations. It also is always reported as the name set_F by
+                # pytrec_eval, so we need different measure_str and match_str here.
+                invocation_key = (measure['rel'], setf_count)
+                setf_count += 1
+                measure_str = f'set_F_{measure["beta"]}'
+                match_str = 'set_F'
+                if measure['beta'] == 1.:
+                    measure_str = f'set_F'
+                else:
+                    measure_str = f'set_F_{measure["beta"]}'
             elif measure.NAME == 'SetP':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'set_P'
             elif measure.NAME == 'SetR':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'set_recall'
             elif measure.NAME == 'Success':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'success_{measure["cutoff"]}'
             elif measure.NAME == 'IPrec':
-                invocation_key = (measure['rel'],)
+                invocation_key = (measure['rel'], 0)
                 measure_str = f'iprec_at_recall_{measure["recall"]:.2f}'
             else:
                 raise ValueError(f'unsupported measure {measure}')
 
+            if match_str is None:
+                match_str = measure_str
+
             if invocation_key not in invocations:
                 invocations[invocation_key] = {}
-            invocations[invocation_key][measure_str] = measure
+            invocations[invocation_key][match_str] = (measure, measure_str)
 
         invokers = []
-        for (rel_level, ), measure_map in invocations.items():
+        for (rel_level, it), measure_map in invocations.items():
             invokers.append(PytrecEvalInvoker(self.pytrec_eval, qrels, measure_map, rel_level))
 
         return invokers
@@ -160,14 +178,14 @@ class PytrecEvalEvaluator(providers.Evaluator):
 
 class PytrecEvalInvoker:
     def __init__(self, pte, qrels, measure_map, rel_level):
-        self.evaluator = pte.RelevanceEvaluator(qrels, measure_map.keys(), relevance_level=rel_level)
+        self.evaluator = pte.RelevanceEvaluator(qrels, [m for _, m in measure_map.values()], relevance_level=rel_level)
         self.measure_map = measure_map
 
     def iter_calc(self, run):
         result = self.evaluator.evaluate(run)
         for query_id, measures in result.items():
             for measure_str, value in measures.items():
-                yield Metric(query_id=query_id, measure=self.measure_map[measure_str], value=value)
+                yield Metric(query_id=query_id, measure=self.measure_map[measure_str][0], value=value)
 
 
 providers.register(PytrecEvalProvider())
