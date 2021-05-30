@@ -312,7 +312,7 @@ def parse_trec_measure(measure: str) -> List['Measure']:
         'recall': (ir_measures.R, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
         'set_recall': (ir_measures.SetR, None, None),
         'utility': (None, None, None),
-        'set_relative_P': (None, None, None),
+        'set_relative_P': (ir_measures.SetRelP, None, None),
         'num_ret': (ir_measures.NumRet, None, None),
         'num_rel': (ir_measures.NumRel, None, None),
         'ndcg_cut': (ir_measures.nDCG, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),

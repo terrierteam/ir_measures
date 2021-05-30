@@ -33,7 +33,7 @@ class PytrecEvalProvider(providers.Provider):
         measures._NumRet(rel=Any()),
         measures._NumQ(),
         measures._NumRel(rel=Choices(1)), # for some reason, relevance_level doesn't flow through to num_rel, so can only support rel=1
-        measures._SetP(rel=Any()),
+        measures._SetP(rel=Any(), relative=Any()),
         measures._SetR(rel=Any()),
         measures._Success(rel=Any(), cutoff=Any()),
         measures._IPrec(recall=Any()),
@@ -129,8 +129,12 @@ class PytrecEvalProvider(providers.Provider):
                 else:
                     measure_str = f'set_F_{measure["beta"]}'
             elif measure.NAME == 'SetP':
-                invocation_key = (measure['rel'], 0)
-                measure_str = f'set_P'
+                if measure['relative']:
+                    invocation_key = (measure['rel'], 0)
+                    measure_str = f'set_relative_P'
+                else:
+                    invocation_key = (measure['rel'], 0)
+                    measure_str = f'set_P'
             elif measure.NAME == 'SetR':
                 invocation_key = (measure['rel'], 0)
                 measure_str = f'set_recall'

@@ -201,6 +201,14 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(result[1].value, .25)
         self.assertEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.425)
 
+        measure = ir_measures.SetRelP(rel=1)
+        result = list(provider.iter_calc([measure], qrels, run))
+        self.assertEqual(result[0].query_id, "0")
+        self.assertEqual(result[0].value, 1.0)
+        self.assertEqual(result[1].query_id, "1")
+        self.assertEqual(result[1].value, .5)
+        self.assertEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.75)
+
         measure = ir_measures.SetP(rel=2)
         result = list(provider.iter_calc([measure], qrels, run))
         self.assertEqual(result[0].query_id, "0")
@@ -208,6 +216,14 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(result[1].query_id, "1")
         self.assertEqual(result[1].value, .25)
         self.assertEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.325)
+
+        measure = ir_measures.SetRelP(rel=2)
+        result = list(provider.iter_calc([measure], qrels, run))
+        self.assertEqual(result[0].query_id, "0")
+        self.assertEqual(result[0].value, 1.0)
+        self.assertEqual(result[1].query_id, "1")
+        self.assertEqual(result[1].value, 1.0)
+        self.assertEqual(provider.calc_aggregate([measure], qrels, run)[measure], 1.0)
 
         measure = ir_measures.SetP(rel=3)
         result = list(provider.iter_calc([measure], qrels, run))

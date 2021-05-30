@@ -9,11 +9,14 @@ class _SetP(measures.Measure):
     __name__ = 'SetP'
     NAME = __name__
     SUPPORTED_PARAMS = {
-        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
+        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
+        'relative': measures.ParamInfo(dtype=bool, default=False, desc='calculate the measure using the maximum possible SetP for the provided result size'),
     }
 
 SetP = _SetP()
+SetRelP = _SetP(relative=True)
 measures.register(SetP)
+measures.register(SetRelP, name='SetRelP')
 
 
 class _SetR(measures.Measure):

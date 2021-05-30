@@ -25,7 +25,7 @@ from .r import R, _R
 from .rbp import RBP, _RBP
 from .rprec import Rprec, RPrec, _Rprec
 from .rr import RR, MRR, _RR
-from .set_measures import SetP, _SetP, SetR, _SetR, SetF, _SetF
+from .set_measures import SetP, SetRelP, _SetP, SetR, _SetR, SetF, _SetF
 from .success import Success, _Success
 
 # enable from "ir_measures.measures import *" --- on purpuse, do not include _-prefixed versions,
