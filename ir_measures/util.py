@@ -45,7 +45,7 @@ class QrelsConverter:
         self._predicted_format = None
 
     def tee(self, count):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             teed_qrels = itertools.tee(self.qrels, count)
             return [QrelsConverter(qrels) for qrels in teed_qrels]
@@ -55,12 +55,16 @@ class QrelsConverter:
         if self._predicted_format:
             return self._predicted_format
         result = 'UNKNOWN'
+        error = None
         if isinstance(self.qrels, dict):
             result = 'dict_of_dict'
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
-            if all(i in cols for i in Qrel._fields):
+            missing_cols = set(Qrel._fields) - set(cols)
+            if not missing_cols:
                 result = 'pd_dataframe'
+            else:
+                error = f'DataFrame missing columns: {list(missing_cols)} (found {list(cols)})'
         elif hasattr(self.qrels, '__iter__'):
             # peek
             # TODO: is this an OK approach?
@@ -68,15 +72,21 @@ class QrelsConverter:
             sentinal = object()
             item = next(peek_qrels, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
-                if all(i in item._fields for i in Qrel._fields):
+                fields = item._fields
+                missing_fields = set(Qrel._fields) - set(fields)
+                if not missing_fields:
                     result = 'namedtuple_iter'
+                else:
+                    error = f'namedtuple iter missing fields: {list(missing_fields)} (found {list(fields)})'
             elif item is sentinal:
                 result = 'namedtuple_iter'
-        self._predicted_format = result
-        return result
+            else:
+                error = f'iterable not a namedtuple iterator'
+        self._predicted_format = (result, error)
+        return result, error
 
     def as_dict_of_dict(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'dict_of_dict':
             return self.qrels
         else:
@@ -88,7 +98,7 @@ class QrelsConverter:
             return result
 
     def as_namedtuple_iter(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             yield from self.qrels
         if t == 'dict_of_dict':
@@ -96,12 +106,12 @@ class QrelsConverter:
                 for doc_id, relevance in docs.items():
                     yield Qrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
         if t == 'pd_dataframe':
-            yield from self.qrels.itertuples()
+            yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
         if t == 'UNKNOWN':
-            raise ValueError('unknown qrels format')
+            raise ValueError(f'unknown qrels format: {err}')
 
     def as_pd_dataframe(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'pd_dataframe':
             return self.qrels
         else:
@@ -123,36 +133,51 @@ class QrelsConverter:
 class RunConverter:
     def __init__(self, run):
         self.run = run
+        self._predicted_format = None
 
     def tee(self, count):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             teed_run = itertools.tee(self.run, count)
             return [RunConverter(run) for run in teed_run]
         return [self for _ in range(count)]
 
     def predict_type(self):
+        if self._predicted_format:
+            return self._predicted_format
+        result = 'UNKNOWN'
+        error = None
         if isinstance(self.run, dict):
-            return 'dict_of_dict'
-        if hasattr(self.run, 'itertuples'):
+            result = 'dict_of_dict'
+        elif hasattr(self.run, 'itertuples'):
             cols = self.run.columns
-            if all(i in cols for i in ScoredDoc._fields):
-                return 'pd_dataframe'
-        if hasattr(self.run, '__iter__'):
+            missing_cols = set(ScoredDoc._fields) - set(cols)
+            if not missing_cols:
+                result = 'pd_dataframe'
+            else:
+                error = f'DataFrame missing columns: {list(missing_cols)} (found {list(cols)})'
+        elif hasattr(self.run, '__iter__'):
             # peek
             # TODO: is this an OK approach?
             self.run, peek_run = itertools.tee(self.run, 2)
             sentinal = object()
             item = next(peek_run, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
-                if all(i in item._fields for i in ScoredDoc._fields):
-                    return 'namedtuple_iter'
-            if item is sentinal:
-                return 'namedtuple_iter'
-        return 'UNKNOWN'
+                fields = item._fields
+                missing_fields = set(ScoredDoc._fields) - set(fields)
+                if not missing_fields:
+                    result = 'namedtuple_iter'
+                else:
+                    error = f'namedtuple iter missing fields: {list(missing_fields)} (found {list(fields)})'
+            elif item is sentinal:
+                result = 'namedtuple_iter'
+            else:
+                error = f'iterable not a namedtuple iterator'
+        self._predicted_format = (result, error)
+        return result, error
 
     def as_dict_of_dict(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'dict_of_dict':
             return self.run
         else:
@@ -164,7 +189,7 @@ class RunConverter:
             return result
 
     def as_namedtuple_iter(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             yield from self.run
         if t == 'dict_of_dict':
@@ -172,12 +197,12 @@ class RunConverter:
                 for doc_id, score in docs.items():
                     yield ScoredDoc(query_id=query_id, doc_id=doc_id, score=score)
         if t == 'pd_dataframe':
-            yield from self.run.itertuples()
+            yield from (ScoredDoc(sd.query_id, sd.doc_id, sd.score) for sd in self.run.itertuples())
         if t == 'UNKNOWN':
-            raise ValueError('unknown run format')
+            raise ValueError(f'unknown run format: {err}')
 
     def as_pd_dataframe(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'pd_dataframe':
             return self.run
         else:
