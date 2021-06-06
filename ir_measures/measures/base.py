@@ -81,21 +81,24 @@ class Measure:
 
 
 class MeanAgg:
-    def __init__(self):
+    def __init__(self, default=float('NaN')):
         self.sum = 0.
         self.count = 0
+        self.default = default
 
     def add(self, value):
         self.sum += value
         self.count += 1
 
     def result(self):
+        if self.count == 0:
+            return self.default
         return self.sum / self.count
 
 
 class SumAgg:
     def __init__(self):
-        self.sum = 0.
+        self.sum = 0
 
     def add(self, value):
         self.sum += value
