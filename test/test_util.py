@@ -84,6 +84,11 @@ class TestUtil(unittest.TestCase):
 
         self.assertEqual(context.exception.args[0], "unknown qrels format: DataFrame missing columns: ['doc_id'] (found ['query_id', 'docno', 'relevance'])")
 
+        with self.assertRaises(ValueError) as context:
+            ir_measures.util.QrelsConverter(object()).as_dict_of_dict()
+
+        self.assertEqual(context.exception.args[0], "unknown qrels format: unexpected format; please provide either: (1) an iterable of namedtuples (fields ('query_id', 'doc_id', 'relevance'), e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns ('query_id', 'doc_id', 'relevance'); or (3) a dict-of-dict")
+
     def test_run_converter(self):
         run_list = [
             ir_measures.ScoredDoc('1', 'A', 1.2),
@@ -115,6 +120,11 @@ class TestUtil(unittest.TestCase):
             ir_measures.util.RunConverter(bad_df).as_dict_of_dict()
 
         self.assertEqual(context.exception.args[0], "unknown run format: DataFrame missing columns: ['doc_id'] (found ['query_id', 'docno', 'score'])")
+
+        with self.assertRaises(ValueError) as context:
+            ir_measures.util.RunConverter(object()).as_dict_of_dict()
+
+        self.assertEqual(context.exception.args[0], "unknown run format: unexpected format; please provide either: (1) an iterable of namedtuples (fields ('query_id', 'doc_id', 'score'), e.g., from ir_measures.ScoredDoc); (2) a pandas DataFrame with columns ('query_id', 'doc_id', 'score'); or (3) a dict-of-dict")
 
 
 if __name__ == '__main__':
