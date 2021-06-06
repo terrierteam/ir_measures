@@ -1,7 +1,9 @@
+import pandas as pd
 import unittest
 import itertools
 import ir_measures
 from ir_measures import *
+from pandas.testing import assert_frame_equal
 
 class TestUtil(unittest.TestCase):
 
@@ -49,6 +51,70 @@ class TestUtil(unittest.TestCase):
         for key, value in tests.items():
             with self.subTest(key):
                 self.assertEqual(ir_measures.parse_measure(key), value)
+
+    def test_qrels_converter(self):
+        qrels_list = [
+            ir_measures.Qrel('1', 'A', 1),
+            ir_measures.Qrel('1', 'B', 0),
+            ir_measures.Qrel('2', 'A', 0),
+            ir_measures.Qrel('2', 'C', 1),
+        ]
+        qrels_df = pd.DataFrame(qrels_list)
+        qrels_dict = {
+            '1': {'A': 1, 'B': 0},
+            '2': {'A': 0, 'C': 1}
+        }
+        sources = {
+            'qrels_nt_list': lambda: qrels_list,
+            'qrels_nt_iter': lambda: iter(qrels_list),
+            'qrels_df': lambda: qrels_df,
+            'qrels_dict': lambda: qrels_dict
+        }
+        for n, fn in sources.items():
+            with self.subTest(n):
+                self.assertEqual(ir_measures.util.QrelsConverter(fn()).as_dict_of_dict(), qrels_dict)
+                self.assertEqual(list(ir_measures.util.QrelsConverter(fn()).as_namedtuple_iter()), qrels_list)
+                assert_frame_equal(ir_measures.util.QrelsConverter(fn()).as_pd_dataframe(), qrels_df)
+
+        bad_df = pd.DataFrame([
+            {'query_id': '0', 'docno': 'A', 'relevance': 1}
+        ])
+        with self.assertRaises(ValueError) as context:
+            ir_measures.util.QrelsConverter(bad_df).as_dict_of_dict()
+
+        self.assertEqual(context.exception.args[0], "unknown qrels format: DataFrame missing columns: ['doc_id'] (found ['query_id', 'docno', 'relevance'])")
+
+    def test_run_converter(self):
+        run_list = [
+            ir_measures.ScoredDoc('1', 'A', 1.2),
+            ir_measures.ScoredDoc('1', 'B', 0.9),
+            ir_measures.ScoredDoc('2', 'A', 3.5),
+            ir_measures.ScoredDoc('2', 'C', 0.3),
+        ]
+        run_df = pd.DataFrame(run_list)
+        run_dict = {
+            '1': {'A': 1.2, 'B': 0.9},
+            '2': {'A': 3.5, 'C': 0.3}
+        }
+        sources = {
+            'run_nt_list': lambda: run_list,
+            'run_nt_iter': lambda: iter(run_list),
+            'run_df': lambda: run_df,
+            'run_dict': lambda: run_dict
+        }
+        for n, fn in sources.items():
+            with self.subTest(n):
+                self.assertEqual(ir_measures.util.RunConverter(fn()).as_dict_of_dict(), run_dict)
+                self.assertEqual(list(ir_measures.util.RunConverter(fn()).as_namedtuple_iter()), run_list)
+                assert_frame_equal(ir_measures.util.RunConverter(fn()).as_pd_dataframe(), run_df)
+
+        bad_df = pd.DataFrame([
+            {'query_id': '0', 'docno': 'A', 'score': 1.2}
+        ])
+        with self.assertRaises(ValueError) as context:
+            ir_measures.util.RunConverter(bad_df).as_dict_of_dict()
+
+        self.assertEqual(context.exception.args[0], "unknown run format: DataFrame missing columns: ['doc_id'] (found ['query_id', 'docno', 'score'])")
 
 
 if __name__ == '__main__':

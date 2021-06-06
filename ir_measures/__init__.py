@@ -1,5 +1,6 @@
 __version__ = "0.1.4"
 from . import util
+from . import lazylibs
 from .util import (parse_measure, parse_trec_measure,
 	               read_trec_qrels, read_trec_run,
 	               Qrel, ScoredDoc, Metric,
