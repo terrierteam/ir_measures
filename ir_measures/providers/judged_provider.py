@@ -20,16 +20,17 @@ class JudgedProvider(providers.Provider):
                 cutoffs.append((measure['cutoff'], measure))
             else:
                 raise ValueError(f'unsupported measure {measure}')
+        qrels = ir_measures.util.QrelsConverter(qrels).as_dict_of_dict()
         return JudgedEvaluator(measures, qrels, cutoffs)
 
 
 class JudgedEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, cutoffs):
-        super().__init__(measures)
-        self.qrels = ir_measures.util.QrelsConverter(qrels).as_dict_of_dict()
+        super().__init__(measures, set(qrels.keys()))
+        self.qrels = qrels
         self.cutoffs = cutoffs
 
-    def iter_calc(self, run):
+    def _iter_calc(self, run):
         run = ir_measures.util.RunConverter(run).as_dict_of_dict()
         sorted_run = {q: list(sorted(run[q].items(), key=lambda x: (-x[1], x[0]))) for q in run}
         for qid in run:

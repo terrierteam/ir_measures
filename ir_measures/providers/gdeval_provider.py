@@ -32,6 +32,7 @@ class GdevalProvider(providers.Provider):
         invocations = []
         for cutoff, (NDCG, ERR) in cutoffs.items():
             invocations.append((cutoff, NDCG, ERR))
+        qrels = list(ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter())
         return GdevalEvaluator(measures, qrels, invocations)
 
     def initialize(self):
@@ -43,11 +44,11 @@ class GdevalProvider(providers.Provider):
 
 class GdevalEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations):
-        super().__init__(measures)
+        super().__init__(measures, set(q.query_id for q in qrels))
         self.qrels = qrels
         self.invocations = invocations
 
-    def iter_calc(self, run):
+    def _iter_calc(self, run):
         with tempfile.NamedTemporaryFile() as perlf, \
              ir_measures.util.QrelsConverter(self.qrels).as_tmp_file() as qrelsf, \
              ir_measures.util.RunConverter(run).as_tmp_file() as runf:

@@ -6,6 +6,7 @@ class Measure:
     NAME = None
     AT_PARAM = 'cutoff' # allows measures to configure which param measure@X updates (default is cutoff)
     SUPPORTED_PARAMS = {}
+    DEFAULT = 0. # value if no documents are returned for this query
 
     def __init__(self, **params):
         self.params = params

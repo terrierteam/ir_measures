@@ -55,7 +55,7 @@ class PytrecEvalProvider(providers.Provider):
         # Depending on the measure params, we may need multiple invocations of pytrec_eval
         # (e.g., with different rel_level, since it only supports running with 1 rel_level at a time)
         invokers = self._build_invokers(measures, qrels)
-        return PytrecEvalEvaluator(measures, invokers)
+        return PytrecEvalEvaluator(measures, invokers, qrels)
 
     def _build_invokers(self, measures, qrels):
         invocations = {}
@@ -174,11 +174,11 @@ class PytrecEvalProvider(providers.Provider):
 
 
 class PytrecEvalEvaluator(providers.Evaluator):
-    def __init__(self, measures, invokers):
-        super().__init__(measures)
+    def __init__(self, measures, invokers, qrels):
+        super().__init__(measures, set(qrels.keys()))
         self.invokers = invokers
 
-    def iter_calc(self, run):
+    def _iter_calc(self, run):
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         run = ir_measures.util.RunConverter(run).as_dict_of_dict()
         for invoker in self.invokers:

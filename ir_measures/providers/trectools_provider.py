@@ -112,15 +112,14 @@ class TrectoolsProvider(providers.Provider):
 
 class TrectoolsEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations, trectools):
-        super().__init__(measures)
+        super().__init__(measures, qrels.qrels_data['query'].unique())
         self.qrels = qrels
         self.invocations = invocations
         self.trectools = trectools
 
-    def iter_calc(self, run):
+    def _iter_calc(self, run):
         import pandas as pd
         available_qids = set(self.qrels.qrels_data['query'].unique())
-        # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         tmp_run = ir_measures.util.RunConverter(run).as_namedtuple_iter()
         tmp_run = pd.DataFrame(tmp_run)
         if len(tmp_run) == 0:

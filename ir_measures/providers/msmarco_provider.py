@@ -29,15 +29,17 @@ class MsMarcoProvider(providers.Provider):
 
 class MsMarcoEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations):
-        super().__init__(measures)
+        query_ids = set()
         self.qrels_by_rel = {rel: {} for _, rel, _ in invocations}
         for qrel in ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter():
+            query_ids.add(qrel.query_id)
             for rel in self.qrels_by_rel:
                 if qrel.relevance >= rel:
                     self.qrels_by_rel[rel].setdefault(qrel.query_id, {})[qrel.doc_id] = 1
+        super().__init__(measures, query_ids)
         self.invocations = invocations
 
-    def iter_calc(self, run):
+    def _iter_calc(self, run):
         run = ir_measures.util.RunConverter(run).as_dict_of_dict()
         sorted_run = {q: list(sorted(run[q].items(), key=lambda x: (-x[1], x[0]))) for q in run}
         sorted_run = {q: [did for did, _ in v] for q, v in sorted_run.items()}
