@@ -82,6 +82,8 @@ class QrelsConverter:
                 result = 'namedtuple_iter'
             else:
                 error = f'iterable not a namedtuple iterator'
+        else:
+            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {Qrel._fields}, e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns {Qrel._fields}; or (3) a dict-of-dict'
         self._predicted_format = (result, error)
         return result, error
 
@@ -173,6 +175,8 @@ class RunConverter:
                 result = 'namedtuple_iter'
             else:
                 error = f'iterable not a namedtuple iterator'
+        else:
+            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {ScoredDoc._fields}, e.g., from ir_measures.ScoredDoc); (2) a pandas DataFrame with columns {ScoredDoc._fields}; or (3) a dict-of-dict'
         self._predicted_format = (result, error)
         return result, error
 
