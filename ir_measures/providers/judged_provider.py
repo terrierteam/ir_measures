@@ -33,11 +33,12 @@ class JudgedEvaluator(providers.Evaluator):
         run = ir_measures.util.RunConverter(run).as_dict_of_dict()
         sorted_run = {q: list(sorted(run[q].items(), key=lambda x: (-x[1], x[0]))) for q in run}
         for qid in run:
-            qid_qrels = self.qrels.get(qid, {})
-            for cutoff, measure in self.cutoffs:
-                judged_c = sum((did in qid_qrels) for did, _ in sorted_run.get(qid, [])[:cutoff])
-                value = judged_c / cutoff
-                yield Metric(query_id=qid, measure=measure, value=value)
+            qid_qrels = self.qrels.get(qid)
+            if qid_qrels:
+                for cutoff, measure in self.cutoffs:
+                    judged_c = sum((did in qid_qrels) for did, _ in sorted_run.get(qid, [])[:cutoff])
+                    value = judged_c / cutoff
+                    yield Metric(query_id=qid, measure=measure, value=value)
 
 
 providers.register(JudgedProvider())

@@ -6,7 +6,7 @@ Creation Date : 06/12/2018
 Last Modified : 1/21/2019
 Authors : Daniel Campos <dacamp@microsoft.com>, Rutger van Haasteren <ruvanh@microsoft.com>
 Slight modifications by Sean MacAvaney <sean@ir.cs.georgetown.edu> to configure MaxMRRRank, return
-results by query, and handle edge cases.
+results by query, handle edge cases, remove 0 matching check, remove aggregated calculation.
 """
 import sys
 import statistics
@@ -131,11 +131,11 @@ def compute_metrics(qids_to_relevant_passageids, qids_to_ranked_candidate_passag
                     ranking.pop()
                     ranking.append(i+1)
                     break
-    if len(ranking) == 0:
-        raise IOError("No matching QIDs found. Are you sure you are scoring the evaluation set?")
+    # if len(ranking) == 0:
+    #     raise IOError("No matching QIDs found. Are you sure you are scoring the evaluation set?")
 
-    MRR = MRR/len(qids_to_relevant_passageids)
-    all_scores[f'MRR @{max_rank}'] = MRR
+    # MRR = MRR/len(qids_to_relevant_passageids)
+    # all_scores[f'MRR @{max_rank}'] = MRR
     all_scores[f'MRR @{max_rank} by query'] = mrr_by_query
     all_scores['QueriesRanked'] = len(qids_to_ranked_candidate_passages)
     return all_scores

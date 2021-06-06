@@ -46,7 +46,10 @@ class TrectoolsProvider(providers.Provider):
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         tmp_qrels = ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()
         tmp_qrels = pd.DataFrame(tmp_qrels)
-        tmp_qrels = tmp_qrels.rename(columns={'query_id': 'query', 'doc_id': 'docid', 'relevance': 'rel'})
+        if len(tmp_qrels) == 0:
+            tmp_qrels = pd.DataFrame(columns=['query', 'docid', 'rel'], dtype='object')
+        else:
+            tmp_qrels = tmp_qrels.rename(columns={'query_id': 'query', 'doc_id': 'docid', 'relevance': 'rel'})
         qrels = self.trectools.TrecQrel()
         qrels.qrels_data = tmp_qrels
 
@@ -116,17 +119,22 @@ class TrectoolsEvaluator(providers.Evaluator):
 
     def iter_calc(self, run):
         import pandas as pd
+        available_qids = set(self.qrels.qrels_data['query'].unique())
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         tmp_run = ir_measures.util.RunConverter(run).as_namedtuple_iter()
         tmp_run = pd.DataFrame(tmp_run)
-        tmp_run = tmp_run.rename(columns={'query_id': 'query', 'doc_id': 'docid', 'score': 'score'})
+        if len(tmp_run) == 0:
+            tmp_run = pd.DataFrame(columns=['query', 'docid', 'score'], dtype='object')
+        else:
+            tmp_run = tmp_run.rename(columns={'query_id': 'query', 'doc_id': 'docid', 'score': 'score'})
         tmp_run.sort_values(['query', 'score'], ascending=[True, False], inplace=True)
         run = self.trectools.TrecRun()
         run.run_data = tmp_run
         evaluator = self.trectools.TrecEval(run, self.qrels)
         for invocation, measure in self.invocations:
             for query_id, value in invocation(evaluator).itertuples():
-                yield Metric(query_id=query_id, measure=measure, value=value)
+                if query_id in available_qids:
+                    yield Metric(query_id=query_id, measure=measure, value=value)
 
 
 
