@@ -81,6 +81,9 @@ class Measure:
         return MeanAgg()
 
 
+BaseMeasure = Measure # for compatibility
+
+
 class MeanAgg:
     def __init__(self, default=float('NaN')):
         self.sum = 0.

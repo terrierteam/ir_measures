@@ -22,7 +22,7 @@ class Evaluator:
         for metric in self._iter_calc(run):
             expected_measure_qids.discard((metric.measure, metric.query_id))
             yield metric
-        for measure, query_id in sorted(expected_measure_qids):
+        for measure, query_id in sorted(expected_measure_qids, key=lambda x: (str(x[0]), x[1])):
             yield Metric(query_id=query_id, measure=measure, value=measure.DEFAULT)
 
     def _iter_calc(self, run) -> Iterator['Metric']:
