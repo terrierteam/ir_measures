@@ -19,7 +19,7 @@ Quick Start
 
 Install ir-measures from pip::
 
-    $ pip insall ir-measures
+    $ pip install ir-measures
 
 Compute measures from the command line::
 
