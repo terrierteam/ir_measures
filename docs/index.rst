@@ -6,7 +6,7 @@
 ir-measures Documentation
 ---------------------------------------
 
-`ir-measures <https://github.com/terrierteam/ir_measures>`_ is a python package that interfaces with several information retrieval (IR)
+`ir-measures <https://github.com/terrierteam/ir_measures>`_ is a Python package that interfaces with several information retrieval (IR)
 evaluation tools, including `pytrec_eval <https://github.com/cvangysel/pytrec_eval>`_,
 `gdeval <https://trec.nist.gov/data/web/12/gdeval.pl>`_,
 `trectools <https://github.com/joaopalotti/trectools>`_, and others.
