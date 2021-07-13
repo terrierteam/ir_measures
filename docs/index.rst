@@ -43,6 +43,25 @@ Compute measures from python:
         Judged@10: 0.9486
     }
 
+PyTerrier Integration
+=======================================
+
+ir_measures is used by the `PyTerrier <https://pyterrier.readthedocs.io/>`_ platform
+to evaluate ranking pipelines. In the following example, BM25 is evaluated
+using the standard measures for the TREC Deep Learning benchmark, provided by ir_measures::
+
+    import pyterrier as pt
+    from pyterrier.measures import *
+    dataset = pt.get_dataset("trec-deep-learning-passages")
+    bm25 = pt.BatchRetrieve(index, wmodel="BM25")
+    pt.Experiment(
+        [bm25],
+        dataset.get_topics("test-2019"),
+        dataset.get_qrels("test-2019"),
+        eval_metrics=[RR(rel=2), nDCG@10, nDCG@100, AP(rel=2)], # <-- using ir_measures
+    )
+
+
 Table of Contents
 =======================================
 
