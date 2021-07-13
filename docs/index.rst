@@ -58,7 +58,8 @@ using the standard measures for the TREC Deep Learning benchmark, provided by ir
         [bm25],
         dataset.get_topics("test-2019"),
         dataset.get_qrels("test-2019"),
-        eval_metrics=[RR(rel=2), nDCG@10, nDCG@100, AP(rel=2)], # <-- using ir_measures
+        eval_metrics=[RR(rel=2), nDCG@10, nDCG@100, AP(rel=2)],
+    #                 ^ using ir_measures
     )
 
 
