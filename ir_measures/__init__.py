@@ -15,6 +15,7 @@ from .measures import *
 from . import providers
 
 # providers
+cwl_eval = providers.registry['cwl_eval']
 gdeval = providers.registry['gdeval']
 pytrec_eval = providers.registry['pytrec_eval']
 trectools = providers.registry['trectools']
@@ -23,6 +24,7 @@ msmarco = providers.registry['msmarco']
 
 DefaultPipeline = providers.FallbackProvider([
 	pytrec_eval,
+	cwl_eval,
 	# trectools,  # buggy; will add back later
 	judged,
 	msmarco,

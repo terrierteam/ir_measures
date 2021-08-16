@@ -205,6 +205,20 @@ class RunConverter:
         if t == 'UNKNOWN':
             raise ValueError(f'unknown run format: {err}')
 
+    def as_sorted_namedtuple_iter(self):
+        qid = None
+        items = []
+        def flush():
+            return sorted(items, key=lambda x: x.score, reverse=True)
+        for item in self.as_namedtuple_iter():
+            if qid is None or item.query_id != qid:
+                yield from flush()
+                items = []
+                qid = item.query_id
+            items.append(item)
+        if qid is not None:
+            yield from flush()
+
     def as_pd_dataframe(self):
         t, err = self.predict_type()
         if t == 'pd_dataframe':
