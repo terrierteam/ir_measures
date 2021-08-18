@@ -1,4 +1,4 @@
-import contextlib
+import logging
 import sys
 from typing import NamedTuple, Union
 from cwl.cwl_eval import TrecQrelHandler, RankingMaker
@@ -46,6 +46,11 @@ class CwlEvalProvider(providers.Provider):
                 invocations[inv_key] = []
             invocations[inv_key].append(measure)
         return CwlEvaluator(measures, qrels, invocations)
+
+    def initialize(self):
+        # disable the cwl logger (which writes to cwl.log)
+        cwl_logger = logging.getLogger('cwl')
+        cwl_logger.disabled = True
 
 
 class IrmQrelHandler(TrecQrelHandler):
