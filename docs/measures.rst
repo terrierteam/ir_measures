@@ -239,7 +239,7 @@ It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order 
 -------------------------
 
 
-Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 10.
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (10) of the the following paper.
 
 ::
 
@@ -268,7 +268,7 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 -------------------------
 
 
-Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 11.
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (12) of the the following paper.
 
 ::
 
@@ -297,7 +297,7 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 -------------------------
 
 
-Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 8.
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (8) of the the following paper.
 
 ::
 
@@ -326,7 +326,7 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 -------------------------
 
 
-Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 9.
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (9) of the the following paper.
 
 ::
 
