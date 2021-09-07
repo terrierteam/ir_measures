@@ -4,7 +4,7 @@ from .base import Measure, ParamInfo
 
 class _NERR8(measures.Measure):
     """
-    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 8.
+    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (8) of the the following paper.
 
 ::
 
@@ -26,7 +26,7 @@ class _NERR8(measures.Measure):
 
 class _NERR9(measures.Measure):
     """
-    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 9.
+    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (9) of the the following paper.
 
 ::
 
@@ -48,7 +48,7 @@ class _NERR9(measures.Measure):
 
 class _NERR10(measures.Measure):
     """
-    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 10.
+    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (10) of the the following paper.
 
 ::
 
@@ -70,7 +70,7 @@ class _NERR10(measures.Measure):
 
 class _NERR11(measures.Measure):
     """
-    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 11.
+    Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (12) of the the following paper.
 
 ::
 
