@@ -2,6 +2,40 @@
 Providers
 =========================
 
+``cwl_eval``
+-------------------------
+
+
+ cwl_eval, providing C/W/L ("cool") framework measures.
+
+ https://github.com/ireval/cwl
+
+::
+
+ @inproceedings{azzopardi2019cwl,
+   author = {Azzopardi, Leif and Thomas, Paul and Moffat, Alistair},
+   title = {cwl\_eval: An Evaluation Tool for Information Retrieval},
+   booktitle = {SIGIR},
+   year = {2019}
+ }
+ 
+**Supported Measures:**
+
+ - ``P(rel=ANY)@ANY``
+ - ``RR(rel=ANY)@NOT_PROVIDED``
+ - ``AP(rel=ANY)@NOT_PROVIDED``
+ - ``RBP(rel=REQUIRED, p=ANY)@NOT_PROVIDED``
+ - ``BPM(T=ANY, min_rel=ANY, max_rel=REQUIRED)@ANY``
+ - ``SDCG(dcg='log2', min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
+ - ``NERR8(min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
+ - ``NERR9(min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
+ - ``NERR10(p=ANY, min_rel=ANY, max_rel=REQUIRED)``
+ - ``NERR11(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+ - ``INST(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+ - ``INSQ(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+
+
+
 ``gdeval``
 -------------------------
 

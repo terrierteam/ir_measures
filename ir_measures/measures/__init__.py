@@ -11,12 +11,15 @@ def register(measure, aliases=[], name=None):
 
 from .base import Measure, ParamInfo, MultiMeasures, MeanAgg, SumAgg
 from .ap import AP, MAP, _AP
+from .bpm import BPM, _BPM
 from .bpref import Bpref, BPref, _Bpref
 from .err import ERR, _ERR
+from .inst import INST, _INST, INSQ, _INSQ
 from .infap import infAP, _infAP
 from .iprec import IPrec, _IPrec
 from .judged import Judged, _Judged
 from .ndcg import nDCG, NDCG, _nDCG
+from .nerr import NERR8, NERR9, NERR10, NERR11, _NERR8, _NERR9, _NERR10, _NERR11
 from .numq import NumQ, _NumQ
 from .numrel import NumRel, _NumRel
 from .numret import NumRet, NumRelRet, _NumRet
@@ -25,6 +28,7 @@ from .r import R, _R
 from .rbp import RBP, _RBP
 from .rprec import Rprec, RPrec, _Rprec
 from .rr import RR, MRR, _RR
+from .sdcg import SDCG, _SDCG
 from .set_measures import SetP, SetRelP, _SetP, SetR, _SetR, SetF, _SetF, SetAP, _SetAP
 from .success import Success, _Success
 
