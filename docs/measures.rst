@@ -21,8 +21,39 @@ by taking the mean of AP over the query set.
 
 **Provided by:**
 
+- ``cwl_eval``: ``AP(rel=ANY)@NOT_PROVIDED``
 - ``pytrec_eval``: ``AP(rel=ANY)@ANY``
 - ``trectools``: ``AP(rel=1)@ANY``
+
+
+
+``BPM``
+-------------------------
+
+
+The Bejeweled Player Model (BPM).
+
+::
+
+ @inproceedings{Zhang:2017:EWS:3077136.3080841,
+   author = {Zhang, Fan and Liu, Yiqun and Li, Xin and Zhang, Min and Xu, Yinghui and Ma, Shaoping},
+   title = {Evaluating Web Search with a Bejeweled Player Model},
+   booktitle = {SIGIR},
+   year = {2017},
+   url = {http://doi.acm.org/10.1145/3077136.3080841}
+ }
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``T`` (float) - total desired gain (normalized)
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``BPM(T=ANY, min_rel=ANY, max_rel=REQUIRED)@ANY``
 
 
 
@@ -86,6 +117,64 @@ this convention.
 
 
 
+``INSQ``
+-------------------------
+
+
+INSQ, a variant of INST
+
+::
+
+ @inproceedings{Moffat:2015:IAM:2838931.2838938,
+   author = {Moffat, Alistair and Bailey, Peter and Scholer, Falk and Thomas, Paul},
+   title = {INST: An Adaptive Metric for Information Retrieval Evaluation},
+   booktitle = {Proceedings of the 20th Australasian Document Computing Symposium},
+   year = {2015},
+   url = {http://doi.acm.org/10.1145/2838931.2838938}
+ }
+
+**Parameters:**
+
+- ``T`` (float) - TODO
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``INSQ(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+
+
+
+``INST``
+-------------------------
+
+
+INST
+
+::
+
+ @inproceedings{Moffat:2012:MMI:2407085.2407092,
+   author = {Moffat, Alistair and Scholer, Falk and Thomas, Paul},
+   title = {Models and Metrics: IR Evaluation As a User Process},
+   booktitle = {Proceedings of the Seventeenth Australasian Document Computing Symposium},
+   year = {2012},
+   url = {http://doi.acm.org/10.1145/2407085.2407092}
+ }
+
+**Parameters:**
+
+- ``T`` (float) - TODO
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``INST(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+
+
+
 ``IPrec``
 -------------------------
 
@@ -143,6 +232,122 @@ It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order 
 - ``pytrec_eval``: ``nDCG(dcg='log2')@ANY``
 - ``gdeval``: ``nDCG(dcg='exp-log2')@REQUIRED``
 - ``trectools``: ``nDCG(dcg=ANY)@ANY``
+
+
+
+``NERR10``
+-------------------------
+
+
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 10.
+
+::
+
+ @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+   booktitle = {ICTIR},
+   year = {2021},
+   url = {https://doi.org/10.1145/3471158.3472239}
+ }
+
+**Parameters:**
+
+- ``p`` (float) - persistence
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``NERR10(p=ANY, min_rel=ANY, max_rel=REQUIRED)``
+
+
+
+``NERR11``
+-------------------------
+
+
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 11.
+
+::
+
+ @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+   booktitle = {ICTIR},
+   year = {2021},
+   url = {https://doi.org/10.1145/3471158.3472239}
+ }
+
+**Parameters:**
+
+- ``T`` (float) - total desired gain (normalized)
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``NERR11(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+
+
+
+``NERR8``
+-------------------------
+
+
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 8.
+
+::
+
+ @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+   booktitle = {ICTIR},
+   year = {2021},
+   url = {https://doi.org/10.1145/3471158.3472239}
+ }
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``NERR8(min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
+
+
+
+``NERR9``
+-------------------------
+
+
+Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from eq. 9.
+
+::
+
+ @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+   booktitle = {ICTIR},
+   year = {2021},
+   url = {https://doi.org/10.1145/3471158.3472239}
+ }
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``NERR9(min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
 
 
 
@@ -209,6 +414,7 @@ P@cutoff.
 
 **Provided by:**
 
+- ``cwl_eval``: ``P(rel=ANY)@ANY``
 - ``pytrec_eval``: ``P(rel=ANY)@ANY``
 - ``trectools``: ``P(rel=1)@ANY``
 
@@ -236,8 +442,17 @@ Recall@k (R@k). The fraction of relevant documents for a query that have been re
 -------------------------
 
 
-The Rank-Biased Precision (RBP)
-TODO: write
+The Rank-Biased Precision (RBP).
+
+::
+
+ @article{Moffat:2008:RPM:1416950.1416952,
+   author = {Moffat, Alistair and Zobel, Justin},
+   title = {Rank-biased Precision for Measurement of Retrieval Effectiveness},
+   journal = {ACM Trans. Inf. Syst.},
+   year = {2008},
+   url = {http://doi.acm.org/10.1145/1416950.1416952}
+ }
 
 **Parameters:**
 
@@ -248,6 +463,7 @@ TODO: write
 
 **Provided by:**
 
+- ``cwl_eval``: ``RBP(rel=REQUIRED, p=ANY)@NOT_PROVIDED``
 - ``trectools``: ``RBP(p=ANY, rel=ANY)@ANY``
 
 
@@ -287,9 +503,41 @@ depth explored. rel (default 1) controls which relevance level is considered rel
 
 **Provided by:**
 
+- ``cwl_eval``: ``RR(rel=ANY)@NOT_PROVIDED``
 - ``pytrec_eval``: ``RR(rel=ANY)@NOT_PROVIDED``
 - ``trectools``: ``RR(rel=1)@NOT_PROVIDED``
 - ``msmarco``: ``RR(rel=ANY)@ANY``
+
+
+
+``SDCG``
+-------------------------
+
+
+The Scaled Discounted Cumulative Gain (SDCG), a variant of nDCG that assumes more
+fully-relevant documents exist but are not labeled.
+
+::
+
+ @inproceedings{Moffat:2015:IAM:2838931.2838938,
+   author = {Moffat, Alistair and Bailey, Peter and Scholer, Falk and Thomas, Paul},
+   title = {INST: An Adaptive Metric for Information Retrieval Evaluation},
+   booktitle = {Proceedings of the 20th Australasian Document Computing Symposium},
+   year = {2015},
+   url = {http://doi.acm.org/10.1145/2838931.2838938}
+ }
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``dcg`` (str) - DCG formulation
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``SDCG(dcg='log2', min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
 
 
 

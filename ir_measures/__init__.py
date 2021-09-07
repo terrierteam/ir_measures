@@ -1,4 +1,6 @@
 __version__ = "0.1.4"
+import sys
+import logging
 from . import util
 from . import lazylibs
 from .util import (parse_measure, parse_trec_measure,
@@ -13,6 +15,12 @@ from .util import (parse_measure, parse_trec_measure,
 from . import measures
 from .measures import *
 from . import providers
+
+logger = logging.getLogger('ir_measures')
+logger.setLevel('WARNING')
+log_handler = logging.StreamHandler(sys.stderr)
+log_handler.setFormatter(logging.Formatter('[%(name)s] [%(levelname)s] %(message)s'))
+logger.addHandler(log_handler)
 
 # providers
 cwl_eval = providers.registry['cwl_eval']
