@@ -6,7 +6,7 @@
 ir-measures Documentation
 ---------------------------------------
 
-`ir-measures <https://github.com/terrierteam/ir_measures>`_ is a python package that interfaces with several information retrieval (IR)
+`ir-measures <https://github.com/terrierteam/ir_measures>`_ is a Python package that interfaces with several information retrieval (IR)
 evaluation tools, including `pytrec_eval <https://github.com/cvangysel/pytrec_eval>`_,
 `gdeval <https://trec.nist.gov/data/web/12/gdeval.pl>`_,
 `trectools <https://github.com/joaopalotti/trectools>`_, and others.
@@ -19,7 +19,7 @@ Quick Start
 
 Install ir-measures from pip::
 
-    $ pip insall ir-measures
+    $ pip install ir-measures
 
 Compute measures from the command line::
 
@@ -42,6 +42,26 @@ Compute measures from python:
         P(rel=2)@5: 0.6000,
         Judged@10: 0.9486
     }
+
+PyTerrier Integration
+=======================================
+
+ir_measures is used by the `PyTerrier <https://pyterrier.readthedocs.io/>`_ platform
+to evaluate ranking pipelines. In the following example, BM25 is evaluated
+using the standard measures for the TREC Deep Learning benchmark, provided by ir_measures::
+
+    import pyterrier as pt
+    from pyterrier.measures import *
+    dataset = pt.get_dataset("trec-deep-learning-passages")
+    bm25 = pt.BatchRetrieve(index, wmodel="BM25")
+    pt.Experiment(
+        [bm25],
+        dataset.get_topics("test-2019"),
+        dataset.get_qrels("test-2019"),
+        eval_metrics=[RR(rel=2), nDCG@10, nDCG@100, AP(rel=2)],
+    #                 ^ using ir_measures
+    )
+
 
 Table of Contents
 =======================================
