@@ -39,6 +39,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(set(ir_measures.msmarco.iter_calc([RR@5], qrels, empty)), {Metric('0', RR@5, 0.), Metric('1', RR@5, 0.)})
         self.assertEqual(set(ir_measures.pytrec_eval.iter_calc([P@5], qrels, empty)), {Metric('0', P@5, 0.), Metric('1', P@5, 0.)})
         self.assertEqual(set(ir_measures.trectools.iter_calc([P@5], qrels, empty)), {Metric('0', P@5, 0.), Metric('1', P@5, 0.)})
+        self.assertEqual(set(ir_measures.cwl_eval.iter_calc([P@5], qrels, empty)), {Metric('0', P@5, 0.0), Metric('1', P@5, 0.0)})
 
         # run but no qrels
         self.assertEqual(list(ir_measures.iter_calc([P@5], empty, run)), [])
@@ -47,6 +48,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(list(ir_measures.msmarco.iter_calc([RR@5], empty, run)), [])
         self.assertEqual(list(ir_measures.pytrec_eval.iter_calc([P@5], empty, run)), [])
         self.assertEqual(list(ir_measures.trectools.iter_calc([P@5], empty, run)), [])
+        self.assertEqual(list(ir_measures.cwl_eval.iter_calc([P@5], empty, run)), [])
 
         # both no run and no qrels
         self.assertEqual(list(ir_measures.iter_calc([P@5], empty, empty)), [])
@@ -55,6 +57,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(list(ir_measures.msmarco.iter_calc([RR@5], empty, empty)), [])
         self.assertEqual(list(ir_measures.pytrec_eval.iter_calc([P@5], empty, empty)), [])
         self.assertEqual(list(ir_measures.trectools.iter_calc([P@5], empty, empty)), [])
+        self.assertEqual(list(ir_measures.cwl_eval.iter_calc([P@5], empty, empty)), [])
 
         # qrels but no run
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
@@ -63,6 +66,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.msmarco.calc_aggregate([RR@5], qrels, empty), {RR@5: 0.})
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
+        numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
 
         # run but no qrels
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
@@ -71,6 +75,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.msmarco.calc_aggregate([RR@5], empty, run), {RR@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
+        numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
 
         # both no run and no qrels
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
@@ -79,6 +84,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.msmarco.calc_aggregate([RR@5], empty, empty), {RR@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
+        numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
 
 
 
