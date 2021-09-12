@@ -17,4 +17,5 @@ class _P(measures.Measure):
 
 
 P = _P()
-measures.register(P)
+Precision = P
+measures.register(P, ['Precision'])

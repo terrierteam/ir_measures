@@ -5,6 +5,9 @@ from .base import Measure, ParamInfo
 class _Success(measures.Measure):
     """
     1 if a document with at least rel relevance is found in the first cutoff documents, else 0.
+
+    NOTE: Some refer to this measure as Recall@k. This software follows the TREC convention, where
+    Recall@k is defined as the proportion of known relevant documents retrieved in the top k results.
     """
     __name__ = 'Success'
     NAME = __name__

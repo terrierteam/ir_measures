@@ -23,8 +23,8 @@ from .nerr import NERR8, NERR9, NERR10, NERR11, _NERR8, _NERR9, _NERR10, _NERR11
 from .numq import NumQ, _NumQ
 from .numrel import NumRel, _NumRel
 from .numret import NumRet, NumRelRet, _NumRet
-from .p import P, _P
-from .r import R, _R
+from .p import P, Precision, _P
+from .r import R, Recall, _R
 from .rbp import RBP, _RBP
 from .rprec import Rprec, RPrec, _Rprec
 from .rr import RR, MRR, _RR
