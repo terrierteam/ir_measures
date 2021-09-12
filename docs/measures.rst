@@ -426,6 +426,9 @@ P@cutoff.
 
 Recall@k (R@k). The fraction of relevant documents for a query that have been retrieved by rank k.
 
+NOTE: Some tasks define Recall@k as whether any relevant documents are found in the top k results.
+This software follows the TREC convention and refers to that measure as Success@k.
+
 **Parameters:**
 
 - ``cutoff`` (int) - ranking cutoff threshold
@@ -617,6 +620,9 @@ The Set Recall (SetR); i.e., the number of relevant docs divided by the total nu
 
 1 if a document with at least rel relevance is found in the first cutoff documents, else 0.
 
+NOTE: Some refer to this measure as Recall@k. This software follows the TREC convention, where
+Recall@k is defined as the proportion of known relevant documents retrieved in the top k results.
+
 **Parameters:**
 
 - ``cutoff`` (int) - ranking cutoff threshold
@@ -642,5 +648,7 @@ canonical form when printed.
 - ``MRR`` → ``RR``
 - ``NDCG`` → ``nDCG``
 - ``NumRelRet`` → ``NumRet(rel=1)``
+- ``Precision`` → ``P``
+- ``Recall`` → ``R``
 - ``RPrec`` → ``Rprec``
 - ``SetRelP`` → ``SetP(relative=True)``
