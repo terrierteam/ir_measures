@@ -41,10 +41,10 @@ class FallbackProvider(providers.Provider):
 
 class FallbackEvaluator(providers.Evaluator):
     def __init__(self, measures, evaluators):
-        super().__init__(measures)
+        super().__init__(measures, evaluators[0].qrel_qids)
         self.evaluators = evaluators
 
-    def iter_calc(self, run):
+    def _iter_calc(self, run):
         runs_teed = RunConverter(run).tee(len(self.evaluators))
         for evaluator, run in zip(self.evaluators, runs_teed):
             yield from evaluator.iter_calc(run.run)

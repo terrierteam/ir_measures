@@ -6,6 +6,7 @@ class Measure:
     NAME = None
     AT_PARAM = 'cutoff' # allows measures to configure which param measure@X updates (default is cutoff)
     SUPPORTED_PARAMS = {}
+    DEFAULT = 0. # value if no documents are returned for this query
 
     def __init__(self, **params):
         self.params = params
@@ -80,22 +81,28 @@ class Measure:
         return MeanAgg()
 
 
+BaseMeasure = Measure # for compatibility
+
+
 class MeanAgg:
-    def __init__(self):
+    def __init__(self, default=float('NaN')):
         self.sum = 0.
         self.count = 0
+        self.default = default
 
     def add(self, value):
         self.sum += value
         self.count += 1
 
     def result(self):
+        if self.count == 0:
+            return self.default
         return self.sum / self.count
 
 
 class SumAgg:
     def __init__(self):
-        self.sum = 0.
+        self.sum = 0
 
     def add(self, value):
         self.sum += value

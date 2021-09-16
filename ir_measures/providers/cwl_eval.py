@@ -117,23 +117,27 @@ class IrmQrelHandler(TrecQrelHandler):
 
 class CwlEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations):
-        super().__init__(measures)
         self.qrhs = {}
         for inv_key in invocations.keys():
             self.qrhs[inv_key] = IrmQrelHandler(*inv_key)
+        qids = set()
         for qrel in ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter():
+            qids.add(qrel.query_id)
             rel = max(qrel.relevance, 0) # clip all negative scores to 0, following trec_eval convention
             for qrh in self.qrhs.values():
                 qrh.put_value(qrel.query_id, qrel.doc_id, rel)
         for qrh in self.qrhs.values():
             qrh.verify_gains()
         self.invocations = invocations
+        super().__init__(measures, qids)
 
-    def iter_calc(self, run):
+    def _iter_calc(self, run):
         # adapted from cwl_eval's main() method
         ranking_makers = None
         curr_qid = None
         for item in ir_measures.util.RunConverter(run).as_sorted_namedtuple_iter():
+            if item.query_id not in self.qrel_qids:
+                continue # skip queries not found in qrels; handled by base
             if item.query_id != curr_qid:
                 if curr_qid is not None:
                     yield from self.flush(curr_qid, ranking_makers)

@@ -30,6 +30,8 @@ trectools = providers.registry['trectools']
 judged = providers.registry['judged']
 msmarco = providers.registry['msmarco']
 
+CwlMetric = providers.CwlMetric
+
 DefaultPipeline = providers.FallbackProvider([
 	pytrec_eval,
 	cwl_eval,

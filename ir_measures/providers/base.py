@@ -1,7 +1,8 @@
 import deprecation
 import contextlib
+import itertools
 from typing import Iterator, Dict, Union
-from ir_measures import providers, measures
+from ir_measures import providers, measures, Metric
 
 
 class Evaluator:
@@ -9,13 +10,22 @@ class Evaluator:
     The base class for scoring runs for a given set of measures and qrels.
     Returned from ``.evaluator(measures, qrels)`` calls.
     """
-    def __init__(self, measures):
+    def __init__(self, measures, qrel_qids):
         self.measures = measures
+        self.qrel_qids = qrel_qids
 
     def iter_calc(self, run) -> Iterator['Metric']:
         """
         Yields per-topic metrics this run.
         """
+        expected_measure_qids = set(itertools.product(self.measures, self.qrel_qids))
+        for metric in self._iter_calc(run):
+            expected_measure_qids.discard((metric.measure, metric.query_id))
+            yield metric
+        for measure, query_id in sorted(expected_measure_qids, key=lambda x: (str(x[0]), x[1])):
+            yield Metric(query_id=query_id, measure=measure, value=measure.DEFAULT)
+
+    def _iter_calc(self, run) -> Iterator['Metric']:
         raise NotImplementedError()
 
     def calc_aggregate(self, run) -> Dict[measures.Measure, Union[float, int]]:

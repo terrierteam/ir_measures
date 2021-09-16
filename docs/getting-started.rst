@@ -319,3 +319,22 @@ An evaluator object has ``calc_aggregate(run)`` and ``calc_iter(run)`` methods.
    second invocation of ``pytrec_eval`` because it only supports one relevance level at a time).
    Finally, results for ``Judged@10`` are returned, as these are calculated by the ``judged``
    provider.
+
+
+Empty Set Behaviour
+---------------------------------------
+
+ir-measures normalizes the behavior across tools by always returning results based on all queries
+that appear in the provided qrels, regardless of what appears in the run. This corresponds with
+the ``-c`` flag in ``trec_eval``. Queries that appear in the run but not the qrels are ignored,
+and queries that appear in the qrels but not the run are given a score of 0.
+
+This behaviour is based on the following reasoning:
+
+ 1. Queries that do not appear in the qrels were not judged, and therefore cannot be properly scored
+    if returned in the run.
+ 2. Queries that do not appear in the run may have returned no results, and therefore be scored as such.
+
+We believe that these are the proper settings, so there is currently no way to change this behaviour
+directly in the software. If you wish to only score some of the queries provided in the qrels, you
+may of course filter down the qrels provided to ir-measures to only those queries.
