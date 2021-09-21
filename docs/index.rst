@@ -29,6 +29,8 @@ Compute measures from the command line::
     P(rel=2)@5  0.6000
     Judged@10   0.9486
 
+You can alternatively use a dataset ID from `ir_datasets <https://ir-datasets.com/>`_ in place of ``path/to/qrels``.
+
 Compute measures from python:
 
     >>> import ir_measures

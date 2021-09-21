@@ -27,6 +27,9 @@ Command Line Interface
     P(rel=2)@5  0.6000
     Judged@10   0.9486
 
+You can alternatively use a dataset ID from `ir_datasets <https://ir-datasets.com/>`_ in
+place of ``path/to/qrels``.
+
 You can see per-topic results using the ``-q`` flag (similar to trec_eval)::
 
     $ ir_measures -q path/to/qrels path/to/run nDCG@10 P@5 'P(rel=2)@5' Judged@10
