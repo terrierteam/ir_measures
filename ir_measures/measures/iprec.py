@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _IPrec(measures.BaseMeasure):
+class _IPrec(measures.Measure):
     """
     Interpolated Precision at a given recall cutoff. Used for building precision-recall graphs.
     Unlike most measures, where @ indicates an absolute cutoff threshold, here @ sets the recall

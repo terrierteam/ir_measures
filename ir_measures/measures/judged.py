@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _Judged(measures.BaseMeasure):
+class _Judged(measures.Measure):
     """
     Percentage of results in the top k (cutoff) results that have relevance judgments. Equivalent to P@k with
     a rel lower than any judgment.

@@ -1,23 +1,42 @@
+import deprecation
 import re
 import io
 import ast
 import contextlib
 import itertools
 import tempfile
-from typing import List, NamedTuple
+from typing import List
+from collections import namedtuple
+from typing import NamedTuple, Union
 import ir_measures
 
-class GenericQrel(NamedTuple):
+class Qrel(NamedTuple):
     query_id: str
     doc_id: str
     relevance: int
-    iteration: str = '0'
 
-
-class GenericScoredDoc(NamedTuple):
+class ScoredDoc(NamedTuple):
     query_id: str
     doc_id: str
     score: float
+
+class Metric(NamedTuple):
+    query_id: str
+    measure: 'Measure'
+    value: Union[float, int]
+
+
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.Qrel() instead")
+class GenericQrel(Qrel):
+    pass
+GenericQrel._fields = Qrel._fields
+
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.ScoredDoc() instead")
+class GenericScoredDoc(ScoredDoc):
+    pass
+GenericScoredDoc._fields = ScoredDoc._fields
 
 
 class QrelsConverter:
@@ -26,7 +45,7 @@ class QrelsConverter:
         self._predicted_format = None
 
     def tee(self, count):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             teed_qrels = itertools.tee(self.qrels, count)
             return [QrelsConverter(qrels) for qrels in teed_qrels]
@@ -36,12 +55,16 @@ class QrelsConverter:
         if self._predicted_format:
             return self._predicted_format
         result = 'UNKNOWN'
+        error = None
         if isinstance(self.qrels, dict):
             result = 'dict_of_dict'
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
-            if all(i in cols or i in GenericQrel._field_defaults for i in GenericQrel._fields):
+            missing_cols = set(Qrel._fields) - set(cols)
+            if not missing_cols:
                 result = 'pd_dataframe'
+            else:
+                error = f'DataFrame missing columns: {list(missing_cols)} (found {list(cols)})'
         elif hasattr(self.qrels, '__iter__'):
             # peek
             # TODO: is this an OK approach?
@@ -49,15 +72,23 @@ class QrelsConverter:
             sentinal = object()
             item = next(peek_qrels, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
-                if all(i in item._fields or i in GenericQrel._field_defaults for i in GenericQrel._fields):
+                fields = item._fields
+                missing_fields = set(Qrel._fields) - set(fields)
+                if not missing_fields:
                     result = 'namedtuple_iter'
+                else:
+                    error = f'namedtuple iter missing fields: {list(missing_fields)} (found {list(fields)})'
             elif item is sentinal:
                 result = 'namedtuple_iter'
-        self._predicted_format = result
-        return result
+            else:
+                error = f'iterable not a namedtuple iterator'
+        else:
+            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {Qrel._fields}, e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns {Qrel._fields}; or (3) a dict-of-dict'
+        self._predicted_format = (result, error)
+        return result, error
 
     def as_dict_of_dict(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'dict_of_dict':
             return self.qrels
         else:
@@ -69,24 +100,20 @@ class QrelsConverter:
             return result
 
     def as_namedtuple_iter(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             yield from self.qrels
         if t == 'dict_of_dict':
             for query_id, docs in self.qrels.items():
                 for doc_id, relevance in docs.items():
-                    yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
+                    yield Qrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
         if t == 'pd_dataframe':
-            if 'iteration' in self.qrels.columns:
-                yield from self.qrels.itertuples()
-            else:
-                for tup in self.qrels.itertuples():
-                    yield GenericQrel(query_id=tup.query_id, doc_id=tup.doc_id, relevance=tup.relevance)
+            yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
         if t == 'UNKNOWN':
-            raise ValueError('unknown qrels format')
+            raise ValueError(f'unknown qrels format: {err}')
 
     def as_pd_dataframe(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'pd_dataframe':
             return self.qrels
         else:
@@ -108,36 +135,53 @@ class QrelsConverter:
 class RunConverter:
     def __init__(self, run):
         self.run = run
+        self._predicted_format = None
 
     def tee(self, count):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             teed_run = itertools.tee(self.run, count)
             return [RunConverter(run) for run in teed_run]
         return [self for _ in range(count)]
 
     def predict_type(self):
+        if self._predicted_format:
+            return self._predicted_format
+        result = 'UNKNOWN'
+        error = None
         if isinstance(self.run, dict):
-            return 'dict_of_dict'
-        if hasattr(self.run, 'itertuples'):
+            result = 'dict_of_dict'
+        elif hasattr(self.run, 'itertuples'):
             cols = self.run.columns
-            if all(i in cols for i in GenericScoredDoc._fields):
-                return 'pd_dataframe'
-        if hasattr(self.run, '__iter__'):
+            missing_cols = set(ScoredDoc._fields) - set(cols)
+            if not missing_cols:
+                result = 'pd_dataframe'
+            else:
+                error = f'DataFrame missing columns: {list(missing_cols)} (found {list(cols)})'
+        elif hasattr(self.run, '__iter__'):
             # peek
             # TODO: is this an OK approach?
             self.run, peek_run = itertools.tee(self.run, 2)
             sentinal = object()
             item = next(peek_run, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
-                if all(i in item._fields for i in GenericScoredDoc._fields):
-                    return 'namedtuple_iter'
-            if item is sentinal:
-                return 'namedtuple_iter'
-        return 'UNKNOWN'
+                fields = item._fields
+                missing_fields = set(ScoredDoc._fields) - set(fields)
+                if not missing_fields:
+                    result = 'namedtuple_iter'
+                else:
+                    error = f'namedtuple iter missing fields: {list(missing_fields)} (found {list(fields)})'
+            elif item is sentinal:
+                result = 'namedtuple_iter'
+            else:
+                error = f'iterable not a namedtuple iterator'
+        else:
+            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {ScoredDoc._fields}, e.g., from ir_measures.ScoredDoc); (2) a pandas DataFrame with columns {ScoredDoc._fields}; or (3) a dict-of-dict'
+        self._predicted_format = (result, error)
+        return result, error
 
     def as_dict_of_dict(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'dict_of_dict':
             return self.run
         else:
@@ -149,20 +193,34 @@ class RunConverter:
             return result
 
     def as_namedtuple_iter(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'namedtuple_iter':
             yield from self.run
         if t == 'dict_of_dict':
             for query_id, docs in self.run.items():
                 for doc_id, score in docs.items():
-                    yield GenericScoredDoc(query_id=query_id, doc_id=doc_id, score=score)
+                    yield ScoredDoc(query_id=query_id, doc_id=doc_id, score=score)
         if t == 'pd_dataframe':
-            yield from self.run.itertuples()
+            yield from (ScoredDoc(sd.query_id, sd.doc_id, sd.score) for sd in self.run.itertuples())
         if t == 'UNKNOWN':
-            raise ValueError('unknown run format')
+            raise ValueError(f'unknown run format: {err}')
+
+    def as_sorted_namedtuple_iter(self):
+        qid = None
+        items = []
+        def flush():
+            return sorted(items, key=lambda x: x.score, reverse=True)
+        for item in self.as_namedtuple_iter():
+            if qid is None or item.query_id != qid:
+                yield from flush()
+                items = []
+                qid = item.query_id
+            items.append(item)
+        if qid is not None:
+            yield from flush()
 
     def as_pd_dataframe(self):
-        t = self.predict_type()
+        t, err = self.predict_type()
         if t == 'pd_dataframe':
             return self.run
         else:
@@ -183,32 +241,42 @@ class RunConverter:
             yield f
 
 
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.read_trec_qrels() instead")
 def parse_trec_qrels(file):
+    return read_trec_qrels(file)
+
+
+def read_trec_qrels(file):
     if hasattr(file, 'read'):
         for line in file:
             if line.strip():
                 query_id, iteration, doc_id, relevance = line.split()
-                yield GenericQrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance), iteration=iteration)
+                yield Qrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance))
     elif isinstance(file, str):
         if '\n' in file:
-            yield from parse_trec_qrels(io.StringIO(file))
+            yield from read_trec_qrels(io.StringIO(file))
         else:
             with open(file, 'rt') as f:
-                yield from parse_trec_qrels(f)
+                yield from read_trec_qrels(f)
 
-
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.read_trec_run() instead")
 def parse_trec_run(file):
+    return read_trec_run(file)
+
+def read_trec_run(file):
     if hasattr(file, 'read'):
         for line in file:
             if line.strip():
                 query_id, iteration, doc_id, rank, score, tag = line.split()
-                yield GenericScoredDoc(query_id=query_id, doc_id=doc_id, score=float(score))
+                yield ScoredDoc(query_id=query_id, doc_id=doc_id, score=float(score))
     elif isinstance(file, str):
         if '\n' in file:
-            yield from parse_trec_run(io.StringIO(file))
+            yield from read_trec_run(io.StringIO(file))
         else:
             with open(file, 'rt') as f:
-                yield from parse_trec_run(f)
+                yield from read_trec_run(f)
 
 def flatten_measures(measures):
     result = set()
@@ -233,7 +301,7 @@ def _ast_to_value(node):
     raise ValueError(_AST_PARSE_ERROR.format('values must be str, float, int, bool, etc.'))
 
 
-def parse_measure(measure: str) -> 'BaseMeasure':
+def parse_measure(measure: str) -> 'Measure':
     try:
         node = ast.parse(measure).body
     except SyntaxError as e:
@@ -266,16 +334,14 @@ def parse_measure(measure: str) -> 'BaseMeasure':
     return measure(**args)
 
 
-
-
-def convert_trec_name(measure: str) -> List['BaseMeasure']:
+def parse_trec_measure(measure: str) -> List['Measure']:
     TREC_NAME_MAP = {
         'ndcg': (ir_measures.nDCG, None, None),
         'P': (ir_measures.P, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
         'map_cut': (ir_measures.AP, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
         'Rndcg': (None, None, None),
         'num_nonrel_judged_ret': (None, None, None),
-        'set_map': (None, None, None),
+        'set_map': (ir_measures.SetAP, None, None),
         '11pt_avg': (None, None, None),
         'relative_P': (None, None, None),
         'gm_map': (None, None, None),
@@ -287,9 +353,9 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
         'ndcg_rel': (None, None, None),
         'recip_rank': (ir_measures.RR, None, None),
         'recall': (ir_measures.R, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
-        'set_recall': (None, None, None),
+        'set_recall': (ir_measures.SetR, None, None),
         'utility': (None, None, None),
-        'set_relative_P': (None, None, None),
+        'set_relative_P': (ir_measures.SetRelP, None, None),
         'num_ret': (ir_measures.NumRet, None, None),
         'num_rel': (ir_measures.NumRel, None, None),
         'ndcg_cut': (ir_measures.nDCG, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
@@ -302,7 +368,7 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
         'map': (ir_measures.AP, None, None),
         'G': (None, None, None),
         'success': (ir_measures.Success, 'cutoff', [1, 5, 10]),
-        'set_F': (None, None, None),
+        'set_F': (ir_measures.SetF, 'beta', [1.]),
         'iprec_at_recall': (ir_measures.IPrec, 'recall', [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
     }
     import pytrec_eval
@@ -311,7 +377,7 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
         skipped = []
         for sub_name in sorted(pytrec_eval.supported_nicknames[measure]):
             try:
-                result += convert_trec_name(sub_name)
+                result += parse_trec_measure(sub_name)
             except ValueError:
                 if sub_name != 'runid':
                     skipped.append(sub_name)
@@ -353,3 +419,9 @@ def convert_trec_name(measure: str) -> List['BaseMeasure']:
     for arg in meas_args.split(','):
         result.append(meas(**{arg_name: dtype(arg)}))
     return result
+
+
+@deprecation.deprecated(deprecated_in="0.2.0",
+                        details="Please use ir_measures.parse_trec_measure() instead")
+def convert_trec_name(measure: str) -> List['Measure']:
+    return parse_trec_measure(measure)

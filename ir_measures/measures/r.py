@@ -1,10 +1,13 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _R(measures.BaseMeasure):
+class _R(measures.Measure):
     """
     Recall@k (R@k). The fraction of relevant documents for a query that have been retrieved by rank k.
+
+    NOTE: Some tasks define Recall@k as whether any relevant documents are found in the top k results.
+    This software follows the TREC convention and refers to that measure as Success@k.
     """
     __name__ = 'R'
     NAME = __name__
@@ -15,4 +18,5 @@ class _R(measures.BaseMeasure):
 
 
 R = _R()
-measures.register(R)
+Recall = R
+measures.register(R, ['Recall'])

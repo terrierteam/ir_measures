@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo, SumAgg
+from .base import Measure, ParamInfo, SumAgg
 
 
-class _NumRet(measures.BaseMeasure):
+class _NumRet(measures.Measure):
     """
     The number of results returned. When rel is provided, counts the number of documents
     returned with at least that relevance score (inclusive).

@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _infAP(measures.BaseMeasure):
+class _infAP(measures.Measure):
     """
     Inferred AP. AP implementation that accounts for pooled-but-unjudged documents by assuming
     that they are relevant at the same proportion as other judged documents. Essentially, skips

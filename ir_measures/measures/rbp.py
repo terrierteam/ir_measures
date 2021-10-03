@@ -1,11 +1,20 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _RBP(measures.BaseMeasure):
+class _RBP(measures.Measure):
     """
-    The Rank-Biased Precision (RBP)
-    TODO: write
+    The Rank-Biased Precision (RBP).
+
+::
+
+     @article{Moffat:2008:RPM:1416950.1416952,
+       author = {Moffat, Alistair and Zobel, Justin},
+       title = {Rank-biased Precision for Measurement of Retrieval Effectiveness},
+       journal = {ACM Trans. Inf. Syst.},
+       year = {2008},
+       url = {http://doi.acm.org/10.1145/1416950.1416952}
+     }
     """
     __name__ = 'RBP'
     NAME = __name__

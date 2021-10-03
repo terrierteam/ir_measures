@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _Bpref(measures.BaseMeasure):
+class _Bpref(measures.Measure):
     """
     Binary Preference (Bpref).
     This measure examines the relative ranks of judged relevant and non-relevant documents. Non-judged documents are not considered. 

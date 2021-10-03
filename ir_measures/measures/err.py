@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _ERR(measures.BaseMeasure):
+class _ERR(measures.Measure):
     """
     The Expected Reciprocal Rank (ERR) is a precision-focused measure.
     In essence, an extension of reciprocal rank that encapsulates both graded relevance and

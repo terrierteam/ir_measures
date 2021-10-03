@@ -6,7 +6,7 @@ import ir_measures
 class TestMeasures(unittest.TestCase):
 
     def test_P(self):
-        qrels = list(ir_measures.util.parse_trec_qrels('''
+        qrels = list(ir_measures.read_trec_qrels('''
 0 0 D0 0
 0 0 D1 1
 0 0 D2 1
@@ -16,7 +16,7 @@ class TestMeasures(unittest.TestCase):
 1 0 D3 2
 1 0 D5 2
 '''))
-        run = list(ir_measures.util.parse_trec_run('''
+        run = list(ir_measures.read_trec_run('''
 0 0 D0 1 0.8 run
 0 0 D2 2 0.7 run
 0 0 D1 3 0.3 run

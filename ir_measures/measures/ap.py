@@ -1,8 +1,8 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
+from .base import Measure, ParamInfo
 
 
-class _AP(measures.BaseMeasure):
+class _AP(measures.Measure):
     """
     The [Mean] Average Precision ([M]AP). The average precision of a single query is the mean
     of the precision scores at each relevant item returned in a search results list.
