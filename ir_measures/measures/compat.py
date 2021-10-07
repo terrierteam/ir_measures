@@ -20,7 +20,7 @@ class _Compat(measures.Measure):
     __name__ = 'Compat'
     NAME = __name__
     SUPPORTED_PARAMS = {
-        'p': measures.ParamInfo(dtype=float, default=0.80, desc='persistence'),
+        'p': measures.ParamInfo(dtype=float, default=0.95, desc='persistence'),
         'normalize': measures.ParamInfo(dtype=bool, default=True, desc='apply normalization for finite ideal rankings'),
     }
 
