@@ -24,6 +24,7 @@ logger.addHandler(log_handler)
 
 # providers
 cwl_eval = providers.registry['cwl_eval']
+compat = providers.registry['compat']
 gdeval = providers.registry['gdeval']
 pytrec_eval = providers.registry['pytrec_eval']
 trectools = providers.registry['trectools']
@@ -35,6 +36,7 @@ CwlMetric = providers.CwlMetric
 DefaultPipeline = providers.FallbackProvider([
 	pytrec_eval,
 	cwl_eval,
+        compat,
 	# trectools,  # buggy; will add back later
 	judged,
 	msmarco,
