@@ -171,4 +171,4 @@ ir_measures qrels run measures... [-q] [-n] [-p 4]
 
  - Sean MacAvaney, University of Glasgow
  - Craig Macdonald, University of Glasgow
-
+ - Charlie Clarke, University of Waterloo

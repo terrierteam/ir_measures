@@ -13,6 +13,7 @@ from .base import Measure, BaseMeasure, ParamInfo, MultiMeasures, MeanAgg, SumAg
 from .ap import AP, MAP, _AP
 from .bpm import BPM, _BPM
 from .bpref import Bpref, BPref, _Bpref
+from .compat import Compat, _Compat
 from .err import ERR, _ERR
 from .inst import INST, _INST, INSQ, _INSQ
 from .infap import infAP, _infAP
