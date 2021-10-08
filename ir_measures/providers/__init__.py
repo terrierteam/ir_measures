@@ -6,7 +6,7 @@ def register(provider):
 from .base import Provider, Evaluator
 from .fallback_provider import FallbackProvider
 from .cwl_eval import CwlEvalProvider, CwlMetric
-from .py_ndeval_provider import PyNdEvalProvider
+from .pyndeval_provider import PyNdEvalProvider
 from .pytrec_eval_provider import PytrecEvalProvider
 from .judged_provider import JudgedProvider
 from .gdeval_provider import GdevalProvider

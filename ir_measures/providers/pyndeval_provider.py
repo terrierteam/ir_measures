@@ -5,11 +5,13 @@ from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
 
 
-class PyNdEvalProvider(providers.MeasureProvider):
+
+
+class PyNdEvalProvider(providers.Provider):
     """
-    py_ndeval
+    pyndeval
     """
-    NAME = 'py_ndeval'
+    NAME = 'pyndeval'
     SUPPORTED_MEASURES = [
         measures._ERR_IA(cutoff=Any(), rel=Any(), judged_only=Any()),
         measures._nERR_IA(cutoff=Any(), rel=Any(), judged_only=Any()),
@@ -24,16 +26,16 @@ class PyNdEvalProvider(providers.MeasureProvider):
 
     def __init__(self):
         super().__init__()
-        self.py_ndeval = None
+        self.pyndeval = None
 
-    @contextlib.contextmanager
-    def _calc_ctxt(self, measures, qrels):
-        # Convert qrels to pyndeval qrel list
+    def _evaluator(self, measures, qrels):
+        measures = ir_measures.util.flatten_measures(measures)
+
         qrels = [
-            self.py_ndeval.SubtopicQrel(query_id=q.query_id, subtopic_id=q.iteration, doc_id=q.doc_id, relevance=q.relevance)
+            self.pyndeval.SubtopicQrel(query_id=q.query_id, subtopic_id=q.iteration, doc_id=q.doc_id, relevance=q.relevance)
             for q in ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()]
 
-        # Depending on the measures, we may need multiple invocations of py_ndeval
+        # Depending on the measures, we may need multiple invocations of pyndeval
         # (e.g., with different rel_level, alpha, and beta)
         invokers = self._build_invokers(measures, qrels)
 
@@ -42,19 +44,12 @@ class PyNdEvalProvider(providers.MeasureProvider):
                              'valid. Make sure that you are using diversity qrels, and that they are provided as a '
                              'dataframe (with iteration column) or an iterable of GenericQrel (with iteration).\n')
 
-        def _iter_calc(run):
-            # Convert run to dict_of_dict
-            run = ir_measures.util.RunConverter(run).as_dict_of_dict()
-            for invoker in invokers:
-                yield from invoker.iter_calc(run)
-
-        yield _iter_calc
-        del invokers
+        return PyNdEvalEvaluator(measures, qrels, invokers)
 
     def _build_invokers(self, measures, qrels):
         DEFAULT_ALPHA, DEFAULT_BETA = 0.5, 0.5
         invocations = {}
-        for measure in ir_measures.util.flatten_measures(measures):
+        for measure in measures:
             if measure.NAME in ('NRBP', 'nNRBP'):
                 invocation_key = (measure['rel'], measure['alpha'], measure['beta'], False)
                 measure_str = f'{measure.NAME}'
@@ -79,16 +74,28 @@ class PyNdEvalProvider(providers.MeasureProvider):
 
         invokers = []
         for (rel_level, alpha, beta, judged_only), measure_map in invocations.items():
-            invokers.append(PyNdEvalInvoker(self.py_ndeval, qrels, measure_map, rel_level, alpha, beta, judged_only))
+            invokers.append(PyNdEvalInvoker(self.pyndeval, qrels, measure_map, rel_level, alpha, beta, judged_only))
 
         return invokers
 
     def initialize(self):
         try:
-            import py_ndeval
-            self.py_ndeval = py_ndeval
+            import pyndeval
+            self.pyndeval = pyndeval
         except ImportError as ex:
-            raise RuntimeError('py_ndeval not available', ex)
+            raise RuntimeError('pyndeval not available', ex)
+
+class PyNdEvalEvaluator(providers.Evaluator):
+    def __init__(self, measures, qrels, invokers):
+        query_ids = {q.query_id for q in qrels}
+        super().__init__(measures, query_ids)
+        self.invokers = invokers
+
+    def _iter_calc(self, run):
+        # Convert run to dict_of_dict
+        run = ir_measures.util.RunConverter(run).as_sorted_namedtuple_iter()
+        for invoker in self.invokers:
+            yield from invoker.iter_calc(run)
 
 
 class PyNdEvalInvoker:
@@ -114,10 +121,6 @@ class PyNdEvalInvoker:
             del record['query_id']
             for measure_str, value in record.items():
                 yield Metric(query_id=query_id, measure=self.measure_map[measure_str], value=value)
-
-    def __del__(self):
-        if self.evaluator is not None:
-            del self.evaluator
 
 
 providers.register(PyNdEvalProvider())

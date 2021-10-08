@@ -36,6 +36,7 @@ CwlMetric = providers.CwlMetric
 DefaultPipeline = providers.FallbackProvider([
 	pytrec_eval,
 	cwl_eval,
+	pyndeval,
 	# trectools,  # buggy; will add back later
 	judged,
 	msmarco,

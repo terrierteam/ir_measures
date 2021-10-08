@@ -14,6 +14,7 @@ class Qrel(NamedTuple):
     query_id: str
     doc_id: str
     relevance: int
+    iteration: str = '0'
 
 class ScoredDoc(NamedTuple):
     query_id: str
@@ -60,7 +61,7 @@ class QrelsConverter:
             result = 'dict_of_dict'
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
-            missing_cols = set(Qrel._fields) - set(cols)
+            missing_cols = [f for f in Qrel._fields if f not in cols and f not in Qrel._field_defaults]
             if not missing_cols:
                 result = 'pd_dataframe'
             else:
@@ -73,7 +74,7 @@ class QrelsConverter:
             item = next(peek_qrels, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
                 fields = item._fields
-                missing_fields = set(Qrel._fields) - set(fields)
+                missing_fields = [f for f in Qrel._fields if f not in fields and f not in Qrel._field_defaults]
                 if not missing_fields:
                     result = 'namedtuple_iter'
                 else:
@@ -108,7 +109,10 @@ class QrelsConverter:
                 for doc_id, relevance in docs.items():
                     yield Qrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
         if t == 'pd_dataframe':
-            yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
+            if 'iteration' in self.qrels.columns:
+                yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
+            else:
+                yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance, qrel.iteration) for qrel in self.qrels.itertuples())
         if t == 'UNKNOWN':
             raise ValueError(f'unknown qrels format: {err}')
 
@@ -252,7 +256,7 @@ def read_trec_qrels(file):
         for line in file:
             if line.strip():
                 query_id, iteration, doc_id, relevance = line.split()
-                yield Qrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance))
+                yield Qrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance), iteration=iteration)
     elif isinstance(file, str):
         if '\n' in file:
             yield from read_trec_qrels(io.StringIO(file))
