@@ -2,8 +2,42 @@ import os
 import re
 import sys
 import argparse
+import json
 import ir_measures
-from ir_measures.util import ScoredDoc, Qrel
+from ir_measures.util import ScoredDoc, Qrel, Metric
+
+DEFAULT_PLACES = 4
+SUMMARY_QID = 'all'
+
+
+def tsv_output(args):
+    if args.places == -1:
+        place_format = '' # --places -1 indicates no format string (show all places, exp notation, etc.)
+    else:
+        place_format = f'.{args.places}f'
+    def wrapped(result):
+        if args.by_query:
+            print(f'{result.query_id}\t{result.measure}\t{result.value:{place_format}}')
+        else:
+            print(f'{result.measure}\t{result.value:{place_format}}')
+    return wrapped
+
+
+def jsonl_output(args):
+    if args.places != DEFAULT_PLACES:
+        sys.stderr.write('--places is ignored when using --output jsonl\n')
+    def wrapped(result):
+        result = result._replace(measure=str(result.measure))._asdict()
+        if not args.by_query:
+            del result['query_id']
+        print(json.dumps(result))
+    return wrapped
+
+
+OUTPUT_FORMATS = {
+    'tsv': tsv_output,
+    'jsonl': jsonl_output,
+}
 
 
 def main_cli():
@@ -11,9 +45,10 @@ def main_cli():
     parser.add_argument('qrels')
     parser.add_argument('run')
     parser.add_argument('measures', nargs='+')
-    parser.add_argument('--places', '-p', type=int, default=4)
+    parser.add_argument('--places', '-p', type=int, default=DEFAULT_PLACES)
     parser.add_argument('--by_query', '-q', action='store_true')
     parser.add_argument('--no_summary', '-n', action='store_true')
+    parser.add_argument('--output_format', '-o', choices=OUTPUT_FORMATS.keys(), default='tsv')
     parser.add_argument('--provider', choices=ir_measures.providers.registry.keys())
     args = parser.parse_args()
     qrels = _get_qrels(args)
@@ -22,20 +57,21 @@ def main_cli():
     calc_obj = ir_measures
     if args.provider:
         calc_obj = ir_measures.providers.registry[args.provider]
+    output = OUTPUT_FORMATS[args.output_format](args)
     if args.by_query:
         aggs = {m: m.aggregator() for m in measures} if not args.no_summary else None
         for result in calc_obj.iter_calc(measures, qrels, run):
-            print(f'{result.query_id}\t{result.measure}\t{result.value:.{args.places}f}')
+            output(result)
             if aggs:
                 aggs[result.measure].add(result.value)
         if aggs:
             for measure in measures:
-                print(f'all\t{measure}\t{aggs[measure].result():.{args.places}f}')
+                output(Metric(query_id=SUMMARY_QID, measure=measure, value=aggs[measure].result()))
     else:
         assert not args.no_summary, "--no_summary (-n) only supported with --by_query (-q)"
         results = calc_obj.calc_aggregate(measures, qrels, run)
         for measure in measures:
-            print(f'{measure}\t{results[measure]:.{args.places}f}')
+            output(Metric(query_id=SUMMARY_QID, measure=measure, value=results[measure]))
 
 
 def _get_qrels(args):
