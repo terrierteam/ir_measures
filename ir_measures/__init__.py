@@ -4,14 +4,14 @@ import logging
 from . import util
 from . import lazylibs
 from .util import (parse_measure, parse_trec_measure,
-	               read_trec_qrels, read_trec_run,
-	               Qrel, ScoredDoc, Metric,
-	               GenericQrel, # deprecated; replaced with Qrel
-	               GenericScoredDoc, # deprecated; replaced with ScoredDoc
-	               convert_trec_name, # deprecated; replaced with parse_trec_measure
-	               parse_trec_qrels, # deprecated; replaced with read_trec_qrels
-	               parse_trec_run, # deprecated; replaced with read_trec_run
-	              )
+                   read_trec_qrels, read_trec_run,
+                   Qrel, ScoredDoc, Metric,
+                   GenericQrel, # deprecated; replaced with Qrel
+                   GenericScoredDoc, # deprecated; replaced with ScoredDoc
+                   convert_trec_name, # deprecated; replaced with parse_trec_measure
+                   parse_trec_qrels, # deprecated; replaced with read_trec_qrels
+                   parse_trec_run, # deprecated; replaced with read_trec_run
+                  )
 from . import measures
 from .measures import *
 from . import providers
@@ -24,6 +24,7 @@ logger.addHandler(log_handler)
 
 # providers
 cwl_eval = providers.registry['cwl_eval']
+compat = providers.registry['compat']
 gdeval = providers.registry['gdeval']
 pytrec_eval = providers.registry['pytrec_eval']
 trectools = providers.registry['trectools']
@@ -36,6 +37,7 @@ CwlMetric = providers.CwlMetric
 DefaultPipeline = providers.FallbackProvider([
 	pytrec_eval,
 	cwl_eval,
+    compat,
 	pyndeval,
 	# trectools,  # buggy; will add back later
 	judged,

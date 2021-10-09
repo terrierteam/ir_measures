@@ -42,6 +42,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(set(ir_measures.pytrec_eval.iter_calc([P@5], qrels, empty)), {Metric('0', P@5, 0.), Metric('1', P@5, 0.)})
         self.assertEqual(set(ir_measures.trectools.iter_calc([P@5], qrels, empty)), {Metric('0', P@5, 0.), Metric('1', P@5, 0.)})
         self.assertEqual(set(ir_measures.cwl_eval.iter_calc([P@5], qrels, empty)), {Metric('0', P@5, 0.0), Metric('1', P@5, 0.0)})
+        self.assertEqual(set(ir_measures.compat.iter_calc([Compat(p=0.8)], qrels, empty)), {Metric('0', Compat(p=0.8), 0.0), Metric('1', Compat(p=0.8), 0.0)})
 
         # qrels but partial run
         self.assertEqual(set(ir_measures.iter_calc([P@5], qrels, partial_run)), {Metric('0', P@5, 0.6), Metric('1', P@5, 0.)})
@@ -51,6 +52,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(set(ir_measures.pytrec_eval.iter_calc([P@5], qrels, partial_run)), {Metric('0', P@5, 0.6), Metric('1', P@5, 0.)})
         self.assertEqual(set(ir_measures.trectools.iter_calc([P@5], qrels, partial_run)), {Metric('0', P@5, 0.6), Metric('1', P@5, 0.)})
         self.assertEqual(set(ir_measures.cwl_eval.iter_calc([P@5], qrels, partial_run)), {CwlMetric('0', P@5, 0.6000000000000001, 3.0, 1.0, 5.0, 5.0), Metric('1', P@5, 0.0)})
+        self.assertEqual(set(ir_measures.compat.iter_calc([Compat(p=0.8)], qrels, partial_run)), {Metric('0', Compat(p=0.8), 0.4744431703672816), Metric('1', Compat(p=0.8), 0.0)})
 
         # run but no qrels
         self.assertEqual(list(ir_measures.iter_calc([P@5], empty, run)), [])
@@ -60,6 +62,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(list(ir_measures.pytrec_eval.iter_calc([P@5], empty, run)), [])
         self.assertEqual(list(ir_measures.trectools.iter_calc([P@5], empty, run)), [])
         self.assertEqual(list(ir_measures.cwl_eval.iter_calc([P@5], empty, run)), [])
+        self.assertEqual(list(ir_measures.compat.iter_calc([Compat(p=0.8)], empty, run)), [])
 
         # run but partial qrels
         self.assertEqual(set(ir_measures.iter_calc([P@5], partial_qrels, run)), {Metric('0', P@5, 0.6)})
@@ -69,6 +72,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(set(ir_measures.pytrec_eval.iter_calc([P@5], partial_qrels, run)), {Metric('0', P@5, 0.6)})
         self.assertEqual(set(ir_measures.trectools.iter_calc([P@5], partial_qrels, run)), {Metric('0', P@5, 0.6)})
         self.assertEqual(set(ir_measures.cwl_eval.iter_calc([P@5], partial_qrels, run)), {CwlMetric('0', P@5, 0.6000000000000001, 3.0, 1.0, 5.0, 5.0)})
+        self.assertEqual(set(ir_measures.compat.iter_calc([Compat(p=0.8)], partial_qrels, run)), {Metric('0', Compat(p=0.8), 0.4744431703672816)})
 
         # both no run and no qrels
         self.assertEqual(list(ir_measures.iter_calc([P@5], empty, empty)), [])
@@ -78,6 +82,7 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(list(ir_measures.pytrec_eval.iter_calc([P@5], empty, empty)), [])
         self.assertEqual(list(ir_measures.trectools.iter_calc([P@5], empty, empty)), [])
         self.assertEqual(list(ir_measures.cwl_eval.iter_calc([P@5], empty, empty)), [])
+        self.assertEqual(list(ir_measures.compat.iter_calc([Compat(p=0.8)], empty, empty)), [])
 
         # qrels but no run
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
@@ -87,6 +92,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
         numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], qrels, empty), {P@5: 0.})
+        numpy.testing.assert_equal(ir_measures.compat.calc_aggregate([Compat(p=0.8)], qrels, empty), {Compat(p=0.8): 0.})
 
         # qrels but partial run
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], qrels, partial_run), {P@5: 0.3})
@@ -96,6 +102,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], qrels, partial_run), {P@5: 0.3})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], qrels, partial_run), {P@5: 0.3})
         numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], qrels, partial_run), {P@5: 0.30000000000000004})
+        numpy.testing.assert_equal(ir_measures.compat.calc_aggregate([Compat(p=0.8)], qrels, partial_run), {Compat(p=0.8): 0.2372215851836408})
 
         # run but no qrels
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
@@ -105,6 +112,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], empty, run), {P@5: float('NaN')})
+        numpy.testing.assert_equal(ir_measures.compat.calc_aggregate([Compat(p=0.8)], empty, run), {Compat(p=0.8): float('NaN')})
 
         # run but partial qrels
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], partial_qrels, run), {P@5: 0.6})
@@ -114,6 +122,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], partial_qrels, run), {P@5: 0.6})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], partial_qrels, run), {P@5: 0.6})
         numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], partial_qrels, run), {P@5: 0.6000000000000001})
+        numpy.testing.assert_equal(ir_measures.compat.calc_aggregate([Compat(p=0.8)], partial_qrels, run), {Compat(p=0.8): 0.4744431703672816})
 
         # both no run and no qrels
         numpy.testing.assert_equal(ir_measures.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
@@ -123,6 +132,7 @@ class TestPytrecEval(unittest.TestCase):
         numpy.testing.assert_equal(ir_measures.pytrec_eval.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.trectools.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
         numpy.testing.assert_equal(ir_measures.cwl_eval.calc_aggregate([P@5], empty, empty), {P@5: float('NaN')})
+        numpy.testing.assert_equal(ir_measures.compat.calc_aggregate([Compat(p=0.8)], empty, empty), {Compat(p=0.8): float('NaN')})
 
 
 
