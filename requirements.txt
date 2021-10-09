@@ -1,3 +1,4 @@
 pytrec-eval-terrier==0.5.1
 deprecation
 cwl-eval>=1.0.10
+pyndeval>=0.0.2
