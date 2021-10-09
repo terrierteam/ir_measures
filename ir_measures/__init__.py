@@ -35,14 +35,14 @@ pyndeval = providers.registry['pyndeval']
 CwlMetric = providers.CwlMetric
 
 DefaultPipeline = providers.FallbackProvider([
-	pytrec_eval,
-	cwl_eval,
+    pytrec_eval,
+    cwl_eval,
     compat,
-	pyndeval,
-	# trectools,  # buggy; will add back later
-	judged,
-	msmarco,
-	gdeval,  # doesn't work when installed from package #9
+    pyndeval,
+    # trectools,  # buggy; will add back later
+    judged,
+    msmarco,
+    gdeval,  # doesn't work when installed from package #9
 ])
 evaluator = DefaultPipeline.evaluator
 calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
