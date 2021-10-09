@@ -5,8 +5,6 @@ from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
 
 
-
-
 class PyNdEvalProvider(providers.Provider):
     """
     pyndeval
@@ -31,9 +29,7 @@ class PyNdEvalProvider(providers.Provider):
     def _evaluator(self, measures, qrels):
         measures = ir_measures.util.flatten_measures(measures)
 
-        qrels = [
-            self.pyndeval.SubtopicQrel(query_id=q.query_id, subtopic_id=q.iteration, doc_id=q.doc_id, relevance=q.relevance)
-            for q in ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()]
+        qrels = [self._map_qrel_namedtuple(q) for q in ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()]
 
         # Depending on the measures, we may need multiple invocations of pyndeval
         # (e.g., with different rel_level, alpha, and beta)
@@ -84,6 +80,18 @@ class PyNdEvalProvider(providers.Provider):
             self.pyndeval = pyndeval
         except ImportError as ex:
             raise RuntimeError('pyndeval not available', ex)
+
+    def _map_qrel_namedtuple(self, record):
+        # Map iteration to subtopic_id. Since it's technically optional, fall back on
+        # the default value if not provided. There is a warning later in the process
+        # if there are not multiple subtopics found.
+        subtopic_id = record.iteration if 'iteration' in record._fields else '0'
+        return self.pyndeval.SubtopicQrel(
+            query_id=record.query_id,
+            subtopic_id=subtopic_id,
+            doc_id=record.doc_id,
+            relevance=record.relevance)
+
 
 class PyNdEvalEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invokers):

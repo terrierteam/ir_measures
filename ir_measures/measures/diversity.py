@@ -4,7 +4,16 @@ from .base import BaseMeasure, ParamInfo
 
 class _ERR_IA(measures.BaseMeasure):
     """
-    TODO
+    Intent-Aware Expected Reciprocal Rank with collection-independent normalisation.
+
+::
+
+    @inproceedings{10.1145/1645953.1646033,
+      author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+      title = {Expected Reciprocal Rank for Graded Relevance},
+      booktitle = {CIKM},
+      year = {2009}
+    }
     """
     __name__ = 'ERR_IA'
     NAME = __name__
@@ -16,7 +25,16 @@ class _ERR_IA(measures.BaseMeasure):
 
 class _nERR_IA(measures.BaseMeasure):
     """
-    TODO
+    Intent-Aware Expected Reciprocal Rank with collection-dependent normalisation.
+
+::
+
+    @inproceedings{10.1145/1645953.1646033,
+      author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+      title = {Expected Reciprocal Rank for Graded Relevance},
+      booktitle = {CIKM},
+      year = {2009}
+    }
     """
     __name__ = 'nERR_IA'
     NAME = __name__
@@ -28,7 +46,16 @@ class _nERR_IA(measures.BaseMeasure):
 
 class _alpha_DCG(measures.BaseMeasure):
     """
-    TODO
+    A version of DCG that accounts for multiple possible query intents.
+
+::
+
+    @inproceedings{Clarke2008NoveltyAD,
+      title={Novelty and diversity in information retrieval evaluation},
+      author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{\"u}ttcher and Ian MacKinnon},
+      booktitle={SIGIR},
+      year={2008}
+    }
     """
     __name__ = 'alpha_DCG'
     NAME = __name__
@@ -41,7 +68,16 @@ class _alpha_DCG(measures.BaseMeasure):
 
 class _alpha_nDCG(measures.BaseMeasure):
     """
-    TODO
+    A version of nDCG that accounts for multiple possible query intents.
+
+::
+
+    @inproceedings{Clarke2008NoveltyAD,
+      title={Novelty and diversity in information retrieval evaluation},
+      author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{\"u}ttcher and Ian MacKinnon},
+      booktitle={SIGIR},
+      year={2008}
+    }
     """
     __name__ = 'alpha_nDCG'
     NAME = __name__
@@ -54,7 +90,16 @@ class _alpha_nDCG(measures.BaseMeasure):
 
 class _NRBP(measures.BaseMeasure):
     """
-    TODO
+    Novelty- and Rank-Biased Precision with collection-independent normalisation.
+
+::
+
+    @InProceedings{10.1007/978-3-642-04417-5_17,
+      author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+      title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+      booktitle="ICTIR",
+      year="2009"
+    }
     """
     __name__ = 'NRBP'
     NAME = __name__
@@ -66,7 +111,16 @@ class _NRBP(measures.BaseMeasure):
 
 class _nNRBP(measures.BaseMeasure):
     """
-    TODO
+    Novelty- and Rank-Biased Precision with collection-dependent normalisation.
+
+::
+
+    @InProceedings{10.1007/978-3-642-04417-5_17,
+      author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+      title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+      booktitle="ICTIR",
+      year="2009"
+    }
     """
     __name__ = 'nNRBP'
     NAME = __name__
@@ -78,7 +132,7 @@ class _nNRBP(measures.BaseMeasure):
 
 class _AP_IA(measures.BaseMeasure):
     """
-    TODO
+    Intent-aware (Mean) Average Precision
     """
     __name__ = 'AP_IA'
     NAME = __name__
@@ -89,7 +143,7 @@ class _AP_IA(measures.BaseMeasure):
 
 class _P_IA(measures.BaseMeasure):
     """
-    TODO
+    Intent-aware Precision@k.
     """
     __name__ = 'P_IA'
     NAME = __name__
@@ -101,7 +155,7 @@ class _P_IA(measures.BaseMeasure):
 
 class _STREC(measures.BaseMeasure):
     """
-    TODO
+    Subtopic recall (the number of subtopics covered by the top k docs)
     """
     __name__ = 'STREC'
     NAME = __name__

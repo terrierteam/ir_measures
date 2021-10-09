@@ -2,6 +2,64 @@
 Measures
 =========================
 
+``alpha_DCG``
+-------------------------
+
+
+A version of DCG that accounts for multiple possible query intents.
+
+::
+
+@inproceedings{Clarke2008NoveltyAD,
+  title={Novelty and diversity in information retrieval evaluation},
+  author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
+  booktitle={SIGIR},
+  year={2008}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``alpha_DCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+
+
+
+``alpha_nDCG``
+-------------------------
+
+
+A version of nDCG that accounts for multiple possible query intents.
+
+::
+
+@inproceedings{Clarke2008NoveltyAD,
+  title={Novelty and diversity in information retrieval evaluation},
+  author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
+  booktitle={SIGIR},
+  year={2008}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``alpha_nDCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+
+
+
 ``AP``
 -------------------------
 
@@ -24,6 +82,24 @@ by taking the mean of AP over the query set.
 - ``cwl_eval``: ``AP(rel=ANY)@NOT_PROVIDED``
 - ``pytrec_eval``: ``AP(rel=ANY)@ANY``
 - ``trectools``: ``AP(rel=1)@ANY``
+
+
+
+``AP_IA``
+-------------------------
+
+
+Intent-aware (Mean) Average Precision
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``AP_IA(rel=ANY, judged_only=ANY)``
 
 
 
@@ -80,7 +156,10 @@ This measure examines the relative ranks of judged relevant and non-relevant doc
 -------------------------
 
 
-Compatibility measure desribed in 
+Compatibility measure desribed in:
+
+::
+
 @article{10.1145/3451161,
   author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
   title = {Assessing Top-k Preferences},
@@ -121,6 +200,34 @@ a more realistic cascade-based user model of how users brwose a ranking.
 **Provided by:**
 
 - ``gdeval``: ``ERR@REQUIRED``
+
+
+
+``ERR_IA``
+-------------------------
+
+
+Intent-Aware Expected Reciprocal Rank with collection-independent normalisation.
+
+::
+
+@inproceedings{10.1145/1645953.1646033,
+  author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+  title = {Expected Reciprocal Rank for Graded Relevance},
+  booktitle = {CIKM},
+  year = {2009}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``ERR_IA(rel=ANY, judged_only=ANY)@ANY``
 
 
 
@@ -380,6 +487,90 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 
 
 
+``nERR_IA``
+-------------------------
+
+
+Intent-Aware Expected Reciprocal Rank with collection-dependent normalisation.
+
+::
+
+@inproceedings{10.1145/1645953.1646033,
+  author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+  title = {Expected Reciprocal Rank for Graded Relevance},
+  booktitle = {CIKM},
+  year = {2009}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``nERR_IA(rel=ANY, judged_only=ANY)@ANY``
+
+
+
+``nNRBP``
+-------------------------
+
+
+Novelty- and Rank-Biased Precision with collection-dependent normalisation.
+
+::
+
+@InProceedings{10.1007/978-3-642-04417-5_17,
+  author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+  title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+  booktitle="ICTIR",
+  year="2009"
+}
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``beta`` (float) - Patience
+
+
+**Provided by:**
+
+- ``pyndeval``: ``nNRBP(alpha=ANY, beta=ANY, rel=ANY)``
+
+
+
+``NRBP``
+-------------------------
+
+
+Novelty- and Rank-Biased Precision with collection-independent normalisation.
+
+::
+
+@InProceedings{10.1007/978-3-642-04417-5_17,
+  author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+  title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+  booktitle="ICTIR",
+  year="2009"
+}
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``beta`` (float) - Patience
+
+
+**Provided by:**
+
+- ``pyndeval``: ``NRBP(alpha=ANY, beta=ANY, rel=ANY)``
+
+
+
 ``NumQ``
 -------------------------
 
@@ -446,6 +637,25 @@ P@cutoff.
 - ``cwl_eval``: ``P(rel=ANY)@ANY``
 - ``pytrec_eval``: ``P(rel=ANY)@ANY``
 - ``trectools``: ``P(rel=1)@ANY``
+
+
+
+``P_IA``
+-------------------------
+
+
+Intent-aware Precision@k.
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``P_IA(rel=ANY, judged_only=ANY)@ANY``
 
 
 
@@ -643,6 +853,24 @@ The Set Recall (SetR); i.e., the number of relevant docs divided by the total nu
 
 
 
+``STREC``
+-------------------------
+
+
+Subtopic recall (the number of subtopics covered by the top k docs)
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``STREC(rel=ANY)@ANY``
+
+
+
 ``Success``
 -------------------------
 
@@ -674,6 +902,7 @@ canonical form when printed.
 
 - ``BPref`` → ``Bpref``
 - ``MAP`` → ``AP``
+- ``MAP_IA`` → ``AP_IA``
 - ``MRR`` → ``RR``
 - ``NDCG`` → ``nDCG``
 - ``NumRelRet`` → ``NumRet(rel=1)``
@@ -681,3 +910,5 @@ canonical form when printed.
 - ``Recall`` → ``R``
 - ``RPrec`` → ``Rprec``
 - ``SetRelP`` → ``SetP(relative=True)``
+- ``α_DCG`` → ``alpha_DCG``
+- ``α_nDCG`` → ``alpha_nDCG``

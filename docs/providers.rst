@@ -77,6 +77,8 @@ Providers
 
 
  python implementation of judgment rate
+
+ Adapted from OpenNIR's implementation: https://github.com/Georgetown-IR-Lab/OpenNIR/blob/master/onir/metrics/judged.py
  
 **Supported Measures:**
 
@@ -93,6 +95,26 @@ Providers
 **Supported Measures:**
 
  - ``RR(rel=ANY)@ANY``
+
+
+
+``pyndeval``
+-------------------------
+
+
+ pyndeval
+ 
+**Supported Measures:**
+
+ - ``ERR_IA(rel=ANY, judged_only=ANY)@ANY``
+ - ``nERR_IA(rel=ANY, judged_only=ANY)@ANY``
+ - ``alpha_DCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+ - ``alpha_nDCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+ - ``NRBP(alpha=ANY, beta=ANY, rel=ANY)``
+ - ``nNRBP(alpha=ANY, beta=ANY, rel=ANY)``
+ - ``AP_IA(rel=ANY, judged_only=ANY)``
+ - ``P_IA(rel=ANY, judged_only=ANY)@ANY``
+ - ``STREC(rel=ANY)@ANY``
 
 
 
