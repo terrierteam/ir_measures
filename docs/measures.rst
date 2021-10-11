@@ -70,6 +70,17 @@ of the precision scores at each relevant item returned in a search results list.
 AP is typically used for adhoc ranking tasks where getting as many relevant items as possible is. It is commonly referred to as MAP,
 by taking the mean of AP over the query set.
 
+::
+
+@article{Harman:1992:ESIR,
+  author = {Donna Harman},
+  title = {Evaluation Issues in Information Retrieval},
+  journal = {Information Processing and Management},
+  volume = {28},
+  number = {4},
+  pages = {439 - -440},
+  year = {1992},
+}
 
 **Parameters:**
 
@@ -139,6 +150,15 @@ The Bejeweled Player Model (BPM).
 
 Binary Preference (Bpref).
 This measure examines the relative ranks of judged relevant and non-relevant documents. Non-judged documents are not considered. 
+
+::
+
+@inproceedings{Buckley2004RetrievalEW,
+  title={Retrieval evaluation with incomplete information},
+  author={Chris Buckley and Ellen M. Voorhees},
+  booktitle={SIGIR},
+  year={2004}
+}
 
 **Parameters:**
 
@@ -356,6 +376,20 @@ a rel lower than any judgment.
 The normalized Discounted Cumulative Gain (nDCG).
 Uses graded labels - systems that put the highest graded documents at the top of the ranking.
 It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order of graded label.
+
+::
+
+@article{Jarvelin:2002:CGE:582415.582418,
+  author = {J"{a}rvelin, Kalervo and Kek"{a}l"{a}inen, Jaana},
+  title = {Cumulated Gain-based Evaluation of IR Techniques},
+  journal = {ACM Trans. Inf. Syst.},
+  volume = {20},
+  number = {4},
+  year = {2002},
+  pages = {422--446},
+  numpages = {25},
+  url = {http://doi.acm.org/10.1145/582415.582418},
+}
 
 **Parameters:**
 
@@ -626,6 +660,15 @@ Basic measure for that computes the percentage of documents in the top cutoff re
 that are labeled as relevant. cutoff is a required parameter, and can be provided as
 P@cutoff.
 
+::
+
+@misc{rijsbergen:1979:ir,
+  title={Information Retrieval.},
+  author={Van Rijsbergen, Cornelis J},
+  year={1979},
+  publisher={USA: Butterworth-Heinemann}
+}
+
 **Parameters:**
 
 - ``cutoff`` (int) - ranking cutoff threshold
@@ -717,6 +760,16 @@ The Rank-Biased Precision (RBP).
 The precision of at R, where R is the number of relevant documents for a given query. Has the cute property that
 it is also the recall at R.
 
+::
+
+@misc{Buckley2005RetrievalSE,
+  title={Retrieval System Evaluation},
+  author={Chris Buckley and Ellen M. Voorhees},
+  annote={Chapter 3 in TREC: Experiment and Evaluation in Information Retrieval},
+  howpublished={MIT Press},
+  year={2005}
+}
+
 **Parameters:**
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
@@ -736,6 +789,18 @@ it is also the recall at R.
 The [Mean] Reciprocal Rank ([M]RR) is a precision-focused measure that scores based on the reciprocal of the rank of the
 highest-scoring relevance document. An optional cutoff can be provided to limit the
 depth explored. rel (default 1) controls which relevance level is considered relevant.
+
+::
+
+@article{kantor2000trec,
+  title={The TREC-5 Confusion Track},
+  author={Kantor, Paul and Voorhees, Ellen},
+  journal={Information Retrieval},
+  volume={2},
+  number={2-3},
+  pages={165--176},
+  year={2000}
+}
 
 **Parameters:**
 
@@ -758,16 +823,6 @@ depth explored. rel (default 1) controls which relevance level is considered rel
 
 The Scaled Discounted Cumulative Gain (SDCG), a variant of nDCG that assumes more
 fully-relevant documents exist but are not labeled.
-
-::
-
- @inproceedings{Moffat:2015:IAM:2838931.2838938,
-   author = {Moffat, Alistair and Bailey, Peter and Scholer, Falk and Thomas, Paul},
-   title = {INST: An Adaptive Metric for Information Retrieval Evaluation},
-   booktitle = {Proceedings of the 20th Australasian Document Computing Symposium},
-   year = {2015},
-   url = {http://doi.acm.org/10.1145/2838931.2838938}
- }
 
 **Parameters:**
 
