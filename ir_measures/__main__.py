@@ -117,4 +117,9 @@ def _get_measures(args):
 
 
 if __name__ == '__main__':
-    main_cli()
+    try:
+        main_cli()
+    except BrokenPipeError:
+        sys.stderr.write('BrokenPipe\n')
+    except KeyboardInterrupt:
+        sys.stderr.write('KeyboardInterrupt\n')
