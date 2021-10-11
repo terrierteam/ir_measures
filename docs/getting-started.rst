@@ -98,23 +98,9 @@ Qrels formats
 
 Query relevance assessments can be provided in a variety of formats.
 
-**dict-of-dict**: Qrels structured in a hierarchy. At the first level,
-query IDs map to another dictionary. At the second level, document IDs
-map to (integer) relevance scores::
-
-    qrels = {
-        'Q0': {
-            "D0": 0,
-            "D1": 1,
-        },
-        "Q1": {
-            "D0": 0,
-            "D3": 2
-        }
-    }
-
 **namedtuple iterable**: Any iterable of named tuples. You can use ``ir_measures.Qrel``,
-or any other NamedTuple with the fields ``query_id``, ``doc_id``, and ``relevance``::
+or any other NamedTuple with the fields ``query_id``, ``doc_id``, and ``relevance`` (order and
+additional fields do not matter if another type of NamedTuple; the field names just need to match)::
 
     qrels = [
         ir_measures.Qrel("Q0", "D0", 0),
@@ -126,6 +112,10 @@ or any other NamedTuple with the fields ``query_id``, ``doc_id``, and ``relevanc
 Note that if the results are an iterator (such as the result of a generator), ``ir_measures`` will consume
 the entire sequence.
 
+``ir_measures.Qrel`` support an optional fourth parameter, ``iteration``. This is the source of the subtopic ID
+used for diversity measures  (name matches TREC conventions). Note that unlike TREC-formatted qrels, this parameter
+is the last element, since this is required for optional parameters in namedtuples.
+
 **Pandas dataframe**: A pandas dataframe with the columns ``query_id``, ``doc_id``, and ``relevance``::
 
     import pandas as pd
@@ -135,6 +125,9 @@ the entire sequence.
         {'query_id': "Q1", 'doc_id': "D0", 'relevance': 0},
         {'query_id': "Q1", 'doc_id': "D3", 'relevance': 2},
     ])
+
+Dataframes support an optional fourth parameter, ``iteration``. This is the source of the subtopic ID
+used for diversity measures (name matches TREC conventions).
 
 If your dataframe has columns named something else, you can always map them with the ``rename`` function.
 For instance, if your dataframe has the columns ``qid``, ``docno``, and ``label``, you can
@@ -164,26 +157,28 @@ mode simply adheres to the **namedtuple iterable** specification above::
     import ir_datasets
     qrels = ir_datasets.load('trec-robust04').qrels_iter()
 
+**dict-of-dict**: Qrels structured in a hierarchy. At the first level,
+query IDs map to another dictionary. At the second level, document IDs
+map to (integer) relevance scores::
+
+    qrels = {
+        'Q0': {
+            "D0": 0,
+            "D1": 1,
+        },
+        "Q1": {
+            "D0": 0,
+            "D3": 2
+        }
+    }
+
+Note that this format does not support the iteration field, so it should not be used with diversity measures.
+
 
 Run formats
 ---------------------------------------
 
 System outputs can be provided in a variety of formats.
-
-**dict-of-dict**: Run structured in a hierarchy. At the first level,
-query IDs map to another dictionary. At the second level, document IDs
-map to (float) ranking scores::
-
-    run = {
-        'Q0': {
-            "D0": 1.2,
-            "D1": 1.0,
-        },
-        "Q1": {
-            "D0": 2.4,
-            "D3": 3.6
-        }
-    }
 
 **namedtuple iterable**: Any iterable of named tuples. You can use ``ir_measures.ScoredDoc``,
 or any other NamedTuple with the fields ``query_id``, ``doc_id``, and ``score``::
@@ -229,6 +224,21 @@ easily make a qrels dataframe that is compatible with ir-measures like so::
 
 Note that ``read_trec_run`` returns a generator. If you need to use the qrels multiple times,
 wrap it in the ``list`` constructor to read the all qrels into memory.
+
+**dict-of-dict**: Run structured in a hierarchy. At the first level,
+query IDs map to another dictionary. At the second level, document IDs
+map to (float) ranking scores::
+
+    run = {
+        'Q0': {
+            "D0": 1.2,
+            "D1": 1.0,
+        },
+        "Q1": {
+            "D0": 2.4,
+            "D3": 3.6
+        }
+    }
 
 Measure Objects
 ---------------------------------------
