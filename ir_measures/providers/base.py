@@ -1,4 +1,4 @@
-import deprecation
+import warnings
 import contextlib
 import itertools
 from typing import Iterator, Dict, Union
@@ -55,9 +55,8 @@ class Provider:
             raise RuntimeError('provider not available')
 
     @contextlib.contextmanager
-    @deprecation.deprecated(deprecated_in="0.2.0",
-                            details="Please use ir_measures.evaluator() instead")
     def calc_ctxt(self, measures, qrels):
+        warnings.warn("calc_ctxt deprecated in 0.2.0. Please use .evaluator(measures, qrels) instead.", DeprecationWarning)
         if self.is_available():
             evaluator = self._evaluator(measures, qrels)
             def _eval(run):

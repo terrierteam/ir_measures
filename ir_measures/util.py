@@ -1,4 +1,4 @@
-import deprecation
+import warnings
 import re
 import io
 import ast
@@ -27,16 +27,17 @@ class Metric(NamedTuple):
     value: Union[float, int]
 
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.Qrel() instead")
 class GenericQrel(Qrel):
-    pass
+    def __new__(self, *args, **kwargs):
+        warnings.warn("GenericQrel deprecated in 0.2.0. Please use ir_measures.Qrel instead.", DeprecationWarning)
+        return super().__new__(self, *args, **kwargs)
 GenericQrel._fields = Qrel._fields
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.ScoredDoc() instead")
+
 class GenericScoredDoc(ScoredDoc):
-    pass
+    def __new__(self, *args, **kwargs):
+        warnings.warn("GenericScoredDoc deprecated in 0.2.0. Please use ir_measures.ScoredDoc instead.", DeprecationWarning)
+        return super().__new__(self, *args, **kwargs)
 GenericScoredDoc._fields = ScoredDoc._fields
 
 
@@ -246,9 +247,8 @@ class RunConverter:
             yield f
 
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.read_trec_qrels() instead")
 def parse_trec_qrels(file):
+    warnings.warn("parse_trec_qrels deprecated in 0.2.0. Please use ir_measures.read_trec_qrels() instead.", DeprecationWarning)
     return read_trec_qrels(file)
 
 
@@ -265,9 +265,8 @@ def read_trec_qrels(file):
             with open(file, 'rt') as f:
                 yield from read_trec_qrels(f)
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.read_trec_run() instead")
 def parse_trec_run(file):
+    warnings.warn("parse_trec_run deprecated in 0.2.0. Please use ir_measures.read_trec_run() instead.", DeprecationWarning)
     return read_trec_run(file)
 
 def read_trec_run(file):
@@ -426,7 +425,6 @@ def parse_trec_measure(measure: str) -> List['Measure']:
     return result
 
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.parse_trec_measure() instead")
 def convert_trec_name(measure: str) -> List['Measure']:
+    warnings.warn("convert_trec_name deprecated in 0.2.0. Please use ir_measures.parse_trec_measure() instead.", DeprecationWarning)
     return parse_trec_measure(measure)
