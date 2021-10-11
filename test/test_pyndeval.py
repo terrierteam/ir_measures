@@ -44,8 +44,8 @@ class TestPynedvalEval(unittest.TestCase):
             AP_IA(rel=2),
             P_IA@5,
             P_IA(rel=2)@10,
-            STREC@5,
-            STREC(rel=2)@10,
+            StRecall@5,
+            StRecall(rel=2)@10,
         ]
         ir_measures.pyndeval.calc_aggregate(measures, qrels, run)
 

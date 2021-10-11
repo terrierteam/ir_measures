@@ -908,24 +908,6 @@ The Set Recall (SetR); i.e., the number of relevant docs divided by the total nu
 
 
 
-``STREC``
--------------------------
-
-
-Subtopic recall (the number of subtopics covered by the top k docs)
-
-**Parameters:**
-
-- ``cutoff`` (int) - ranking cutoff threshold
-- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
-
-
-**Provided by:**
-
-- ``pyndeval``: ``STREC(rel=ANY)@ANY``
-
-
-
 ``Success``
 -------------------------
 
@@ -944,6 +926,24 @@ Recall@k is defined as the proportion of known relevant documents retrieved in t
 **Provided by:**
 
 - ``pytrec_eval``: ``Success(rel=ANY)@ANY``
+
+
+
+``_StRecall``
+-------------------------
+
+
+Subtopic recall (the number of subtopics covered by the top k docs)
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``_StRecall(rel=ANY)@ANY``
 
 
 

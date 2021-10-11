@@ -153,11 +153,11 @@ class _P_IA(measures.BaseMeasure):
         'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='calculate measure using only judged documents (i.e., discard unjudged documents)'),
     }
 
-class _STREC(measures.BaseMeasure):
+class _StRecall(measures.BaseMeasure):
     """
     Subtopic recall (the number of subtopics covered by the top k docs)
     """
-    __name__ = 'STREC'
+    __name__ = 'StRecall'
     NAME = __name__
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
@@ -177,7 +177,7 @@ nNRBP = _nNRBP()
 AP_IA = _AP_IA()
 MAP_IA = AP_IA
 P_IA = _P_IA()
-STREC = _STREC()
+StRecall = _StRecall()
 
 measures.register(ERR_IA)
 measures.register(nERR_IA)
@@ -187,4 +187,4 @@ measures.register(NRBP)
 measures.register(nNRBP)
 measures.register(AP_IA, aliases=['MAP_IA'])
 measures.register(P_IA)
-measures.register(STREC)
+measures.register(StRecall)

@@ -114,7 +114,7 @@ Providers
  - ``nNRBP(alpha=ANY, beta=ANY, rel=ANY)``
  - ``AP_IA(rel=ANY, judged_only=ANY)``
  - ``P_IA(rel=ANY, judged_only=ANY)@ANY``
- - ``STREC(rel=ANY)@ANY``
+ - ``_StRecall(rel=ANY)@ANY``
 
 
 

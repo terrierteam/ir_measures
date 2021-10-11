@@ -19,7 +19,7 @@ class PyNdEvalProvider(providers.Provider):
         measures._nNRBP(alpha=Any(), beta=Any(), rel=Any()),
         measures._AP_IA(rel=Any(), judged_only=Any()),
         measures._P_IA(cutoff=Any(), rel=Any(), judged_only=Any()),
-        measures._STREC(cutoff=Any(), rel=Any()),
+        measures._StRecall(cutoff=Any(), rel=Any()),
     ]
 
     def __init__(self):
@@ -58,7 +58,7 @@ class PyNdEvalProvider(providers.Provider):
             elif measure.NAME == 'AP_IA':
                 invocation_key = (measure['rel'], DEFAULT_ALPHA, DEFAULT_BETA, measure['judged_only'])
                 measure_str = f'MAP-IA'
-            elif measure.NAME == 'STREC':
+            elif measure.NAME == 'StRecall':
                 invocation_key = (measure['rel'], DEFAULT_ALPHA, DEFAULT_BETA, False)
                 measure_str = f'strec@{measure["cutoff"]}'
             else:
