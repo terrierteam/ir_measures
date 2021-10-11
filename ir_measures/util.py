@@ -84,7 +84,8 @@ class QrelsConverter:
             else:
                 error = f'iterable not a namedtuple iterator'
         else:
-            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {Qrel._fields}, e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns {Qrel._fields}; or (3) a dict-of-dict'
+            required_fields = tuple(f for f in Qrel._fields if f not in Qrel._field_defaults)
+            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {required_fields}, e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns {required_fields}; or (3) a dict-of-dict'
         self._predicted_format = (result, error)
         return result, error
 
