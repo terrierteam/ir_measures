@@ -7,6 +7,18 @@ class _RR(measures.Measure):
     The [Mean] Reciprocal Rank ([M]RR) is a precision-focused measure that scores based on the reciprocal of the rank of the
     highest-scoring relevance document. An optional cutoff can be provided to limit the
     depth explored. rel (default 1) controls which relevance level is considered relevant.
+
+::
+
+    @article{kantor2000trec,
+      title={The TREC-5 Confusion Track},
+      author={Kantor, Paul and Voorhees, Ellen},
+      journal={Information Retrieval},
+      volume={2},
+      number={2-3},
+      pages={165--176},
+      year={2000}
+    }
     """
     __name__ = 'RR'
     NAME = __name__

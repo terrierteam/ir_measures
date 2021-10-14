@@ -2,6 +2,64 @@
 Measures
 =========================
 
+``alpha_DCG``
+-------------------------
+
+
+A version of DCG that accounts for multiple possible query intents.
+
+::
+
+@inproceedings{Clarke2008NoveltyAD,
+  title={Novelty and diversity in information retrieval evaluation},
+  author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
+  booktitle={SIGIR},
+  year={2008}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``alpha_DCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+
+
+
+``alpha_nDCG``
+-------------------------
+
+
+A version of nDCG that accounts for multiple possible query intents.
+
+::
+
+@inproceedings{Clarke2008NoveltyAD,
+  title={Novelty and diversity in information retrieval evaluation},
+  author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
+  booktitle={SIGIR},
+  year={2008}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``alpha_nDCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+
+
+
 ``AP``
 -------------------------
 
@@ -12,6 +70,17 @@ of the precision scores at each relevant item returned in a search results list.
 AP is typically used for adhoc ranking tasks where getting as many relevant items as possible is. It is commonly referred to as MAP,
 by taking the mean of AP over the query set.
 
+::
+
+@article{Harman:1992:ESIR,
+  author = {Donna Harman},
+  title = {Evaluation Issues in Information Retrieval},
+  journal = {Information Processing and Management},
+  volume = {28},
+  number = {4},
+  pages = {439 - -440},
+  year = {1992},
+}
 
 **Parameters:**
 
@@ -24,6 +93,24 @@ by taking the mean of AP over the query set.
 - ``cwl_eval``: ``AP(rel=ANY)@NOT_PROVIDED``
 - ``pytrec_eval``: ``AP(rel=ANY)@ANY``
 - ``trectools``: ``AP(rel=1)@ANY``
+
+
+
+``AP_IA``
+-------------------------
+
+
+Intent-aware (Mean) Average Precision
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``AP_IA(rel=ANY, judged_only=ANY)``
 
 
 
@@ -64,6 +151,15 @@ The Bejeweled Player Model (BPM).
 Binary Preference (Bpref).
 This measure examines the relative ranks of judged relevant and non-relevant documents. Non-judged documents are not considered. 
 
+::
+
+@inproceedings{Buckley2004RetrievalEW,
+  title={Retrieval evaluation with incomplete information},
+  author={Chris Buckley and Ellen M. Voorhees},
+  booktitle={SIGIR},
+  year={2004}
+}
+
 **Parameters:**
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
@@ -80,7 +176,10 @@ This measure examines the relative ranks of judged relevant and non-relevant doc
 -------------------------
 
 
-Compatibility measure desribed in 
+Compatibility measure desribed in:
+
+::
+
 @article{10.1145/3451161,
   author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
   title = {Assessing Top-k Preferences},
@@ -121,6 +220,34 @@ a more realistic cascade-based user model of how users brwose a ranking.
 **Provided by:**
 
 - ``gdeval``: ``ERR@REQUIRED``
+
+
+
+``ERR_IA``
+-------------------------
+
+
+Intent-Aware Expected Reciprocal Rank with collection-independent normalisation.
+
+::
+
+@inproceedings{10.1145/1645953.1646033,
+  author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+  title = {Expected Reciprocal Rank for Graded Relevance},
+  booktitle = {CIKM},
+  year = {2009}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``ERR_IA(rel=ANY, judged_only=ANY)@ANY``
 
 
 
@@ -249,6 +376,20 @@ a rel lower than any judgment.
 The normalized Discounted Cumulative Gain (nDCG).
 Uses graded labels - systems that put the highest graded documents at the top of the ranking.
 It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order of graded label.
+
+::
+
+@article{Jarvelin:2002:CGE:582415.582418,
+  author = {J"{a}rvelin, Kalervo and Kek"{a}l"{a}inen, Jaana},
+  title = {Cumulated Gain-based Evaluation of IR Techniques},
+  journal = {ACM Trans. Inf. Syst.},
+  volume = {20},
+  number = {4},
+  year = {2002},
+  pages = {422--446},
+  numpages = {25},
+  url = {http://doi.acm.org/10.1145/582415.582418},
+}
 
 **Parameters:**
 
@@ -380,6 +521,90 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 
 
 
+``nERR_IA``
+-------------------------
+
+
+Intent-Aware Expected Reciprocal Rank with collection-dependent normalisation.
+
+::
+
+@inproceedings{10.1145/1645953.1646033,
+  author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+  title = {Expected Reciprocal Rank for Graded Relevance},
+  booktitle = {CIKM},
+  year = {2009}
+}
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``nERR_IA(rel=ANY, judged_only=ANY)@ANY``
+
+
+
+``nNRBP``
+-------------------------
+
+
+Novelty- and Rank-Biased Precision with collection-dependent normalisation.
+
+::
+
+@InProceedings{10.1007/978-3-642-04417-5_17,
+  author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+  title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+  booktitle="ICTIR",
+  year="2009"
+}
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``beta`` (float) - Patience
+
+
+**Provided by:**
+
+- ``pyndeval``: ``nNRBP(alpha=ANY, beta=ANY, rel=ANY)``
+
+
+
+``NRBP``
+-------------------------
+
+
+Novelty- and Rank-Biased Precision with collection-independent normalisation.
+
+::
+
+@InProceedings{10.1007/978-3-642-04417-5_17,
+  author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+  title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+  booktitle="ICTIR",
+  year="2009"
+}
+
+**Parameters:**
+
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``alpha`` (float) - Redundancy intolerance
+- ``beta`` (float) - Patience
+
+
+**Provided by:**
+
+- ``pyndeval``: ``NRBP(alpha=ANY, beta=ANY, rel=ANY)``
+
+
+
 ``NumQ``
 -------------------------
 
@@ -435,6 +660,15 @@ Basic measure for that computes the percentage of documents in the top cutoff re
 that are labeled as relevant. cutoff is a required parameter, and can be provided as
 P@cutoff.
 
+::
+
+@misc{rijsbergen:1979:ir,
+  title={Information Retrieval.},
+  author={Van Rijsbergen, Cornelis J},
+  year={1979},
+  publisher={USA: Butterworth-Heinemann}
+}
+
 **Parameters:**
 
 - ``cutoff`` (int) - ranking cutoff threshold
@@ -446,6 +680,25 @@ P@cutoff.
 - ``cwl_eval``: ``P(rel=ANY)@ANY``
 - ``pytrec_eval``: ``P(rel=ANY)@ANY``
 - ``trectools``: ``P(rel=1)@ANY``
+
+
+
+``P_IA``
+-------------------------
+
+
+Intent-aware Precision@k.
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - calculate measure using only judged documents (i.e., discard unjudged documents)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``P_IA(rel=ANY, judged_only=ANY)@ANY``
 
 
 
@@ -507,6 +760,16 @@ The Rank-Biased Precision (RBP).
 The precision of at R, where R is the number of relevant documents for a given query. Has the cute property that
 it is also the recall at R.
 
+::
+
+@misc{Buckley2005RetrievalSE,
+  title={Retrieval System Evaluation},
+  author={Chris Buckley and Ellen M. Voorhees},
+  annote={Chapter 3 in TREC: Experiment and Evaluation in Information Retrieval},
+  howpublished={MIT Press},
+  year={2005}
+}
+
 **Parameters:**
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
@@ -526,6 +789,18 @@ it is also the recall at R.
 The [Mean] Reciprocal Rank ([M]RR) is a precision-focused measure that scores based on the reciprocal of the rank of the
 highest-scoring relevance document. An optional cutoff can be provided to limit the
 depth explored. rel (default 1) controls which relevance level is considered relevant.
+
+::
+
+@article{kantor2000trec,
+  title={The TREC-5 Confusion Track},
+  author={Kantor, Paul and Voorhees, Ellen},
+  journal={Information Retrieval},
+  volume={2},
+  number={2-3},
+  pages={165--176},
+  year={2000}
+}
 
 **Parameters:**
 
@@ -548,16 +823,6 @@ depth explored. rel (default 1) controls which relevance level is considered rel
 
 The Scaled Discounted Cumulative Gain (SDCG), a variant of nDCG that assumes more
 fully-relevant documents exist but are not labeled.
-
-::
-
- @inproceedings{Moffat:2015:IAM:2838931.2838938,
-   author = {Moffat, Alistair and Bailey, Peter and Scholer, Falk and Thomas, Paul},
-   title = {INST: An Adaptive Metric for Information Retrieval Evaluation},
-   booktitle = {Proceedings of the 20th Australasian Document Computing Symposium},
-   year = {2015},
-   url = {http://doi.acm.org/10.1145/2838931.2838938}
- }
 
 **Parameters:**
 
@@ -643,6 +908,24 @@ The Set Recall (SetR); i.e., the number of relevant docs divided by the total nu
 
 
 
+``StRecall``
+-------------------------
+
+
+Subtopic recall (the number of subtopics covered by the top k docs)
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+
+
+**Provided by:**
+
+- ``pyndeval``: ``StRecall(rel=ANY)@ANY``
+
+
+
 ``Success``
 -------------------------
 
@@ -674,6 +957,7 @@ canonical form when printed.
 
 - ``BPref`` → ``Bpref``
 - ``MAP`` → ``AP``
+- ``MAP_IA`` → ``AP_IA``
 - ``MRR`` → ``RR``
 - ``NDCG`` → ``nDCG``
 - ``NumRelRet`` → ``NumRet(rel=1)``
@@ -681,3 +965,5 @@ canonical form when printed.
 - ``Recall`` → ``R``
 - ``RPrec`` → ``Rprec``
 - ``SetRelP`` → ``SetP(relative=True)``
+- ``α_DCG`` → ``alpha_DCG``
+- ``α_nDCG`` → ``alpha_nDCG``

@@ -1,4 +1,4 @@
-import deprecation
+import warnings
 import re
 import io
 import ast
@@ -14,6 +14,7 @@ class Qrel(NamedTuple):
     query_id: str
     doc_id: str
     relevance: int
+    iteration: str = '0'
 
 class ScoredDoc(NamedTuple):
     query_id: str
@@ -26,16 +27,17 @@ class Metric(NamedTuple):
     value: Union[float, int]
 
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.Qrel() instead")
 class GenericQrel(Qrel):
-    pass
+    def __new__(self, *args, **kwargs):
+        warnings.warn("GenericQrel deprecated in 0.2.0. Please use ir_measures.Qrel instead.", DeprecationWarning)
+        return super().__new__(self, *args, **kwargs)
 GenericQrel._fields = Qrel._fields
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.ScoredDoc() instead")
+
 class GenericScoredDoc(ScoredDoc):
-    pass
+    def __new__(self, *args, **kwargs):
+        warnings.warn("GenericScoredDoc deprecated in 0.2.0. Please use ir_measures.ScoredDoc instead.", DeprecationWarning)
+        return super().__new__(self, *args, **kwargs)
 GenericScoredDoc._fields = ScoredDoc._fields
 
 
@@ -60,7 +62,7 @@ class QrelsConverter:
             result = 'dict_of_dict'
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
-            missing_cols = set(Qrel._fields) - set(cols)
+            missing_cols = [f for f in Qrel._fields if f not in cols and f not in Qrel._field_defaults]
             if not missing_cols:
                 result = 'pd_dataframe'
             else:
@@ -73,7 +75,7 @@ class QrelsConverter:
             item = next(peek_qrels, sentinal)
             if isinstance(item, tuple) and hasattr(item, '_fields'):
                 fields = item._fields
-                missing_fields = set(Qrel._fields) - set(fields)
+                missing_fields = [f for f in Qrel._fields if f not in fields and f not in Qrel._field_defaults]
                 if not missing_fields:
                     result = 'namedtuple_iter'
                 else:
@@ -83,7 +85,8 @@ class QrelsConverter:
             else:
                 error = f'iterable not a namedtuple iterator'
         else:
-            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {Qrel._fields}, e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns {Qrel._fields}; or (3) a dict-of-dict'
+            required_fields = tuple(f for f in Qrel._fields if f not in Qrel._field_defaults)
+            error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {required_fields}, e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns {required_fields}; or (3) a dict-of-dict'
         self._predicted_format = (result, error)
         return result, error
 
@@ -108,7 +111,10 @@ class QrelsConverter:
                 for doc_id, relevance in docs.items():
                     yield Qrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
         if t == 'pd_dataframe':
-            yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
+            if 'iteration' in self.qrels.columns:
+                yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
+            else:
+                yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance, qrel.iteration) for qrel in self.qrels.itertuples())
         if t == 'UNKNOWN':
             raise ValueError(f'unknown qrels format: {err}')
 
@@ -241,9 +247,8 @@ class RunConverter:
             yield f
 
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.read_trec_qrels() instead")
 def parse_trec_qrels(file):
+    warnings.warn("parse_trec_qrels deprecated in 0.2.0. Please use ir_measures.read_trec_qrels() instead.", DeprecationWarning)
     return read_trec_qrels(file)
 
 
@@ -252,7 +257,7 @@ def read_trec_qrels(file):
         for line in file:
             if line.strip():
                 query_id, iteration, doc_id, relevance = line.split()
-                yield Qrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance))
+                yield Qrel(query_id=query_id, doc_id=doc_id, relevance=int(relevance), iteration=iteration)
     elif isinstance(file, str):
         if '\n' in file:
             yield from read_trec_qrels(io.StringIO(file))
@@ -260,9 +265,8 @@ def read_trec_qrels(file):
             with open(file, 'rt') as f:
                 yield from read_trec_qrels(f)
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.read_trec_run() instead")
 def parse_trec_run(file):
+    warnings.warn("parse_trec_run deprecated in 0.2.0. Please use ir_measures.read_trec_run() instead.", DeprecationWarning)
     return read_trec_run(file)
 
 def read_trec_run(file):
@@ -421,7 +425,6 @@ def parse_trec_measure(measure: str) -> List['Measure']:
     return result
 
 
-@deprecation.deprecated(deprecated_in="0.2.0",
-                        details="Please use ir_measures.parse_trec_measure() instead")
 def convert_trec_name(measure: str) -> List['Measure']:
+    warnings.warn("convert_trec_name deprecated in 0.2.0. Please use ir_measures.parse_trec_measure() instead.", DeprecationWarning)
     return parse_trec_measure(measure)

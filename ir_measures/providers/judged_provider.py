@@ -7,6 +7,8 @@ from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 class JudgedProvider(providers.Provider):
     """
     python implementation of judgment rate
+
+    Adapted from OpenNIR's implementation: https://github.com/Georgetown-IR-Lab/OpenNIR/blob/master/onir/metrics/judged.py
     """
     NAME = 'judged'
     SUPPORTED_MEASURES = [
