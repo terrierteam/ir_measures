@@ -306,6 +306,8 @@ def _ast_to_value(node):
 
 
 def parse_measure(measure: str) -> 'Measure':
+    if isinstance(measure, ir_measures.Measure):
+        return measure
     try:
         node = ast.parse(measure).body
     except SyntaxError as e:

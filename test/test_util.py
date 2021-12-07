@@ -36,8 +36,11 @@ class TestUtil(unittest.TestCase):
     def test_parse_measure(self):
         tests = {
             'AP': AP,
+            AP: AP,
             'MAP': AP,
+            MAP: MAP,
             'P@10': P@10,
+            P@10: P@10,
             'nDCG@10': nDCG@10,
             'P(rel=2)@10': P(rel=2)@10,
             'nDCG(dcg="exp-log2")@10': nDCG(dcg='exp-log2')@10,
@@ -47,6 +50,7 @@ class TestUtil(unittest.TestCase):
             'IPrec(rel=2)@0.2': IPrec(rel=2)@0.2,
             'IPrec(rel=2, recall=0.4)@0.2': IPrec(rel=2)@0.2,
             'IPrec(rel=2, recall=0.4)': IPrec(rel=2)@0.4,
+            IPrec(rel=2)@0.4: IPrec(rel=2)@0.4,
         }
         for key, value in tests.items():
             with self.subTest(key):

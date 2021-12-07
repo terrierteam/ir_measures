@@ -14,6 +14,7 @@ from .util import (parse_measure, parse_trec_measure,
                   )
 from . import measures
 from .measures import *
+from .measures import Measure
 from . import providers
 
 logger = logging.getLogger('ir_measures')
