@@ -64,6 +64,7 @@ class TestUtil(unittest.TestCase):
             ir_measures.Qrel('2', 'C', 1),
         ]
         qrels_df = pd.DataFrame(qrels_list)
+        qrels_df_noit = qrels_df.drop(columns='iteration')
         qrels_dict = {
             '1': {'A': 1, 'B': 0},
             '2': {'A': 0, 'C': 1}
@@ -72,6 +73,7 @@ class TestUtil(unittest.TestCase):
             'qrels_nt_list': lambda: qrels_list,
             'qrels_nt_iter': lambda: iter(qrels_list),
             'qrels_df': lambda: qrels_df,
+            'qrels_df_noit': lambda: qrels_df_noit,
             'qrels_dict': lambda: qrels_dict
         }
         for n, fn in sources.items():

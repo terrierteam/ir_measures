@@ -112,15 +112,17 @@ class QrelsConverter:
                     yield Qrel(query_id=query_id, doc_id=doc_id, relevance=relevance)
         if t == 'pd_dataframe':
             if 'iteration' in self.qrels.columns:
-                yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
-            else:
                 yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance, qrel.iteration) for qrel in self.qrels.itertuples())
+            else:
+                yield from (Qrel(qrel.query_id, qrel.doc_id, qrel.relevance) for qrel in self.qrels.itertuples())
         if t == 'UNKNOWN':
             raise ValueError(f'unknown qrels format: {err}')
 
     def as_pd_dataframe(self):
         t, err = self.predict_type()
         if t == 'pd_dataframe':
+            if 'iteration' not in self.qrels.columns:
+                return self.qrels.assign(iteration=['0'] * len(self.qrels))
             return self.qrels
         else:
             pd = ir_measures.lazylibs.pandas()
