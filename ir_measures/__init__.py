@@ -34,6 +34,10 @@ judged = providers.registry['judged']
 msmarco = providers.registry['msmarco']
 pyndeval = providers.registry['pyndeval']
 ranx = providers.registry['ranx']
+runtime = providers.registry['runtime']
+
+define = providers.define
+define_byquery = providers.define_byquery
 
 CwlMetric = providers.CwlMetric
 
@@ -48,6 +52,7 @@ DefaultPipeline = providers.FallbackProvider([
     gdeval,  # doesn't work when installed from package #9
     accuracy,
     ranx,
+    runtime,
 ])
 evaluator = DefaultPipeline.evaluator
 calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
