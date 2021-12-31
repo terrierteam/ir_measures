@@ -35,27 +35,24 @@ class RuntimeEvaluator(providers.Evaluator):
             yield from measure.runtime_impl(self.qrels, run)
 
 
-class _RuntimeMeasure(measures.Measure):
-    """
-    The number of relevant documents the query has (independent of what the system retrieved).
-    """
-    SUPPORTED_PARAMS = {}
-
-    def __init__(self, name, impl):
-        super().__init__()
-        self.__name__ = name
+def define(impl, name=None, support_cutoff=True):
+    _SUPPORTED_PARAMS = {}
+    if support_cutoff:
+        _SUPPORTED_PARAMS['cutoff'] = measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold')
+    class _RuntimeMeasure(measures.Measure):
+        nonlocal _SUPPORTED_PARAMS
+        SUPPORTED_PARAMS = _SUPPORTED_PARAMS
         NAME = name
-        self.impl = impl
+        __name__ = name
 
-    def runtime_impl(self, qrels, run):
-        for qid, score in self.impl(qrels, run):
-            yield Metric(qid, self, score)
-
-
-def define(name, impl):
-    Measure = _RuntimeMeasure(name, impl)
-    measures.register(Measure)
-    return Measure
+        def runtime_impl(self, qrels, run):
+            if 'cutoff' in self.params and self.params['cutoff'] is not None:
+                cutoff = self.params['cutoff']
+                # assumes results already sorted (as is done in RuntimeEvaluator)
+                run = run.groupby('query_id').head(cutoff).reset_index(drop=True)
+            for qid, score in impl(qrels, run):
+                yield Metric(qid, self, score)
+    return _RuntimeMeasure()
 
 
 def _byquery_impl(impl):
@@ -67,8 +64,8 @@ def _byquery_impl(impl):
     return _wrapped
 
 
-def define_byquery(name, impl):
-    return define(name, _byquery_impl(impl))
+def define_byquery(impl, name=None, support_cutoff=True):
+    return define(_byquery_impl(impl), name or repr(impl), support_cutoff)
 
 
 providers.register(RuntimeProvider())
