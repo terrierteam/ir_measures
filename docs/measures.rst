@@ -59,6 +59,25 @@ A version of nDCG that accounts for multiple possible query intents.
 - ``pyndeval``: ``alpha_nDCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
 
 
+``Accuracy``
+-------------------------
+
+The accuracy metric corresponds to the probability that a relevant
+document is ranked before a non relevant one. This metric is intended
+to be used as a diagnostic metric (checking discrepancies between
+train, validation and test with pairwise costs). As such, runs
+with no relevant document are discarded.
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+
+
+**Provided by:**
+
+- ``accuracy``: ``Accuracy(cutoff=ANY, rel=ANY)``
+
 
 ``AP``
 -------------------------
