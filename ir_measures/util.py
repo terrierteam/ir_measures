@@ -6,7 +6,7 @@ import contextlib
 import itertools
 import tempfile
 from typing import Dict, List
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 from typing import NamedTuple, Union
 import ir_measures
 
@@ -229,23 +229,12 @@ class RunConverter:
 
     def as_sorteddict(self) -> Dict[str, List[ScoredDoc]]:
         """Returns a map of topic ID -> sorted list of documents"""
-        pertopic = {}
-        qid = None
-        items = []
-        def flush():
-            return sorted(items, key=lambda x: x.score, reverse=True)
+        pertopic = defaultdict(list)
         for item in self.as_namedtuple_iter():
-            if qid is None or item.query_id != qid:
-                if qid:
-                    pertopic[qid] = flush()
-                items = []
-                qid = item.query_id
-            items.append(item)
-        if qid is not None:
-            pertopic[qid] = flush()
+            pertopic[item.query_id].append(item)
+        pertopic = {qid: sorted(items, key=lambda x: x.score, reverse=True) for qid, items in pertopic.items()}
 
         return pertopic
-
 
     def as_pd_dataframe(self):
         t, err = self.predict_type()
