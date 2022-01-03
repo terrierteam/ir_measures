@@ -4,6 +4,7 @@ def register(provider):
 	return provider
 
 from .base import Provider, Evaluator
+from .accuracy_provider import AccuracyProvider
 from .fallback_provider import FallbackProvider
 from .compat_provider import CompatProvider
 from .cwl_eval import CwlEvalProvider, CwlMetric
