@@ -3,6 +3,8 @@
 
 # ir_measures
 
+**New: Explore IR measures using our demo at [demo.ir-measur.es](https://demo.ir-measur.es/)!**
+
 Check out our documentation website: [ir-measur.es](https://ir-measur.es/)
 
 
