@@ -107,17 +107,34 @@ class TestUtil(unittest.TestCase):
             '1': {'A': 1.2, 'B': 0.9},
             '2': {'A': 3.5, 'C': 0.3}
         }
+        run_sorteddict = {
+            '1': [ir_measures.ScoredDoc('1', 'A', 1.2), ir_measures.ScoredDoc('1', 'B', 0.9)],
+            '2': [ir_measures.ScoredDoc('2', 'A', 3.5), ir_measures.ScoredDoc('2', 'C', 0.3)],
+        }
         sources = {
             'run_nt_list': lambda: run_list,
             'run_nt_iter': lambda: iter(run_list),
             'run_df': lambda: run_df,
-            'run_dict': lambda: run_dict
+            'run_dict': lambda: run_dict,
         }
         for n, fn in sources.items():
             with self.subTest(n):
                 self.assertEqual(ir_measures.util.RunConverter(fn()).as_dict_of_dict(), run_dict)
                 self.assertEqual(list(ir_measures.util.RunConverter(fn()).as_namedtuple_iter()), run_list)
                 assert_frame_equal(ir_measures.util.RunConverter(fn()).as_pd_dataframe(), run_df)
+                self.assertEqual(ir_measures.util.RunConverter(fn()).as_sorteddict(), run_sorteddict)
+
+        out_of_order_source = [
+            ir_measures.ScoredDoc('1', 'A', 1.2),
+            ir_measures.ScoredDoc('2', 'A', 3.5),
+            ir_measures.ScoredDoc('2', 'C', 0.3),
+            ir_measures.ScoredDoc('1', 'B', 0.9),
+        ]
+
+        self.assertEqual(ir_measures.util.RunConverter(out_of_order_source).as_dict_of_dict(), run_dict)
+        self.assertEqual(list(ir_measures.util.RunConverter(out_of_order_source).as_namedtuple_iter()), out_of_order_source)
+        assert_frame_equal(ir_measures.util.RunConverter(out_of_order_source).as_pd_dataframe(), pd.DataFrame(out_of_order_source))
+        self.assertEqual(ir_measures.util.RunConverter(out_of_order_source).as_sorteddict(), run_sorteddict)
 
         bad_df = pd.DataFrame([
             {'query_id': '0', 'docno': 'A', 'score': 1.2}
