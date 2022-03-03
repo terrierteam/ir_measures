@@ -13,3 +13,4 @@ from .judged_provider import JudgedProvider
 from .gdeval_provider import GdevalProvider
 from .trectools_provider import TrectoolsProvider
 from .msmarco_provider import MsMarcoProvider
+from .ranx_provider import RanxProvider

@@ -93,6 +93,7 @@ by taking the mean of AP over the query set.
 - ``cwl_eval``: ``AP(rel=ANY)@NOT_PROVIDED``
 - ``pytrec_eval``: ``AP(rel=ANY)@ANY``
 - ``trectools``: ``AP(rel=1)@ANY``
+- ``ranx``: ``AP(rel=ANY)@ANY``
 
 
 
@@ -402,6 +403,7 @@ It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order 
 - ``pytrec_eval``: ``nDCG(dcg='log2')@ANY``
 - ``gdeval``: ``nDCG(dcg='exp-log2')@REQUIRED``
 - ``trectools``: ``nDCG(dcg=ANY)@ANY``
+- ``ranx``: ``nDCG(dcg=('log2', 'exp-log2'))@ANY``
 
 
 
@@ -649,6 +651,7 @@ returned with at least that relevance score (inclusive).
 **Provided by:**
 
 - ``pytrec_eval``: ``NumRet(rel=ANY)``
+- ``ranx``: ``NumRet(rel=REQUIRED)``
 
 
 
@@ -680,6 +683,7 @@ P@cutoff.
 - ``cwl_eval``: ``P(rel=ANY)@ANY``
 - ``pytrec_eval``: ``P(rel=ANY)@ANY``
 - ``trectools``: ``P(rel=1)@ANY``
+- ``ranx``: ``P(rel=ANY)@ANY``
 
 
 
@@ -720,6 +724,7 @@ This software follows the TREC convention and refers to that measure as Success@
 **Provided by:**
 
 - ``pytrec_eval``: ``R@ANY``
+- ``ranx``: ``R@ANY``
 
 
 
@@ -779,6 +784,7 @@ it is also the recall at R.
 
 - ``pytrec_eval``: ``Rprec(rel=ANY)``
 - ``trectools``: ``Rprec(rel=1)``
+- ``ranx``: ``Rprec(rel=ANY)``
 
 
 
@@ -814,6 +820,7 @@ depth explored. rel (default 1) controls which relevance level is considered rel
 - ``pytrec_eval``: ``RR(rel=ANY)@NOT_PROVIDED``
 - ``trectools``: ``RR(rel=1)@NOT_PROVIDED``
 - ``msmarco``: ``RR(rel=ANY)@ANY``
+- ``ranx``: ``RR(rel=ANY)@NOT_PROVIDED``
 
 
 
@@ -888,6 +895,7 @@ The Set Precision (SetP); i.e., the number of relevant docs divided by the total
 **Provided by:**
 
 - ``pytrec_eval``: ``SetP(rel=ANY, relative=ANY)``
+- ``ranx``: ``SetP(rel=ANY)``
 
 
 
@@ -905,6 +913,7 @@ The Set Recall (SetR); i.e., the number of relevant docs divided by the total nu
 **Provided by:**
 
 - ``pytrec_eval``: ``SetR(rel=ANY)``
+- ``ranx``: ``SetR(rel=ANY)``
 
 
 
@@ -944,6 +953,7 @@ Recall@k is defined as the proportion of known relevant documents retrieved in t
 **Provided by:**
 
 - ``pytrec_eval``: ``Success(rel=ANY)@ANY``
+- ``ranx``: ``Success(rel=ANY)@REQUIRED``
 
 
 
