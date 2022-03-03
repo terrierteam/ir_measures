@@ -1,1 +1,2 @@
 trectools>=0.0.44
+ranx>=0.1.11
