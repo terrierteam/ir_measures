@@ -2,6 +2,12 @@
 Providers
 =========================
 
+``accuracy``
+-------------------------
+
+Provider for the accuracy metric
+
+
 ``compat``
 -------------------------
 

@@ -24,6 +24,7 @@ log_handler.setFormatter(logging.Formatter('[%(name)s] [%(levelname)s] %(message
 logger.addHandler(log_handler)
 
 # providers
+accuracy = providers.registry['accuracy']
 cwl_eval = providers.registry['cwl_eval']
 compat = providers.registry['compat']
 gdeval = providers.registry['gdeval']
@@ -45,6 +46,7 @@ DefaultPipeline = providers.FallbackProvider([
     judged,
     msmarco,
     gdeval,  # doesn't work when installed from package #9
+    accuracy,
     ranx,
 ])
 evaluator = DefaultPipeline.evaluator

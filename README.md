@@ -3,6 +3,8 @@
 
 # ir_measures
 
+**New: Explore IR measures using our demo at [demo.ir-measur.es](https://demo.ir-measur.es/)!**
+
 Check out our documentation website: [ir-measur.es](https://ir-measur.es/)
 
 
@@ -172,3 +174,4 @@ ir_measures qrels run measures... [-q] [-n] [-p 4]
  - Sean MacAvaney, University of Glasgow
  - Craig Macdonald, University of Glasgow
  - Charlie Clarke, University of Waterloo
+ - Benjamin Piwowarski, CNRS
