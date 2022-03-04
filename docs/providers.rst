@@ -165,6 +165,40 @@ Provider for the accuracy metric
 
 
 
+``ranx``
+-------------------------
+
+
+ ranx
+
+ https://amenra.github.io/ranx/
+
+::
+
+ @misc{ranx2021,
+   title = {ranx: A Blazing-Fast Python Library for Ranking Evaluation and Comparison},
+   author = {Bassani, Elias},
+   year = {2021},
+   publisher = {GitHub},
+   howpublished = {\url{https://github.com/AmenRa/ranx}},
+ }
+
+ 
+**Supported Measures:**
+
+ - ``P(rel=ANY)@ANY``
+ - ``SetP(rel=ANY)``
+ - ``RR(rel=ANY)@NOT_PROVIDED``
+ - ``Rprec(rel=ANY)``
+ - ``AP(rel=ANY)@ANY``
+ - ``nDCG(dcg=('log2', 'exp-log2'))@ANY``
+ - ``R@ANY``
+ - ``SetR(rel=ANY)``
+ - ``NumRet(rel=REQUIRED)``
+ - ``Success(rel=ANY)@REQUIRED``
+
+
+
 ``trectools``
 -------------------------
 

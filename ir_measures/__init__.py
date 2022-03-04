@@ -33,6 +33,7 @@ trectools = providers.registry['trectools']
 judged = providers.registry['judged']
 msmarco = providers.registry['msmarco']
 pyndeval = providers.registry['pyndeval']
+ranx = providers.registry['ranx']
 
 CwlMetric = providers.CwlMetric
 
@@ -46,6 +47,7 @@ DefaultPipeline = providers.FallbackProvider([
     msmarco,
     gdeval,  # doesn't work when installed from package #9
     accuracy,
+    ranx,
 ])
 evaluator = DefaultPipeline.evaluator
 calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
