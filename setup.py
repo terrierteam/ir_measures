@@ -35,6 +35,7 @@ setuptools.setup(
     install_requires=list(open('requirements.txt')),
     extras_require={
         "trectools": ["trectools>=0.0.44"],
+        "ranx": ["ranx>=0.1.11"],
     },
     classifiers=[],
     python_requires='>=3.6',
