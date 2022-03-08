@@ -62,7 +62,7 @@ class Measure:
 
     def __repr__(self):
         result = self.__name__
-        params = ', '.join(f'{k}={self._param_repr(v)}' for k, v in self.params.items() if k != self.AT_PARAM and v != self.SUPPORTED_PARAMS[k].default)
+        params = ','.join(f'{k}={self._param_repr(v)}' for k, v in self.params.items() if k != self.AT_PARAM and v != self.SUPPORTED_PARAMS[k].default)
         if params:
             result = f'{result}({params})'
         if self.AT_PARAM in self.params:
