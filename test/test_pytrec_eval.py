@@ -1,9 +1,11 @@
 import unittest
 import itertools
 import ir_measures
+from ir_measures import Metric
+from .base import BaseMeasureTest
 
 
-class TestPytrecEval(unittest.TestCase):
+class TestPytrecEval(BaseMeasureTest):
 
     def test_NumRet(self):
         qrels = list(ir_measures.read_trec_qrels('''
@@ -527,6 +529,47 @@ class TestPytrecEval(unittest.TestCase):
         self.assertAlmostEqual(result[1].value, 0.375, places=4)
         self.assertAlmostEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.3542, places=4)
 
+    def test_nDCG(self):
+        qrels = list(ir_measures.read_trec_qrels('''
+0 0 D0 1
+0 0 D1 -1
+0 0 D2 0
+0 0 D3 2
+0 0 D4 0
+1 0 D0 1
+1 0 D3 2
+1 0 D4 -1
+1 0 D5 0
+'''))
+        run = list(ir_measures.read_trec_run('''
+0 0 D0 1 0.8 run
+0 0 D2 2 0.7 run
+0 0 D1 3 0.3 run
+0 0 D3 4 0.4 run
+0 0 D4 5 0.1 run
+1 0 D1 1 0.8 run
+1 0 D4 2 0.7 run
+1 0 D3 3 0.3 run
+1 0 D2 4 0.4 run
+'''))
+        provider = ir_measures.pytrec_eval
+        measure = ir_measures.nDCG
+        self.assertMetrics(
+                provider.iter_calc([measure], qrels, run),
+                [Metric(query_id='0', measure=measure, value=0.76018),
+                Metric(query_id='1', measure=measure, value=0.32739)])
+
+        measure = ir_measures.nDCG@3
+        self.assertMetrics(
+                provider.iter_calc([measure], qrels, run),
+                [Metric(query_id='0', measure=measure, value=0.76018),
+                Metric(query_id='1', measure=measure, value=0.0)])
+
+        measure = ir_measures.nDCG(gains={0:1,1:4})
+        self.assertMetrics(
+                provider.iter_calc([measure], qrels, run),
+                [Metric(query_id='0', measure=measure, value=0.97177),
+                Metric(query_id='1', measure=measure, value=0.14949)])
 
 
 if __name__ == '__main__':

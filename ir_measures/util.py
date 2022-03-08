@@ -313,6 +313,8 @@ def _ast_to_value(node):
         return node.s
     if isinstance(node, ast.NameConstant):
         return node.value
+    if isinstance(node, ast.Dict):
+        return dict(zip(map(_ast_to_value, node.keys), map(_ast_to_value, node.values)))
     raise ValueError(_AST_PARSE_ERROR.format('values must be str, float, int, bool, etc.'))
 
 

@@ -62,12 +62,17 @@ class Measure:
 
     def __repr__(self):
         result = self.__name__
-        params = ', '.join(f'{k}={repr(v)}' for k, v in self.params.items() if k != self.AT_PARAM and v != self.SUPPORTED_PARAMS[k].default)
+        params = ','.join(f'{k}={self._param_repr(v)}' for k, v in self.params.items() if k != self.AT_PARAM and v != self.SUPPORTED_PARAMS[k].default)
         if params:
             result = f'{result}({params})'
         if self.AT_PARAM in self.params:
             result = f'{result}@{self.params[self.AT_PARAM]}'
         return result
+
+    def _param_repr(self, v):
+        if isinstance(v, dict):
+            return '{' + ','.join(f'{k}:{v}' for k, v in sorted(v.items()) if k != v) + '}'
+        return repr(v)
 
     def __eq__(self, other):
         if isinstance(other, Measure):

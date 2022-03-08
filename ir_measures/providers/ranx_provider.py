@@ -28,7 +28,7 @@ class RanxProvider(providers.Provider):
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any()),
         measures._Rprec(rel=Any()),
         measures._AP(cutoff=Any(), rel=Any()),
-        measures._nDCG(cutoff=Any(), dcg=Choices('log2', 'exp-log2')),
+        measures._nDCG(cutoff=Any(), dcg=Choices('log2', 'exp-log2'), gains=Choices(NOT_PROVIDED)),
         measures._R(cutoff=Any()),
         measures._SetR(rel=Any()),
         measures._NumRet(rel=Any(required=True)),
