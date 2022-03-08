@@ -17,6 +17,8 @@ class _ERR_IA(measures.BaseMeasure):
     """
     __name__ = 'ERR_IA'
     NAME = __name__
+    PRETTY_NAME = 'Intent-Aware Expected Reciprocal Rank'
+    SHORT_DESC = 'A version of ERR that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
@@ -38,6 +40,8 @@ class _nERR_IA(measures.BaseMeasure):
     """
     __name__ = 'nERR_IA'
     NAME = __name__
+    PRETTY_NAME = 'Intent-Aware Normalised Expected Reciprocal Rank'
+    SHORT_DESC = 'A normalised version of ERR that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
@@ -59,6 +63,8 @@ class _alpha_DCG(measures.BaseMeasure):
     """
     __name__ = 'alpha_DCG'
     NAME = __name__
+    PRETTY_NAME = 'Alpha Discounted Cumulative Gain'
+    SHORT_DESC = 'A version of DCG that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
@@ -81,6 +87,8 @@ class _alpha_nDCG(measures.BaseMeasure):
     """
     __name__ = 'alpha_nDCG'
     NAME = __name__
+    PRETTY_NAME = 'Alpha Normalised Discounted Cumulative Gain'
+    SHORT_DESC = 'A version of nDCG that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
@@ -103,6 +111,8 @@ class _NRBP(measures.BaseMeasure):
     """
     __name__ = 'NRBP'
     NAME = __name__
+    PRETTY_NAME = 'Novelty- and Rank-Biased Precision'
+    SHORT_DESC = 'A version of RBP that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
         'alpha': measures.ParamInfo(dtype=float, default=0.5, desc='Redundancy intolerance'),
@@ -124,6 +134,8 @@ class _nNRBP(measures.BaseMeasure):
     """
     __name__ = 'nNRBP'
     NAME = __name__
+    PRETTY_NAME = 'Normalised Novelty- and Rank-Biased Precision'
+    SHORT_DESC = 'A normalised version of RBP that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
         'alpha': measures.ParamInfo(dtype=float, default=0.5, desc='Redundancy intolerance'),
@@ -136,6 +148,8 @@ class _AP_IA(measures.BaseMeasure):
     """
     __name__ = 'AP_IA'
     NAME = __name__
+    PRETTY_NAME = 'Intent-Aware (Mean) Average Precision'
+    SHORT_DESC = 'A version of AP that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
         'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='calculate measure using only judged documents (i.e., discard unjudged documents)'),
@@ -147,6 +161,8 @@ class _P_IA(measures.BaseMeasure):
     """
     __name__ = 'P_IA'
     NAME = __name__
+    PRETTY_NAME = 'Intent-Aware Precision@k'
+    SHORT_DESC = 'A version of P@k that accounts for multiple possible query intents.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
@@ -159,6 +175,8 @@ class _StRecall(measures.BaseMeasure):
     """
     __name__ = 'StRecall'
     NAME = __name__
+    PRETTY_NAME = 'Subtopic Recall at k'
+    SHORT_DESC = 'The percentage of subtopics covered by the top k documents.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),

@@ -10,6 +10,8 @@ class _Accuracy(Measure):
     """
     __name__ = 'Accuracy'
     NAME = __name__
+    PRETTY_NAME = 'Accuracy'
+    SHORT_DESC = 'The probability that a relevant document is ranked before a non relevant one.'
     SUPPORTED_PARAMS = {
         'cutoff': ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')

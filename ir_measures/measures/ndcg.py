@@ -24,6 +24,8 @@ class _nDCG(measures.Measure):
     """
     __name__ = 'nDCG'
     NAME = __name__
+    PRETTY_NAME = 'Normalised Discounted Cumulative Gain'
+    SHORT_DESC = 'A measure of the total gain a user encounters in a result list, discounted by rank and normalised against an ideal ranking.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'dcg': measures.ParamInfo(dtype=str, choices=['log2', 'exp-log2'], default='log2', desc='DCG formulation')

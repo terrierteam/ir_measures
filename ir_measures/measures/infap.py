@@ -13,6 +13,8 @@ class _infAP(measures.Measure):
     """
     __name__ = 'infAP'
     NAME = __name__
+    PRETTY_NAME = 'Inferred Average Precision'
+    SHORT_DESC = 'A version of AP that accounts for pooled-but-unjudged docuemnts.'
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
     }

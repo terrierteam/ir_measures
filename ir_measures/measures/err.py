@@ -10,6 +10,8 @@ class _ERR(measures.Measure):
     """
     __name__ = 'ERR'
     NAME = __name__
+    PRETTY_NAME = 'Expected Reciprocal Rank'
+    SHORT_DESC = 'An extension of Reciprocal Rank that accounts for both graded relevance and a more realistic user model.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
     }

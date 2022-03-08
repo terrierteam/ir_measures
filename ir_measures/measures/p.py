@@ -19,6 +19,8 @@ class _P(measures.Measure):
     """
     __name__ = 'P'
     NAME = __name__
+    PRETTY_NAME = 'Precision at k'
+    SHORT_DESC = 'The percentage of documents in the top k results that are relevant.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=True, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')

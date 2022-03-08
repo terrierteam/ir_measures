@@ -10,6 +10,8 @@ class _IPrec(measures.Measure):
     """
     __name__ = 'IPrec'
     NAME = __name__
+    PRETTY_NAME = 'Interpolated Precision@recall'
+    SHORT_DESC = 'The interpolated precision at a given recall cutoff.'
     AT_PARAM = 'recall'
     SUPPORTED_PARAMS = {
         'recall': measures.ParamInfo(dtype=float, required=True, desc='recall threshold'),

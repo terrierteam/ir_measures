@@ -24,6 +24,8 @@ class _AP(measures.Measure):
     """
     __name__ = 'AP'
     NAME = __name__
+    PRETTY_NAME = '(Mean) Average Precision'
+    SHORT_DESC = 'The mean of the precision scores at each relevant item retrieved.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')

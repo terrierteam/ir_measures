@@ -9,6 +9,8 @@ class _SDCG(measures.Measure):
     """
     __name__ = 'SDCG'
     NAME = __name__
+    PRETTY_NAME = 'Scaled Discounted Cumulative Gain'
+    SHORT_DESC = 'nDCG, but assuming there are at least "cutoff" relevant documents'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=True, desc='ranking cutoff threshold'),
         'dcg': measures.ParamInfo(dtype=str, choices=['log2'], default='log2', desc='DCG formulation'),

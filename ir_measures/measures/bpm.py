@@ -18,6 +18,8 @@ class _BPM(measures.Measure):
     """
     __name__ = 'BPM'
     NAME = __name__
+    PRETTY_NAME = 'Bejeweled Player Model'
+    SHORT_DESC = 'A measure that balances both gain and user patience to determine when they stop traversing search results.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=True, desc='ranking cutoff threshold'),
         'T': measures.ParamInfo(dtype=float, default=1., desc='total desired gain (normalized)'),

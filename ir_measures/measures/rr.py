@@ -22,6 +22,8 @@ class _RR(measures.Measure):
     """
     __name__ = 'RR'
     NAME = __name__
+    PRETTY_NAME = '(Mean) Reciprocal Rank'
+    SHORT_DESC = 'The reciprocal of the rank of the first relevant document.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')

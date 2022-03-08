@@ -8,6 +8,8 @@ class _NumQ(measures.Measure):
     """
     __name__ = 'NumQ'
     NAME = __name__
+    PRETTY_NAME = 'Number of Queries'
+    SHORT_DESC = 'The number of queries present in the qrels'
     SUPPORTED_PARAMS = {}
 
     def aggregator(self):

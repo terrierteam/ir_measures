@@ -11,6 +11,8 @@ class _Success(measures.Measure):
     """
     __name__ = 'Success'
     NAME = __name__
+    PRETTY_NAME = 'Success at k'
+    SHORT_DESC = 'An indicator if any relevant document is retrieved in the top k results.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=True, desc='ranking cutoff threshold'),
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')

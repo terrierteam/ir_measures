@@ -9,6 +9,9 @@ class _NumRet(measures.Measure):
     """
     __name__ = 'NumRet'
     NAME = __name__
+    PRETTY_NAME = 'Number of Retrieved Documents'
+    SHORT_DESC = 'The number of documents present in the result set'
+
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, required=False, desc='minimum relevance score to be counted (inclusive), or all documents returned if NOT_PROVIDED')
     }

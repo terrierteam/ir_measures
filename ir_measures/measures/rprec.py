@@ -4,7 +4,7 @@ from .base import Measure, ParamInfo
 
 class _Rprec(measures.Measure):
     """
-    The precision of at R, where R is the number of relevant documents for a given query. Has the cute property that
+    The precision at R, where R is the number of relevant documents for a given query. Has the cute property that
     it is also the recall at R.
 
 ::
@@ -19,6 +19,8 @@ class _Rprec(measures.Measure):
     """
     __name__ = 'Rprec'
     NAME = __name__
+    PRETTY_NAME = 'Precsion at R'
+    SHORT_DESC = 'Precsion at R, where R is the number of relevant documents for a given query.'
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
     }

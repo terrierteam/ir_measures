@@ -9,6 +9,8 @@ class _Judged(measures.Measure):
     """
     __name__ = 'Judged'
     NAME = __name__
+    PRETTY_NAME = 'Judgment Rate at k'
+    SHORT_DESC = 'The percentage of results in the top k that have a relevance judgment.'
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=True, desc='ranking cutoff threshold'),
     }
