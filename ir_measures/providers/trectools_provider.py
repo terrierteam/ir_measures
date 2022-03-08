@@ -30,7 +30,7 @@ class TrectoolsProvider(providers.Provider):
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Choices(1)),
         measures._Rprec(rel=Choices(1)),
         measures._AP(cutoff=Any(), rel=Choices(1)),
-        measures._nDCG(cutoff=Any(), dcg=Any()),
+        measures._nDCG(cutoff=Any(), dcg=Any(), gains=NOT_PROVIDED),
         measures._Bpref(rel=Choices(1)),
         measures._RBP(cutoff=Any(), p=Any(), rel=Any()),
         # Other supported metrics: urbp, ubpref, alpha_urbp, geometric_map, unjudged
