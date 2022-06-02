@@ -2,6 +2,7 @@ import warnings
 import re
 import io
 import ast
+import gzip
 import contextlib
 import itertools
 import tempfile
@@ -273,7 +274,8 @@ def read_trec_qrels(file):
         if '\n' in file:
             yield from read_trec_qrels(io.StringIO(file))
         else:
-            with open(file, 'rt') as f:
+            reader = gzip.open if file.endswith('.gz') else open
+            with reader(file, 'rt') as f:
                 yield from read_trec_qrels(f)
 
 def parse_trec_run(file):
@@ -290,7 +292,8 @@ def read_trec_run(file):
         if '\n' in file:
             yield from read_trec_run(io.StringIO(file))
         else:
-            with open(file, 'rt') as f:
+            reader = gzip.open if file.endswith('.gz') else open
+            with reader(file, 'rt') as f:
                 yield from read_trec_run(f)
 
 def flatten_measures(measures):
