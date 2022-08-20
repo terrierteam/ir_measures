@@ -1,2 +1,3 @@
 trectools>=0.0.44
 ranx>=0.1.11
+pyndeval>=0.0.2
