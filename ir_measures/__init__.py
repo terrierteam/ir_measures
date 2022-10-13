@@ -35,6 +35,7 @@ msmarco = providers.registry['msmarco']
 pyndeval = providers.registry['pyndeval']
 ranx = providers.registry['ranx']
 runtime = providers.registry['runtime']
+fairness = providers.registry['fairness']
 
 define = providers.define
 define_byquery = providers.define_byquery
@@ -53,6 +54,7 @@ DefaultPipeline = providers.FallbackProvider([
     accuracy,
     ranx,
     runtime,
+    fairness,
 ])
 evaluator = DefaultPipeline.evaluator
 calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator

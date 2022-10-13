@@ -15,4 +15,5 @@ from .gdeval_provider import GdevalProvider
 from .trectools_provider import TrectoolsProvider
 from .msmarco_provider import MsMarcoProvider
 from .ranx_provider import RanxProvider
+from .fairness import FairnessProvider
 from .runtime_provider import RuntimeProvider, define, define_byquery
