@@ -37,7 +37,7 @@ class ScoredDoc(NamedTuple):
     score: float
 
 
-Run = Union[Iterable[ScoredDoc], Dict[str, Dict[str, int]], "DataFrame"]
+Run = Union[Iterable[ScoredDoc], Dict[str, Dict[str, int]], DataFrame]
 
 class Metric(NamedTuple):
     query_id: str
