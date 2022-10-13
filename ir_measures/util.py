@@ -6,10 +6,18 @@ import gzip
 import contextlib
 import itertools
 import tempfile
-from typing import Dict, List
-from collections import namedtuple, defaultdict
+from typing import Dict, List, Iterable, TYPE_CHECKING, Any
+from collections import defaultdict
 from typing import NamedTuple, Union
+
 import ir_measures
+
+if TYPE_CHECKING:
+    from pandas import DataFrame
+    from ir_measures.measures.base import Measure
+else:
+    DataFrame = Any
+
 
 class Qrel(NamedTuple):
     query_id: str
@@ -17,14 +25,21 @@ class Qrel(NamedTuple):
     relevance: int
     iteration: str = '0'
 
+
+Qrels = Union[Iterable[Qrel], Dict[str, Dict[str, int]], DataFrame]
+
+
 class ScoredDoc(NamedTuple):
     query_id: str
     doc_id: str
     score: float
 
+
+Run = Union[Iterable[ScoredDoc], Dict[str, Dict[str, int]], "DataFrame"]
+
 class Metric(NamedTuple):
     query_id: str
-    measure: 'Measure'
+    measure: "Measure"
     value: Union[float, int]
 
 
