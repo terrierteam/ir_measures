@@ -6,7 +6,9 @@ import gzip
 import contextlib
 import itertools
 import tempfile
-from typing import Dict, List, Iterable, TYPE_CHECKING, Any
+from importlib.util import find_spec
+from math import log, inf
+from typing import Dict, List, Iterable, TYPE_CHECKING, Any, Sequence
 from collections import defaultdict
 from typing import NamedTuple, Union
 
@@ -461,3 +463,23 @@ def parse_trec_measure(measure: str) -> List['Measure']:
 def convert_trec_name(measure: str) -> List['Measure']:
     warnings.warn("convert_trec_name deprecated in 0.2.0. Please use ir_measures.parse_trec_measure() instead.", DeprecationWarning)
     return parse_trec_measure(measure)
+
+
+if find_spec("scipy"):
+    # noinspection PyUnresolvedReferences
+    from scipy.special import rel_entr
+else:
+    def rel_entr(x1: Sequence[float], x2: Sequence[float]) -> Sequence[float]:
+        """
+        Elementwise function for computing relative entropy.
+        Port of the ``scipy.special.rel_entr`` function.
+        :param x1: Input array.
+        :param x2: Input array.
+        :return: Relative entropy of the inputs.
+        """
+        return tuple(
+            x * log(x / y) if x > 0 and y > 0 else
+            0 if x == 0 and y >= 0 else
+            inf
+            for x, y in zip(x1, x2, strict=True)
+        )
