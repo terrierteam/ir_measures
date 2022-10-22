@@ -39,7 +39,7 @@ class CwlEvalProvider(providers.Provider):
     """
     NAME = 'cwl_eval'
     SUPPORTED_MEASURES = [
-        measures._P(cutoff=Any(), rel=Any()),
+        measures._P(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any()),
         measures._AP(cutoff=Choices(NOT_PROVIDED), rel=Any()),
         measures._RBP(cutoff=Choices(NOT_PROVIDED), rel=Any(required=True), p=Any()),

@@ -26,7 +26,7 @@ class TrectoolsProvider(providers.Provider):
     """
     NAME = 'trectools'
     SUPPORTED_MEASURES = [
-        measures._P(cutoff=Any(), rel=Choices(1)),
+        measures._P(cutoff=Any(), rel=Choices(1), judged_only=Choices(False)),
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Choices(1)),
         measures._Rprec(rel=Choices(1)),
         measures._AP(cutoff=Any(), rel=Choices(1)),

@@ -23,7 +23,7 @@ class RanxProvider(providers.Provider):
     """
     NAME = 'ranx'
     SUPPORTED_MEASURES = [
-        measures._P(cutoff=Any(), rel=Any()),
+        measures._P(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
         measures._SetP(rel=Any()),
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any()),
         measures._Rprec(rel=Any()),
