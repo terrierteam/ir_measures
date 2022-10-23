@@ -605,6 +605,35 @@ class TestPytrecEval(BaseMeasureTest):
                 [Metric(query_id='0', measure=measure, value=0.75),
                 Metric(query_id='1', measure=measure, value=0.25)])
 
+    def test_judged_only(self):
+        qrels = list(ir_measures.read_trec_qrels('''
+0 0 D0 -1
+0 0 D1 1
+0 0 D3 2
+0 0 D4 1
+'''))
+        run = list(ir_measures.read_trec_run('''
+0 0 D0 1 0.8 run
+0 0 D2 2 0.7 run
+0 0 D1 3 0.3 run
+0 0 D3 4 0.4 run
+0 0 D4 5 0.1 run
+'''))
+        run_unudged_removed = list(ir_measures.read_trec_run('''
+0 0 D1 3 0.3 run
+0 0 D3 4 0.4 run
+0 0 D4 5 0.1 run
+''')) # D0 is removed because trec_eval considers negative labels as unjudged (??). See <https://github.com/usnistgov/trec_eval/blob/d95ca64e14a47d763ae349fb65e6d8cde4141dbd/form_res_rels.c#L219>
+        provider = ir_measures.pytrec_eval
+        for measure in [ir_measures.P@4, ir_measures.RR, ir_measures.Rprec, ir_measures.AP, ir_measures.AP@4, ir_measures.nDCG, ir_measures.nDCG@4, ir_measures.R@2]:
+            with self.subTest(measure):
+                self.assertMetrics(
+                        [Metric(m.query_id, measure, m.value) for m in provider.iter_calc([measure(judged_only=True)], qrels, run)],
+                        provider.iter_calc([measure], qrels, run_unudged_removed))
+                self.assertMetrics(
+                        [Metric(m.query_id, measure, m.value) for m in provider.iter_calc([measure(judged_only=True)], qrels, run)],
+                        provider.iter_calc([measure], qrels, run),
+                        not_equal=True)
 
 if __name__ == '__main__':
     unittest.main()

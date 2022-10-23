@@ -14,7 +14,7 @@ class GdevalProvider(providers.Provider):
     """
     NAME = 'gdeval'
     SUPPORTED_MEASURES = [
-        measures._nDCG(cutoff=Any(required=True), dcg=Choices('exp-log2'), gains=Choices(NOT_PROVIDED)),
+        measures._nDCG(cutoff=Any(required=True), dcg=Choices('exp-log2'), gains=Choices(NOT_PROVIDED), judged_only=Choices(False)),
         measures._ERR(cutoff=Any(required=True)),
     ]
 

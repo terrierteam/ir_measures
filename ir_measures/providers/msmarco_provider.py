@@ -11,7 +11,7 @@ class MsMarcoProvider(providers.Provider):
     """
     NAME = 'msmarco'
     SUPPORTED_MEASURES = [
-        measures._RR(cutoff=Any(), rel=Any()),
+        measures._RR(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
     ]
 
     def _evaluator(self, measures, qrels):

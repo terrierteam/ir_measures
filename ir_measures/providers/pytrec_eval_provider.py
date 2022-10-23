@@ -34,11 +34,11 @@ class PytrecEvalProvider(providers.Provider):
     NAME = 'pytrec_eval'
     SUPPORTED_MEASURES = [
         measures._P(cutoff=Any(), rel=Any(), judged_only=Any()),
-        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any()),
-        measures._Rprec(rel=Any()),
-        measures._AP(cutoff=Any(), rel=Any()),
-        measures._nDCG(cutoff=Any(), dcg=Choices('log2'), gains=Any()),
-        measures._R(cutoff=Any()),
+        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Any()),
+        measures._Rprec(rel=Any(), judged_only=Any()),
+        measures._AP(cutoff=Any(), rel=Any(), judged_only=Any()),
+        measures._nDCG(cutoff=Any(), dcg=Choices('log2'), gains=Any(), judged_only=Any()),
+        measures._R(cutoff=Any(), judged_only=Any()),
         measures._Bpref(rel=Any()),
         measures._NumRet(rel=Any()),
         measures._NumQ(),
@@ -76,13 +76,13 @@ class PytrecEvalProvider(providers.Provider):
                 invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 measure_str = f'P_{measure["cutoff"]}'
             elif measure.NAME == 'RR':
-                invocation_key = (measure['rel'], 0, None, False)
+                invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 measure_str = f'recip_rank'
             elif measure.NAME == 'Rprec':
-                invocation_key = (measure['rel'], 0, None, False)
+                invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 measure_str = f'Rprec'
             elif measure.NAME == 'AP':
-                invocation_key = (measure['rel'], 0, None, False)
+                invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 if measure['cutoff'] is NOT_PROVIDED:
                     measure_str = f'map'
                 else:
@@ -95,16 +95,18 @@ class PytrecEvalProvider(providers.Provider):
                     # Doesn't matter where this goes... Put it in an existing invocation, or just (1,) if none yet exist
                     if invocations:
                         invocation_key = next(iter(invocations))
+                        if invocation_key[3] != measure['judged_only']:
+                            invocation_key = (invocation_key[0], invocation_key[1], invocation_key[2], measure['judged_only'])
                     else:
-                        invocation_key = (1, 0, None, False)
+                        invocation_key = (1, 0, None, measure['judged_only'])
                 else:
-                    invocation_key = (1, 0, hashabledict(measure['gains']), False)
+                    invocation_key = (1, 0, hashabledict(measure['gains']), measure['judged_only'])
                 if measure['cutoff'] is NOT_PROVIDED:
                     measure_str = f'ndcg'
                 else:
                     measure_str = f'ndcg_cut_{measure["cutoff"]}'
             elif measure.NAME == 'R':
-                invocation_key = (measure['rel'], 0, None, False)
+                invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 measure_str = f'recall_{measure["cutoff"]}'
             elif measure.NAME == 'Bpref':
                 invocation_key = (measure['rel'], 0, None, False)
