@@ -43,12 +43,12 @@ class PytrecEvalProvider(providers.Provider):
         measures._NumRet(rel=Any()),
         measures._NumQ(),
         measures._NumRel(rel=Choices(1)), # for some reason, relevance_level doesn't flow through to num_rel, so can only support rel=1
-        measures._SetAP(rel=Any()),
-        measures._SetF(rel=Any(), beta=Any()),
-        measures._SetP(rel=Any(), relative=Any()),
+        measures._SetAP(rel=Any(), judged_only=Any()),
+        measures._SetF(rel=Any(), beta=Any(), judged_only=Any()),
+        measures._SetP(rel=Any(), relative=Any(), judged_only=Any()),
         measures._SetR(rel=Any()),
-        measures._Success(rel=Any(), cutoff=Any()),
-        measures._IPrec(recall=Any()),
+        measures._Success(rel=Any(), cutoff=Any(), judged_only=Any()),
+        measures._IPrec(recall=Any(), judged_only=Any()),
         measures._infAP(rel=Any()),
         # Cannot support Judged because software doesn't support negative relevance levels: <https://github.com/cvangysel/pytrec_eval/blob/2362660e02c324df281932cc23ad7efd31cd3957/src/pytrec_eval.cpp#L354>
     ]
@@ -133,14 +133,14 @@ class PytrecEvalProvider(providers.Provider):
                 invocation_key = (measure['rel'], 0, None, False)
                 measure_str = 'num_rel'
             elif measure.NAME == 'SetAP':
-                invocation_key = (measure['rel'], 0, None, False)
+                invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 measure_str = f'set_map'
             elif measure.NAME == 'SetF':
                 # set_F is strange (or buggy?) in both trec_eval and pytrec_eval. It only accepts
                 # the first beta argument it's given, which is why we use the setf_count approach
                 # to handle multiple invocations. It also is always reported as the name set_F by
                 # pytrec_eval, so we need different measure_str and match_str here.
-                invocation_key = (measure['rel'], setf_count, None, False)
+                invocation_key = (measure['rel'], setf_count, None, measure['judged_only'])
                 setf_count += 1
                 measure_str = f'set_F_{measure["beta"]}'
                 match_str = 'set_F'
@@ -150,19 +150,19 @@ class PytrecEvalProvider(providers.Provider):
                     measure_str = f'set_F_{measure["beta"]}'
             elif measure.NAME == 'SetP':
                 if measure['relative']:
-                    invocation_key = (measure['rel'], 0, None, False)
+                    invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                     measure_str = f'set_relative_P'
                 else:
-                    invocation_key = (measure['rel'], 0, None, False)
+                    invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                     measure_str = f'set_P'
             elif measure.NAME == 'SetR':
                 invocation_key = (measure['rel'], 0, None, False)
                 measure_str = f'set_recall'
             elif measure.NAME == 'Success':
-                invocation_key = (measure['rel'], 0, None, False)
+                invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 measure_str = f'success_{measure["cutoff"]}'
             elif measure.NAME == 'IPrec':
-                invocation_key = (measure['rel'], 0, None, False)
+                invocation_key = (measure['rel'], 0, None, measure['judged_only'])
                 measure_str = f'iprec_at_recall_{measure["recall"]:.2f}'
             else:
                 raise ValueError(f'unsupported measure {measure}')

@@ -625,7 +625,7 @@ class TestPytrecEval(BaseMeasureTest):
 0 0 D4 5 0.1 run
 ''')) # D0 is removed because trec_eval considers negative labels as unjudged (??). See <https://github.com/usnistgov/trec_eval/blob/d95ca64e14a47d763ae349fb65e6d8cde4141dbd/form_res_rels.c#L219>
         provider = ir_measures.pytrec_eval
-        for measure in [ir_measures.P@4, ir_measures.RR, ir_measures.Rprec, ir_measures.AP, ir_measures.AP@4, ir_measures.nDCG, ir_measures.nDCG@4, ir_measures.R@2]:
+        for measure in [ir_measures.P@4, ir_measures.RR, ir_measures.Rprec, ir_measures.AP, ir_measures.AP@4, ir_measures.nDCG, ir_measures.nDCG@4, ir_measures.R@2, ir_measures.SetP, ir_measures.SetAP, ir_measures.SetF, ir_measures.Success@2, ir_measures.IPrec@0.5]:
             with self.subTest(measure):
                 self.assertMetrics(
                         [Metric(m.query_id, measure, m.value) for m in provider.iter_calc([measure(judged_only=True)], qrels, run)],

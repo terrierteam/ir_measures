@@ -15,7 +15,8 @@ class _IPrec(measures.Measure):
     AT_PARAM = 'recall'
     SUPPORTED_PARAMS = {
         'recall': measures.ParamInfo(dtype=float, required=True, desc='recall threshold'),
-        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
+        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
+        'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='ignore returned documents that do not have relevance judgments'),
     }
 
 
