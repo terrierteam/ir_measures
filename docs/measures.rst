@@ -2,6 +2,27 @@
 Measures
 =========================
 
+``Accuracy``
+-------------------------
+
+Accuracy metric
+
+Reports the probability that a relevant document is ranked before a non relevant one.
+This metric purpose is to be used for diagnosis (checking that train/test/validation accuracy match).
+As such, it only considers relevant documents which are within the returned ones.
+
+**Parameters:**
+
+- ``cutoff`` (int) - ranking cutoff threshold
+- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+
+
+**Provided by:**
+
+- ``accuracy``: ``Accuracy(rel=ANY)@ANY``
+
+
+
 ``alpha_DCG``
 -------------------------
 
@@ -27,7 +48,7 @@ A version of DCG that accounts for multiple possible query intents.
 
 **Provided by:**
 
-- ``pyndeval``: ``alpha_DCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+- ``pyndeval``: ``alpha_DCG(alpha=ANY,rel=ANY,judged_only=ANY)@ANY``
 
 
 
@@ -56,27 +77,8 @@ A version of nDCG that accounts for multiple possible query intents.
 
 **Provided by:**
 
-- ``pyndeval``: ``alpha_nDCG(alpha=ANY, rel=ANY, judged_only=ANY)@ANY``
+- ``pyndeval``: ``alpha_nDCG(alpha=ANY,rel=ANY,judged_only=ANY)@ANY``
 
-
-``Accuracy``
--------------------------
-
-The accuracy metric corresponds to the probability that a relevant
-document is ranked before a non relevant one. This metric is intended
-to be used as a diagnostic metric (checking discrepancies between
-train, validation and test with pairwise costs). As such, runs
-with no relevant document are discarded.
-
-**Parameters:**
-
-- ``cutoff`` (int) - ranking cutoff threshold
-- ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
-
-
-**Provided by:**
-
-- ``accuracy``: ``Accuracy(cutoff=ANY, rel=ANY)``
 
 
 ``AP``
@@ -105,14 +107,15 @@ by taking the mean of AP over the query set.
 
 - ``cutoff`` (int) - ranking cutoff threshold
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``cwl_eval``: ``AP(rel=ANY)@NOT_PROVIDED``
-- ``pytrec_eval``: ``AP(rel=ANY)@ANY``
-- ``trectools``: ``AP(rel=1)@ANY``
-- ``ranx``: ``AP(rel=ANY)@ANY``
+- ``cwl_eval``: ``AP(rel=ANY,judged_only=False)@NOT_PROVIDED``
+- ``pytrec_eval``: ``AP(rel=ANY,judged_only=ANY)@ANY``
+- ``trectools``: ``AP(rel=1,judged_only=False)@ANY``
+- ``ranx``: ``AP(rel=ANY,judged_only=False)@ANY``
 
 
 
@@ -130,7 +133,7 @@ Intent-aware (Mean) Average Precision
 
 **Provided by:**
 
-- ``pyndeval``: ``AP_IA(rel=ANY, judged_only=ANY)``
+- ``pyndeval``: ``AP_IA(rel=ANY,judged_only=ANY)``
 
 
 
@@ -160,7 +163,7 @@ The Bejeweled Player Model (BPM).
 
 **Provided by:**
 
-- ``cwl_eval``: ``BPM(T=ANY, min_rel=ANY, max_rel=REQUIRED)@ANY``
+- ``cwl_eval``: ``BPM(T=ANY,min_rel=ANY,max_rel=REQUIRED)@ANY``
 
 
 
@@ -220,7 +223,7 @@ Compatibility measure desribed in:
 
 **Provided by:**
 
-- ``compat``: ``Compat(p=ANY, normalize=ANY)``
+- ``compat``: ``Compat(p=ANY,normalize=ANY)``
 
 
 
@@ -267,7 +270,7 @@ Intent-Aware Expected Reciprocal Rank with collection-independent normalisation.
 
 **Provided by:**
 
-- ``pyndeval``: ``ERR_IA(rel=ANY, judged_only=ANY)@ANY``
+- ``pyndeval``: ``ERR_IA(rel=ANY,judged_only=ANY)@ANY``
 
 
 
@@ -297,36 +300,7 @@ this convention.
 -------------------------
 
 
-INSQ, a variant of INST
-
-::
-
- @inproceedings{Moffat:2015:IAM:2838931.2838938,
-   author = {Moffat, Alistair and Bailey, Peter and Scholer, Falk and Thomas, Paul},
-   title = {INST: An Adaptive Metric for Information Retrieval Evaluation},
-   booktitle = {Proceedings of the 20th Australasian Document Computing Symposium},
-   year = {2015},
-   url = {http://doi.acm.org/10.1145/2838931.2838938}
- }
-
-**Parameters:**
-
-- ``T`` (float) - TODO
-- ``min_rel`` (int) - minimum relevance score
-- ``max_rel`` (int) - maximum relevance score
-
-
-**Provided by:**
-
-- ``cwl_eval``: ``INSQ(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
-
-
-
-``INST``
--------------------------
-
-
-INST
+INSQ
 
 ::
 
@@ -340,14 +314,45 @@ INST
 
 **Parameters:**
 
-- ``T`` (float) - TODO
+- ``T`` (float) - total desired gain (normalized)
 - ``min_rel`` (int) - minimum relevance score
 - ``max_rel`` (int) - maximum relevance score
 
 
 **Provided by:**
 
-- ``cwl_eval``: ``INST(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+- ``cwl_eval``: ``INSQ(T=ANY,min_rel=ANY,max_rel=REQUIRED)``
+
+
+
+``INST``
+-------------------------
+
+
+INST, a variant of INSQ
+
+::
+
+ @inproceedings{10.1145/2766462.2767728,
+   author = {Bailey, Peter and Moffat, Alistair and Scholer, Falk and Thomas, Paul},
+   title = {User Variability and IR System Evaluation},
+   year = {2015},
+   booktitle = {Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+   pages = {625–634},
+   series = {SIGIR '15},
+   url = {https://doi.org/10.1145/2766462.2767728}
+ }
+
+**Parameters:**
+
+- ``T`` (float) - total desired gain (normalized)
+- ``min_rel`` (int) - minimum relevance score
+- ``max_rel`` (int) - maximum relevance score
+
+
+**Provided by:**
+
+- ``cwl_eval``: ``INST(T=ANY,min_rel=ANY,max_rel=REQUIRED)``
 
 
 
@@ -363,11 +368,12 @@ cutoff.
 
 - ``recall`` (float) - recall threshold
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``IPrec@ANY``
+- ``pytrec_eval``: ``IPrec(judged_only=ANY)@ANY``
 
 
 
@@ -415,14 +421,16 @@ It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order 
 
 - ``cutoff`` (int) - ranking cutoff threshold
 - ``dcg`` (str) - DCG formulation
+- ``gains`` (dict) - custom gain mapping (int-to-int)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``nDCG(dcg='log2')@ANY``
-- ``gdeval``: ``nDCG(dcg='exp-log2')@REQUIRED``
-- ``trectools``: ``nDCG(dcg=ANY)@ANY``
-- ``ranx``: ``nDCG(dcg=('log2', 'exp-log2'))@ANY``
+- ``pytrec_eval``: ``nDCG(dcg='log2',gains=ANY,judged_only=ANY)@ANY``
+- ``gdeval``: ``nDCG(dcg='exp-log2',gains=NOT_PROVIDED,judged_only=False)@REQUIRED``
+- ``trectools``: ``nDCG(dcg=ANY,gains=NOT_PROVIDED,judged_only=False)@ANY``
+- ``ranx``: ``nDCG(dcg=('log2', 'exp-log2'),gains=NOT_PROVIDED,judged_only=False)@ANY``
 
 
 
@@ -451,7 +459,7 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 
 **Provided by:**
 
-- ``cwl_eval``: ``NERR10(p=ANY, min_rel=ANY, max_rel=REQUIRED)``
+- ``cwl_eval``: ``NERR10(p=ANY,min_rel=ANY,max_rel=REQUIRED)``
 
 
 
@@ -480,7 +488,7 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 
 **Provided by:**
 
-- ``cwl_eval``: ``NERR11(T=ANY, min_rel=ANY, max_rel=REQUIRED)``
+- ``cwl_eval``: ``NERR11(T=ANY,min_rel=ANY,max_rel=REQUIRED)``
 
 
 
@@ -509,7 +517,7 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 
 **Provided by:**
 
-- ``cwl_eval``: ``NERR8(min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
+- ``cwl_eval``: ``NERR8(min_rel=ANY,max_rel=REQUIRED)@REQUIRED``
 
 
 
@@ -538,7 +546,7 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 
 **Provided by:**
 
-- ``cwl_eval``: ``NERR9(min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
+- ``cwl_eval``: ``NERR9(min_rel=ANY,max_rel=REQUIRED)@REQUIRED``
 
 
 
@@ -566,7 +574,7 @@ Intent-Aware Expected Reciprocal Rank with collection-dependent normalisation.
 
 **Provided by:**
 
-- ``pyndeval``: ``nERR_IA(rel=ANY, judged_only=ANY)@ANY``
+- ``pyndeval``: ``nERR_IA(rel=ANY,judged_only=ANY)@ANY``
 
 
 
@@ -594,7 +602,7 @@ Novelty- and Rank-Biased Precision with collection-dependent normalisation.
 
 **Provided by:**
 
-- ``pyndeval``: ``nNRBP(alpha=ANY, beta=ANY, rel=ANY)``
+- ``pyndeval``: ``nNRBP(alpha=ANY,beta=ANY,rel=ANY)``
 
 
 
@@ -622,7 +630,7 @@ Novelty- and Rank-Biased Precision with collection-independent normalisation.
 
 **Provided by:**
 
-- ``pyndeval``: ``NRBP(alpha=ANY, beta=ANY, rel=ANY)``
+- ``pyndeval``: ``NRBP(alpha=ANY,beta=ANY,rel=ANY)``
 
 
 
@@ -695,14 +703,15 @@ P@cutoff.
 
 - ``cutoff`` (int) - ranking cutoff threshold
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``cwl_eval``: ``P(rel=ANY)@ANY``
-- ``pytrec_eval``: ``P(rel=ANY)@ANY``
-- ``trectools``: ``P(rel=1)@ANY``
-- ``ranx``: ``P(rel=ANY)@ANY``
+- ``cwl_eval``: ``P(rel=ANY,judged_only=False)@ANY``
+- ``pytrec_eval``: ``P(rel=ANY,judged_only=ANY)@ANY``
+- ``trectools``: ``P(rel=1,judged_only=False)@ANY``
+- ``ranx``: ``P(rel=ANY,judged_only=False)@ANY``
 
 
 
@@ -721,7 +730,7 @@ Intent-aware Precision@k.
 
 **Provided by:**
 
-- ``pyndeval``: ``P_IA(rel=ANY, judged_only=ANY)@ANY``
+- ``pyndeval``: ``P_IA(rel=ANY,judged_only=ANY)@ANY``
 
 
 
@@ -738,12 +747,13 @@ This software follows the TREC convention and refers to that measure as Success@
 
 - ``cutoff`` (int) - ranking cutoff threshold
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``R@ANY``
-- ``ranx``: ``R@ANY``
+- ``pytrec_eval``: ``R(judged_only=ANY)@ANY``
+- ``ranx``: ``R(judged_only=False)@ANY``
 
 
 
@@ -772,8 +782,8 @@ The Rank-Biased Precision (RBP).
 
 **Provided by:**
 
-- ``cwl_eval``: ``RBP(rel=REQUIRED, p=ANY)@NOT_PROVIDED``
-- ``trectools``: ``RBP(p=ANY, rel=ANY)@ANY``
+- ``cwl_eval``: ``RBP(rel=REQUIRED,p=ANY)@NOT_PROVIDED``
+- ``trectools``: ``RBP(p=ANY,rel=ANY)@ANY``
 
 
 
@@ -781,7 +791,7 @@ The Rank-Biased Precision (RBP).
 -------------------------
 
 
-The precision of at R, where R is the number of relevant documents for a given query. Has the cute property that
+The precision at R, where R is the number of relevant documents for a given query. Has the cute property that
 it is also the recall at R.
 
 ::
@@ -797,13 +807,14 @@ it is also the recall at R.
 **Parameters:**
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``Rprec(rel=ANY)``
-- ``trectools``: ``Rprec(rel=1)``
-- ``ranx``: ``Rprec(rel=ANY)``
+- ``pytrec_eval``: ``Rprec(rel=ANY,judged_only=ANY)``
+- ``trectools``: ``Rprec(rel=1,judged_only=False)``
+- ``ranx``: ``Rprec(rel=ANY,judged_only=False)``
 
 
 
@@ -831,15 +842,16 @@ depth explored. rel (default 1) controls which relevance level is considered rel
 
 - ``cutoff`` (int) - ranking cutoff threshold
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``cwl_eval``: ``RR(rel=ANY)@NOT_PROVIDED``
-- ``pytrec_eval``: ``RR(rel=ANY)@NOT_PROVIDED``
-- ``trectools``: ``RR(rel=1)@NOT_PROVIDED``
-- ``msmarco``: ``RR(rel=ANY)@ANY``
-- ``ranx``: ``RR(rel=ANY)@NOT_PROVIDED``
+- ``cwl_eval``: ``RR(rel=ANY,judged_only=False)@NOT_PROVIDED``
+- ``pytrec_eval``: ``RR(rel=ANY,judged_only=ANY)@NOT_PROVIDED``
+- ``trectools``: ``RR(rel=1,judged_only=False)@NOT_PROVIDED``
+- ``msmarco``: ``RR(rel=ANY,judged_only=False)@ANY``
+- ``ranx``: ``RR(rel=ANY,judged_only=False)@NOT_PROVIDED``
 
 
 
@@ -860,7 +872,7 @@ fully-relevant documents exist but are not labeled.
 
 **Provided by:**
 
-- ``cwl_eval``: ``SDCG(dcg='log2', min_rel=ANY, max_rel=REQUIRED)@REQUIRED``
+- ``cwl_eval``: ``SDCG(dcg='log2',min_rel=ANY,max_rel=REQUIRED)@REQUIRED``
 
 
 
@@ -873,11 +885,12 @@ The unranked Set AP (SetAP); i.e., SetP * SetR
 **Parameters:**
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``SetAP(rel=ANY)``
+- ``pytrec_eval``: ``SetAP(rel=ANY,judged_only=ANY)``
 
 
 
@@ -891,11 +904,12 @@ The Set F measure (SetF); i.e., the harmonic mean of SetP and SetR
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
 - ``beta`` (float) - relative importance of R to P in the harmonic mean
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``SetF(rel=ANY, beta=ANY)``
+- ``pytrec_eval``: ``SetF(rel=ANY,beta=ANY,judged_only=ANY)``
 
 
 
@@ -909,12 +923,13 @@ The Set Precision (SetP); i.e., the number of relevant docs divided by the total
 
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
 - ``relative`` (bool) - calculate the measure using the maximum possible SetP for the provided result size
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``SetP(rel=ANY, relative=ANY)``
-- ``ranx``: ``SetP(rel=ANY)``
+- ``pytrec_eval``: ``SetP(rel=ANY,relative=ANY,judged_only=ANY)``
+- ``ranx``: ``SetP(rel=ANY,judged_only=False)``
 
 
 
@@ -967,12 +982,13 @@ Recall@k is defined as the proportion of known relevant documents retrieved in t
 
 - ``cutoff`` (int) - ranking cutoff threshold
 - ``rel`` (int) - minimum relevance score to be considered relevant (inclusive)
+- ``judged_only`` (bool) - ignore returned documents that do not have relevance judgments
 
 
 **Provided by:**
 
-- ``pytrec_eval``: ``Success(rel=ANY)@ANY``
-- ``ranx``: ``Success(rel=ANY)@REQUIRED``
+- ``pytrec_eval``: ``Success(rel=ANY,judged_only=ANY)@ANY``
+- ``ranx``: ``Success(rel=ANY,judged_only=False)@REQUIRED``
 
 
 
