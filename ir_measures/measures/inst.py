@@ -6,17 +6,17 @@ class _INST(measures.Measure):
     """
     INST, a variant of INSQ
 
-::
-
-     @inproceedings{10.1145/2766462.2767728,
-       author = {Bailey, Peter and Moffat, Alistair and Scholer, Falk and Thomas, Paul},
-       title = {User Variability and IR System Evaluation},
-       year = {2015},
-       booktitle = {Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval},
-       pages = {625–634},
-       series = {SIGIR '15},
-       url = {https://doi.org/10.1145/2766462.2767728}
-     }
+<cite>
+@inproceedings{10.1145/2766462.2767728,
+  author = {Bailey, Peter and Moffat, Alistair and Scholer, Falk and Thomas, Paul},
+  title = {User Variability and IR System Evaluation},
+  year = {2015},
+  booktitle = {Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  pages = {625–634},
+  series = {SIGIR '15},
+  url = {https://doi.org/10.1145/2766462.2767728}
+}
+</cite>
     """
     __name__ = 'INST'
     NAME = __name__
@@ -33,15 +33,15 @@ class _INSQ(measures.Measure):
     """
     INSQ
 
-::
-
-     @inproceedings{Moffat:2012:MMI:2407085.2407092,
-       author = {Moffat, Alistair and Scholer, Falk and Thomas, Paul},
-       title = {Models and Metrics: IR Evaluation As a User Process},
-       booktitle = {Proceedings of the Seventeenth Australasian Document Computing Symposium},
-       year = {2012},
-       url = {http://doi.acm.org/10.1145/2407085.2407092}
-     }
+<cite>
+@inproceedings{Moffat:2012:MMI:2407085.2407092,
+  author = {Moffat, Alistair and Scholer, Falk and Thomas, Paul},
+  title = {Models and Metrics: IR Evaluation As a User Process},
+  booktitle = {Proceedings of the Seventeenth Australasian Document Computing Symposium},
+  year = {2012},
+  url = {http://doi.acm.org/10.1145/2407085.2407092}
+}
+</cite>
     """
     __name__ = 'INSQ'
     NAME = __name__

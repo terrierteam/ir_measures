@@ -28,14 +28,14 @@ class CwlEvalProvider(providers.Provider):
 
     https://github.com/ireval/cwl
 
-::
-
-    @inproceedings{azzopardi2019cwl,
-      author = {Azzopardi, Leif and Thomas, Paul and Moffat, Alistair},
-      title = {cwl\\_eval: An Evaluation Tool for Information Retrieval},
-      booktitle = {SIGIR},
-      year = {2019}
-    }
+<cite>
+@inproceedings{azzopardi2019cwl,
+  author = {Azzopardi, Leif and Thomas, Paul and Moffat, Alistair},
+  title = {cwl\\_eval: An Evaluation Tool for Information Retrieval},
+  booktitle = {SIGIR},
+  year = {2019}
+}
+</cite>
     """
     NAME = 'cwl_eval'
     SUPPORTED_MEASURES = [

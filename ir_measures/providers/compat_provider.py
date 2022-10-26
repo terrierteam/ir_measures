@@ -6,18 +6,21 @@ from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 
 class CompatProvider(providers.Provider):
     """
-    Version of the compatibility measure desribed in
-        @article{10.1145/3451161,
-          author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
-          title = {Assessing Top-k Preferences},
-          journal = {ACM Transactions on Information Systems},
-          volume = {39},
-          number = {3},
-          articleno = {33},
-          numpages = {21},
-          year = {2021},
-          url = {https://doi.org/10.1145/3451161},
-        }
+    Version of the compatibility measure desribed in:
+
+<cite>
+@article{10.1145/3451161,
+  author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
+  title = {Assessing Top-k Preferences},
+  journal = {ACM Transactions on Information Systems},
+  volume = {39},
+  number = {3},
+  articleno = {33},
+  numpages = {21},
+  year = {2021},
+  url = {https://doi.org/10.1145/3451161},
+}
+</cite>
     """
     NAME = 'compat'
     SUPPORTED_MEASURES = [

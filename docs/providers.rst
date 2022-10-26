@@ -16,7 +16,15 @@ Accuracy provider
 -------------------------
 
 
- Version of the compatibility measure desribed in
+
+Version of the compatibility measure desribed in:
+
+
+
+
+::
+
+
   @article{10.1145/3451161,
     author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
     title = {Assessing Top-k Preferences},
@@ -28,7 +36,8 @@ Accuracy provider
     year = {2021},
     url = {https://doi.org/10.1145/3451161},
   }
- 
+  
+
 **Supported Measures:**
 
  - ``Compat(p=ANY,normalize=ANY)``
@@ -39,19 +48,25 @@ Accuracy provider
 -------------------------
 
 
- cwl_eval, providing C/W/L ("cool") framework measures.
 
- https://github.com/ireval/cwl
+cwl_eval, providing C/W/L ("cool") framework measures.
+
+https://github.com/ireval/cwl
+
+
+
 
 ::
 
- @inproceedings{azzopardi2019cwl,
-   author = {Azzopardi, Leif and Thomas, Paul and Moffat, Alistair},
-   title = {cwl\_eval: An Evaluation Tool for Information Retrieval},
-   booktitle = {SIGIR},
-   year = {2019}
- }
- 
+
+  @inproceedings{azzopardi2019cwl,
+    author = {Azzopardi, Leif and Thomas, Paul and Moffat, Alistair},
+    title = {cwl\_eval: An Evaluation Tool for Information Retrieval},
+    booktitle = {SIGIR},
+    year = {2019}
+  }
+  
+
 **Supported Measures:**
 
  - ``P(rel=ANY,judged_only=False)@ANY``
@@ -73,8 +88,8 @@ Accuracy provider
 -------------------------
 
 
- gdeval
- 
+gdeval
+
 **Supported Measures:**
 
  - ``nDCG(dcg='exp-log2',gains=NOT_PROVIDED,judged_only=False)@REQUIRED``
@@ -86,10 +101,10 @@ Accuracy provider
 -------------------------
 
 
- python implementation of judgment rate
+python implementation of judgment rate
 
- Adapted from OpenNIR's implementation: https://github.com/Georgetown-IR-Lab/OpenNIR/blob/master/onir/metrics/judged.py
- 
+Adapted from OpenNIR's implementation: https://github.com/Georgetown-IR-Lab/OpenNIR/blob/master/onir/metrics/judged.py
+
 **Supported Measures:**
 
  - ``Judged@ANY``
@@ -100,8 +115,8 @@ Accuracy provider
 -------------------------
 
 
- MS MARCO's implementation of RR
- 
+MS MARCO's implementation of RR
+
 **Supported Measures:**
 
  - ``RR(rel=ANY,judged_only=False)@ANY``
@@ -112,8 +127,8 @@ Accuracy provider
 -------------------------
 
 
- pyndeval
- 
+pyndeval
+
 **Supported Measures:**
 
  - ``ERR_IA(rel=ANY,judged_only=ANY)@ANY``
@@ -132,21 +147,26 @@ Accuracy provider
 -------------------------
 
 
- pytrec_eval
 
- https://github.com/cvangysel/pytrec_eval
+pytrec_eval
+
+https://github.com/cvangysel/pytrec_eval
+
+
+
 
 ::
 
- @inproceedings{VanGysel2018pytreceval,
-  title={Pytrec\_eval: An Extremely Fast Python Interface to trec\_eval},
-  author={Van Gysel, Christophe and de Rijke, Maarten},
-  publisher={ACM},
-  booktitle={SIGIR},
-  year={2018},
- }
 
- 
+  @inproceedings{VanGysel2018pytreceval,
+      title={Pytrec\_eval: An Extremely Fast Python Interface to trec\_eval},
+      author={Van Gysel, Christophe and de Rijke, Maarten},
+      publisher={ACM},
+      booktitle={SIGIR},
+      year={2018},
+  }
+  
+
 **Supported Measures:**
 
  - ``P(rel=ANY,judged_only=ANY)@ANY``
@@ -173,21 +193,26 @@ Accuracy provider
 -------------------------
 
 
- ranx
 
- https://amenra.github.io/ranx/
+ranx
+
+https://amenra.github.io/ranx/
+
+
+
 
 ::
 
- @misc{ranx2021,
-   title = {ranx: A Blazing-Fast Python Library for Ranking Evaluation and Comparison},
-   author = {Bassani, Elias},
-   year = {2021},
-   publisher = {GitHub},
-   howpublished = {\url{https://github.com/AmenRa/ranx}},
- }
 
- 
+  @misc{ranx2021,
+    title = {ranx: A Blazing-Fast Python Library for Ranking Evaluation and Comparison},
+    author = {Bassani, Elias},
+    year = {2021},
+    publisher = {GitHub},
+    howpublished = {\url{https://github.com/AmenRa/ranx}},
+  }
+  
+
 **Supported Measures:**
 
  - ``P(rel=ANY,judged_only=False)@ANY``
@@ -207,9 +232,9 @@ Accuracy provider
 -------------------------
 
 
- Supports measures that are defined at runtime via `ir_measures.define()` and
- `ir_measures.define_byquery()`.
- 
+Supports measures that are defined at runtime via `ir_measures.define()` and
+`ir_measures.define_byquery()`.
+
 **Supported Measures:**
 
 
@@ -219,22 +244,27 @@ Accuracy provider
 -------------------------
 
 
- trectools
 
- https://github.com/joaopalotti/trectools
+trectools
+
+https://github.com/joaopalotti/trectools
+
+
+
 
 ::
 
- @inproceedings{palotti2019,
-    author = {Palotti, Joao and Scells, Harrisen and Zuccon, Guido},
-    title = {TrecTools: an open-source Python library for Information Retrieval practitioners involved in TREC-like campaigns},
-    series = {SIGIR'19},
-    year = {2019},
-    location = {Paris, France},
-    publisher = {ACM}
- }
 
- 
+  @inproceedings{palotti2019,
+     author = {Palotti, Joao and Scells, Harrisen and Zuccon, Guido},
+     title = {TrecTools: an open-source Python library for Information Retrieval practitioners involved in TREC-like campaigns},
+     series = {SIGIR'19},
+     year = {2019},
+     location = {Paris, France},
+     publisher = {ACM}
+  }
+  
+
 **Supported Measures:**
 
  - ``P(rel=1,judged_only=False)@ANY``

@@ -7,15 +7,15 @@ class _Rprec(measures.Measure):
     The precision at R, where R is the number of relevant documents for a given query. Has the cute property that
     it is also the recall at R.
 
-::
-
-    @misc{Buckley2005RetrievalSE,
-      title={Retrieval System Evaluation},
-      author={Chris Buckley and Ellen M. Voorhees},
-      annote={Chapter 3 in TREC: Experiment and Evaluation in Information Retrieval},
-      howpublished={MIT Press},
-      year={2005}
-    }
+<cite>
+@misc{Buckley2005RetrievalSE,
+  title={Retrieval System Evaluation},
+  author={Chris Buckley and Ellen M. Voorhees},
+  annote={Chapter 3 in TREC: Experiment and Evaluation in Information Retrieval},
+  howpublished={MIT Press},
+  year={2005}
+}
+</cite>
     """
     __name__ = 'Rprec'
     NAME = __name__

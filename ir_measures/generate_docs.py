@@ -1,4 +1,20 @@
+import re
 import ir_measures
+
+def docstring2rst(docstring):
+    citation = re.search(r'<cite>(.*)</cite>', docstring, flags=re.M | re.S)
+    docstring = re.sub(r'<cite>(.*)</cite>', '', docstring, flags=re.M | re.S).replace('    ', '')
+    if citation:
+        citation = citation.group(1).replace('\n', '\n  ')
+        return f'''
+{docstring}
+
+::
+
+{citation}
+'''
+    else:
+        return docstring
 
 def main():
     with open('docs/measures.rst', 'wt') as f:
@@ -19,7 +35,7 @@ Measures
 ``{name}``
 -------------------------
 
-{val.__doc__.replace('    ', '')}
+{docstring2rst(val.__doc__)}
 ''')
             if val.SUPPORTED_PARAMS:
                 f.write('''**Parameters:**\n\n''')
@@ -59,7 +75,7 @@ Providers
 ``{name}``
 -------------------------
 
-{val.__doc__.replace('    ', ' ')}
+{docstring2rst(val.__doc__)}
 ''')
             f.write('''**Supported Measures:**\n\n''')
             for measure in val.SUPPORTED_MEASURES:

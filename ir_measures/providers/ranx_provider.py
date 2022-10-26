@@ -10,16 +10,15 @@ class RanxProvider(providers.Provider):
 
     https://amenra.github.io/ranx/
 
-::
-
-    @misc{ranx2021,
-      title = {ranx: A Blazing-Fast Python Library for Ranking Evaluation and Comparison},
-      author = {Bassani, Elias},
-      year = {2021},
-      publisher = {GitHub},
-      howpublished = {\\url{https://github.com/AmenRa/ranx}},
-    }
-
+<cite>
+@misc{ranx2021,
+  title = {ranx: A Blazing-Fast Python Library for Ranking Evaluation and Comparison},
+  author = {Bassani, Elias},
+  year = {2021},
+  publisher = {GitHub},
+  howpublished = {\\url{https://github.com/AmenRa/ranx}},
+}
+</cite>
     """
     NAME = 'ranx'
     SUPPORTED_MEASURES = [

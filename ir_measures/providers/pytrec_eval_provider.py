@@ -20,16 +20,15 @@ class PytrecEvalProvider(providers.Provider):
 
     https://github.com/cvangysel/pytrec_eval
 
-::
-
-    @inproceedings{VanGysel2018pytreceval,
-        title={Pytrec\\_eval: An Extremely Fast Python Interface to trec\\_eval},
-        author={Van Gysel, Christophe and de Rijke, Maarten},
-        publisher={ACM},
-        booktitle={SIGIR},
-        year={2018},
-    }
-
+<cite>
+@inproceedings{VanGysel2018pytreceval,
+    title={Pytrec\\_eval: An Extremely Fast Python Interface to trec\\_eval},
+    author={Van Gysel, Christophe and de Rijke, Maarten},
+    publisher={ACM},
+    booktitle={SIGIR},
+    year={2018},
+}
+</cite>
     """
     NAME = 'pytrec_eval'
     SUPPORTED_MEASURES = [

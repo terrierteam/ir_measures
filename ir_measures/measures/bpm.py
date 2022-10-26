@@ -6,15 +6,15 @@ class _BPM(measures.Measure):
     """
     The Bejeweled Player Model (BPM).
 
-::
-
-     @inproceedings{Zhang:2017:EWS:3077136.3080841,
-       author = {Zhang, Fan and Liu, Yiqun and Li, Xin and Zhang, Min and Xu, Yinghui and Ma, Shaoping},
-       title = {Evaluating Web Search with a Bejeweled Player Model},
-       booktitle = {SIGIR},
-       year = {2017},
-       url = {http://doi.acm.org/10.1145/3077136.3080841}
-     }
+<cite>
+@inproceedings{Zhang:2017:EWS:3077136.3080841,
+  author = {Zhang, Fan and Liu, Yiqun and Li, Xin and Zhang, Min and Xu, Yinghui and Ma, Shaoping},
+  title = {Evaluating Web Search with a Bejeweled Player Model},
+  booktitle = {SIGIR},
+  year = {2017},
+  url = {http://doi.acm.org/10.1145/3077136.3080841}
+}
+</cite>
     """
     __name__ = 'BPM'
     NAME = __name__

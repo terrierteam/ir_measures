@@ -27,16 +27,22 @@ As such, it only considers relevant documents which are within the returned ones
 -------------------------
 
 
+
 A version of DCG that accounts for multiple possible query intents.
+
+
+
 
 ::
 
-@inproceedings{Clarke2008NoveltyAD,
-  title={Novelty and diversity in information retrieval evaluation},
-  author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
-  booktitle={SIGIR},
-  year={2008}
-}
+
+  @inproceedings{Clarke2008NoveltyAD,
+    title={Novelty and diversity in information retrieval evaluation},
+    author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
+    booktitle={SIGIR},
+    year={2008}
+  }
+  
 
 **Parameters:**
 
@@ -56,16 +62,22 @@ A version of DCG that accounts for multiple possible query intents.
 -------------------------
 
 
+
 A version of nDCG that accounts for multiple possible query intents.
+
+
+
 
 ::
 
-@inproceedings{Clarke2008NoveltyAD,
-  title={Novelty and diversity in information retrieval evaluation},
-  author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
-  booktitle={SIGIR},
-  year={2008}
-}
+
+  @inproceedings{Clarke2008NoveltyAD,
+    title={Novelty and diversity in information retrieval evaluation},
+    author={Charles L. A. Clarke and Maheedhar Kolla and Gordon V. Cormack and Olga Vechtomova and Azin Ashkan and Stefan B{"u}ttcher and Ian MacKinnon},
+    booktitle={SIGIR},
+    year={2008}
+  }
+  
 
 **Parameters:**
 
@@ -85,23 +97,29 @@ A version of nDCG that accounts for multiple possible query intents.
 -------------------------
 
 
+
 The [Mean] Average Precision ([M]AP). The average precision of a single query is the mean
 of the precision scores at each relevant item returned in a search results list.
 
 AP is typically used for adhoc ranking tasks where getting as many relevant items as possible is. It is commonly referred to as MAP,
 by taking the mean of AP over the query set.
 
+
+
+
 ::
 
-@article{Harman:1992:ESIR,
-  author = {Donna Harman},
-  title = {Evaluation Issues in Information Retrieval},
-  journal = {Information Processing and Management},
-  volume = {28},
-  number = {4},
-  pages = {439 - -440},
-  year = {1992},
-}
+
+  @article{Harman:1992:ESIR,
+    author = {Donna Harman},
+    title = {Evaluation Issues in Information Retrieval},
+    journal = {Information Processing and Management},
+    volume = {28},
+    number = {4},
+    pages = {439 - -440},
+    year = {1992},
+  }
+  
 
 **Parameters:**
 
@@ -141,17 +159,23 @@ Intent-aware (Mean) Average Precision
 -------------------------
 
 
+
 The Bejeweled Player Model (BPM).
+
+
+
 
 ::
 
- @inproceedings{Zhang:2017:EWS:3077136.3080841,
-   author = {Zhang, Fan and Liu, Yiqun and Li, Xin and Zhang, Min and Xu, Yinghui and Ma, Shaoping},
-   title = {Evaluating Web Search with a Bejeweled Player Model},
-   booktitle = {SIGIR},
-   year = {2017},
-   url = {http://doi.acm.org/10.1145/3077136.3080841}
- }
+
+  @inproceedings{Zhang:2017:EWS:3077136.3080841,
+    author = {Zhang, Fan and Liu, Yiqun and Li, Xin and Zhang, Min and Xu, Yinghui and Ma, Shaoping},
+    title = {Evaluating Web Search with a Bejeweled Player Model},
+    booktitle = {SIGIR},
+    year = {2017},
+    url = {http://doi.acm.org/10.1145/3077136.3080841}
+  }
+  
 
 **Parameters:**
 
@@ -171,17 +195,23 @@ The Bejeweled Player Model (BPM).
 -------------------------
 
 
+
 Binary Preference (Bpref).
 This measure examines the relative ranks of judged relevant and non-relevant documents. Non-judged documents are not considered. 
 
+
+
+
 ::
 
-@inproceedings{Buckley2004RetrievalEW,
-  title={Retrieval evaluation with incomplete information},
-  author={Chris Buckley and Ellen M. Voorhees},
-  booktitle={SIGIR},
-  year={2004}
-}
+
+  @inproceedings{Buckley2004RetrievalEW,
+    title={Retrieval evaluation with incomplete information},
+    author={Chris Buckley and Ellen M. Voorhees},
+    booktitle={SIGIR},
+    year={2004}
+  }
+  
 
 **Parameters:**
 
@@ -199,21 +229,27 @@ This measure examines the relative ranks of judged relevant and non-relevant doc
 -------------------------
 
 
+
 Compatibility measure desribed in:
+
+
+
 
 ::
 
-@article{10.1145/3451161,
-  author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
-  title = {Assessing Top-k Preferences},
-  journal = {ACM Transactions on Information Systems},
-  volume = {39},
-  number = {3},
-  articleno = {33},
-  numpages = {21},
-  year = {2021},
-  url = {https://doi.org/10.1145/3451161},
-}
+
+  @article{10.1145/3451161,
+    author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
+    title = {Assessing Top-k Preferences},
+    journal = {ACM Transactions on Information Systems},
+    volume = {39},
+    number = {3},
+    articleno = {33},
+    numpages = {21},
+    year = {2021},
+    url = {https://doi.org/10.1145/3451161},
+  }
+  
 
 **Parameters:**
 
@@ -250,16 +286,22 @@ a more realistic cascade-based user model of how users brwose a ranking.
 -------------------------
 
 
+
 Intent-Aware Expected Reciprocal Rank with collection-independent normalisation.
+
+
+
 
 ::
 
-@inproceedings{10.1145/1645953.1646033,
-  author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
-  title = {Expected Reciprocal Rank for Graded Relevance},
-  booktitle = {CIKM},
-  year = {2009}
-}
+
+  @inproceedings{10.1145/1645953.1646033,
+    author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+    title = {Expected Reciprocal Rank for Graded Relevance},
+    booktitle = {CIKM},
+    year = {2009}
+  }
+  
 
 **Parameters:**
 
@@ -300,17 +342,23 @@ this convention.
 -------------------------
 
 
+
 INSQ
+
+
+
 
 ::
 
- @inproceedings{Moffat:2012:MMI:2407085.2407092,
-   author = {Moffat, Alistair and Scholer, Falk and Thomas, Paul},
-   title = {Models and Metrics: IR Evaluation As a User Process},
-   booktitle = {Proceedings of the Seventeenth Australasian Document Computing Symposium},
-   year = {2012},
-   url = {http://doi.acm.org/10.1145/2407085.2407092}
- }
+
+  @inproceedings{Moffat:2012:MMI:2407085.2407092,
+    author = {Moffat, Alistair and Scholer, Falk and Thomas, Paul},
+    title = {Models and Metrics: IR Evaluation As a User Process},
+    booktitle = {Proceedings of the Seventeenth Australasian Document Computing Symposium},
+    year = {2012},
+    url = {http://doi.acm.org/10.1145/2407085.2407092}
+  }
+  
 
 **Parameters:**
 
@@ -329,19 +377,25 @@ INSQ
 -------------------------
 
 
+
 INST, a variant of INSQ
+
+
+
 
 ::
 
- @inproceedings{10.1145/2766462.2767728,
-   author = {Bailey, Peter and Moffat, Alistair and Scholer, Falk and Thomas, Paul},
-   title = {User Variability and IR System Evaluation},
-   year = {2015},
-   booktitle = {Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval},
-   pages = {625–634},
-   series = {SIGIR '15},
-   url = {https://doi.org/10.1145/2766462.2767728}
- }
+
+  @inproceedings{10.1145/2766462.2767728,
+    author = {Bailey, Peter and Moffat, Alistair and Scholer, Falk and Thomas, Paul},
+    title = {User Variability and IR System Evaluation},
+    year = {2015},
+    booktitle = {Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+    pages = {625–634},
+    series = {SIGIR '15},
+    url = {https://doi.org/10.1145/2766462.2767728}
+  }
+  
 
 **Parameters:**
 
@@ -399,23 +453,29 @@ a rel lower than any judgment.
 -------------------------
 
 
+
 The normalized Discounted Cumulative Gain (nDCG).
 Uses graded labels - systems that put the highest graded documents at the top of the ranking.
 It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order of graded label.
 
+
+
+
 ::
 
-@article{Jarvelin:2002:CGE:582415.582418,
-  author = {J"{a}rvelin, Kalervo and Kek"{a}l"{a}inen, Jaana},
-  title = {Cumulated Gain-based Evaluation of IR Techniques},
-  journal = {ACM Trans. Inf. Syst.},
-  volume = {20},
-  number = {4},
-  year = {2002},
-  pages = {422--446},
-  numpages = {25},
-  url = {http://doi.acm.org/10.1145/582415.582418},
-}
+
+  @article{Jarvelin:2002:CGE:582415.582418,
+    author = {J"{a}rvelin, Kalervo and Kek"{a}l"{a}inen, Jaana},
+    title = {Cumulated Gain-based Evaluation of IR Techniques},
+    journal = {ACM Trans. Inf. Syst.},
+    volume = {20},
+    number = {4},
+    year = {2002},
+    pages = {422--446},
+    numpages = {25},
+    url = {http://doi.acm.org/10.1145/582415.582418},
+  }
+  
 
 **Parameters:**
 
@@ -438,17 +498,23 @@ It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order 
 -------------------------
 
 
+
 Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (10) of the the following paper.
+
+
+
 
 ::
 
- @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-   booktitle = {ICTIR},
-   year = {2021},
-   url = {https://doi.org/10.1145/3471158.3472239}
- }
+
+  @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+    author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+    title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+    booktitle = {ICTIR},
+    year = {2021},
+    url = {https://doi.org/10.1145/3471158.3472239}
+  }
+  
 
 **Parameters:**
 
@@ -467,17 +533,23 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 -------------------------
 
 
+
 Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (12) of the the following paper.
+
+
+
 
 ::
 
- @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-   booktitle = {ICTIR},
-   year = {2021},
-   url = {https://doi.org/10.1145/3471158.3472239}
- }
+
+  @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+    author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+    title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+    booktitle = {ICTIR},
+    year = {2021},
+    url = {https://doi.org/10.1145/3471158.3472239}
+  }
+  
 
 **Parameters:**
 
@@ -496,17 +568,23 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 -------------------------
 
 
+
 Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (8) of the the following paper.
+
+
+
 
 ::
 
- @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-   booktitle = {ICTIR},
-   year = {2021},
-   url = {https://doi.org/10.1145/3471158.3472239}
- }
+
+  @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+    author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+    title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+    booktitle = {ICTIR},
+    year = {2021},
+    url = {https://doi.org/10.1145/3471158.3472239}
+  }
+  
 
 **Parameters:**
 
@@ -525,17 +603,23 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 -------------------------
 
 
+
 Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (9) of the the following paper.
+
+
+
 
 ::
 
- @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-   author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-   title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-   booktitle = {ICTIR},
-   year = {2021},
-   url = {https://doi.org/10.1145/3471158.3472239}
- }
+
+  @inproceedings{Azzopardi:2021:ECE:3471158.3472239,
+    author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
+    title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
+    booktitle = {ICTIR},
+    year = {2021},
+    url = {https://doi.org/10.1145/3471158.3472239}
+  }
+  
 
 **Parameters:**
 
@@ -554,16 +638,22 @@ Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version
 -------------------------
 
 
+
 Intent-Aware Expected Reciprocal Rank with collection-dependent normalisation.
+
+
+
 
 ::
 
-@inproceedings{10.1145/1645953.1646033,
-  author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
-  title = {Expected Reciprocal Rank for Graded Relevance},
-  booktitle = {CIKM},
-  year = {2009}
-}
+
+  @inproceedings{10.1145/1645953.1646033,
+    author = {Chapelle, Olivier and Metlzer, Donald and Zhang, Ya and Grinspan, Pierre},
+    title = {Expected Reciprocal Rank for Graded Relevance},
+    booktitle = {CIKM},
+    year = {2009}
+  }
+  
 
 **Parameters:**
 
@@ -582,16 +672,22 @@ Intent-Aware Expected Reciprocal Rank with collection-dependent normalisation.
 -------------------------
 
 
+
 Novelty- and Rank-Biased Precision with collection-dependent normalisation.
+
+
+
 
 ::
 
-@InProceedings{10.1007/978-3-642-04417-5_17,
-  author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
-  title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
-  booktitle="ICTIR",
-  year="2009"
-}
+
+  @InProceedings{10.1007/978-3-642-04417-5_17,
+    author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+    title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+    booktitle="ICTIR",
+    year="2009"
+  }
+  
 
 **Parameters:**
 
@@ -610,16 +706,22 @@ Novelty- and Rank-Biased Precision with collection-dependent normalisation.
 -------------------------
 
 
+
 Novelty- and Rank-Biased Precision with collection-independent normalisation.
+
+
+
 
 ::
 
-@InProceedings{10.1007/978-3-642-04417-5_17,
-  author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
-  title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
-  booktitle="ICTIR",
-  year="2009"
-}
+
+  @InProceedings{10.1007/978-3-642-04417-5_17,
+    author="Clarke, Charles L. A. and Kolla, Maheedhar and Vechtomova, Olga",
+    title="An Effectiveness Measure for Ambiguous and Underspecified Queries ",
+    booktitle="ICTIR",
+    year="2009"
+  }
+  
 
 **Parameters:**
 
@@ -686,18 +788,24 @@ returned with at least that relevance score (inclusive).
 -------------------------
 
 
+
 Basic measure for that computes the percentage of documents in the top cutoff results
 that are labeled as relevant. cutoff is a required parameter, and can be provided as
 P@cutoff.
 
+
+
+
 ::
 
-@misc{rijsbergen:1979:ir,
-  title={Information Retrieval.},
-  author={Van Rijsbergen, Cornelis J},
-  year={1979},
-  publisher={USA: Butterworth-Heinemann}
-}
+
+  @misc{rijsbergen:1979:ir,
+    title={Information Retrieval.},
+    author={Van Rijsbergen, Cornelis J},
+    year={1979},
+    publisher={USA: Butterworth-Heinemann}
+  }
+  
 
 **Parameters:**
 
@@ -761,17 +869,23 @@ This software follows the TREC convention and refers to that measure as Success@
 -------------------------
 
 
+
 The Rank-Biased Precision (RBP).
+
+
+
 
 ::
 
- @article{Moffat:2008:RPM:1416950.1416952,
-   author = {Moffat, Alistair and Zobel, Justin},
-   title = {Rank-biased Precision for Measurement of Retrieval Effectiveness},
-   journal = {ACM Trans. Inf. Syst.},
-   year = {2008},
-   url = {http://doi.acm.org/10.1145/1416950.1416952}
- }
+
+  @article{Moffat:2008:RPM:1416950.1416952,
+    author = {Moffat, Alistair and Zobel, Justin},
+    title = {Rank-biased Precision for Measurement of Retrieval Effectiveness},
+    journal = {ACM Trans. Inf. Syst.},
+    year = {2008},
+    url = {http://doi.acm.org/10.1145/1416950.1416952}
+  }
+  
 
 **Parameters:**
 
@@ -791,18 +905,24 @@ The Rank-Biased Precision (RBP).
 -------------------------
 
 
+
 The precision at R, where R is the number of relevant documents for a given query. Has the cute property that
 it is also the recall at R.
 
+
+
+
 ::
 
-@misc{Buckley2005RetrievalSE,
-  title={Retrieval System Evaluation},
-  author={Chris Buckley and Ellen M. Voorhees},
-  annote={Chapter 3 in TREC: Experiment and Evaluation in Information Retrieval},
-  howpublished={MIT Press},
-  year={2005}
-}
+
+  @misc{Buckley2005RetrievalSE,
+    title={Retrieval System Evaluation},
+    author={Chris Buckley and Ellen M. Voorhees},
+    annote={Chapter 3 in TREC: Experiment and Evaluation in Information Retrieval},
+    howpublished={MIT Press},
+    year={2005}
+  }
+  
 
 **Parameters:**
 
@@ -822,21 +942,27 @@ it is also the recall at R.
 -------------------------
 
 
+
 The [Mean] Reciprocal Rank ([M]RR) is a precision-focused measure that scores based on the reciprocal of the rank of the
 highest-scoring relevance document. An optional cutoff can be provided to limit the
 depth explored. rel (default 1) controls which relevance level is considered relevant.
 
+
+
+
 ::
 
-@article{kantor2000trec,
-  title={The TREC-5 Confusion Track},
-  author={Kantor, Paul and Voorhees, Ellen},
-  journal={Information Retrieval},
-  volume={2},
-  number={2-3},
-  pages={165--176},
-  year={2000}
-}
+
+  @article{kantor2000trec,
+    title={The TREC-5 Confusion Track},
+    author={Kantor, Paul and Voorhees, Ellen},
+    journal={Information Retrieval},
+    volume={2},
+    number={2-3},
+    pages={165--176},
+    year={2000}
+  }
+  
 
 **Parameters:**
 
