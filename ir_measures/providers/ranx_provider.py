@@ -23,16 +23,16 @@ class RanxProvider(providers.Provider):
     """
     NAME = 'ranx'
     SUPPORTED_MEASURES = [
-        measures._P(cutoff=Any(), rel=Any()),
-        measures._SetP(rel=Any()),
-        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any()),
-        measures._Rprec(rel=Any()),
-        measures._AP(cutoff=Any(), rel=Any()),
-        measures._nDCG(cutoff=Any(), dcg=Choices('log2', 'exp-log2'), gains=Choices(NOT_PROVIDED)),
-        measures._R(cutoff=Any()),
+        measures._P(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
+        measures._SetP(rel=Any(), judged_only=Choices(False)),
+        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Choices(False)),
+        measures._Rprec(rel=Any(), judged_only=Choices(False)),
+        measures._AP(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
+        measures._nDCG(cutoff=Any(), dcg=Choices('log2', 'exp-log2'), gains=Choices(NOT_PROVIDED), judged_only=Choices(False)),
+        measures._R(cutoff=Any(), judged_only=Choices(False)),
         measures._SetR(rel=Any()),
         measures._NumRet(rel=Any(required=True)),
-        measures._Success(cutoff=Any(required=True), rel=Any()),
+        measures._Success(cutoff=Any(required=True), rel=Any(), judged_only=Choices(False)),
     ]
 
     def __init__(self):

@@ -13,6 +13,7 @@ class _SetP(measures.Measure):
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
         'relative': measures.ParamInfo(dtype=bool, default=False, desc='calculate the measure using the maximum possible SetP for the provided result size'),
+        'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='ignore returned documents that do not have relevance judgments'),
     }
 
 SetP = _SetP()
@@ -47,6 +48,7 @@ class _SetF(measures.Measure):
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
         'beta': measures.ParamInfo(dtype=float, default=1., desc='relative importance of R to P in the harmonic mean'),
+        'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='ignore returned documents that do not have relevance judgments'),
     }
 
 SetF = _SetF()
@@ -62,6 +64,7 @@ class _SetAP(measures.Measure):
     NAME = __name__
     SUPPORTED_PARAMS = {
         'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
+        'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='ignore returned documents that do not have relevance judgments'),
     }
 
 SetAP = _SetAP()

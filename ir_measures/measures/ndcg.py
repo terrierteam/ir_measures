@@ -30,6 +30,7 @@ class _nDCG(measures.Measure):
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'dcg': measures.ParamInfo(dtype=str, choices=['log2', 'exp-log2'], default='log2', desc='DCG formulation'),
         'gains': measures.ParamInfo(dtype=dict, desc='custom gain mapping (int-to-int)'),
+        'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='ignore returned documents that do not have relevance judgments'),
     }
 
 

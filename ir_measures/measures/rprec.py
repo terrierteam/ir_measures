@@ -22,7 +22,8 @@ class _Rprec(measures.Measure):
     PRETTY_NAME = 'Precsion at R'
     SHORT_DESC = 'Precsion at R, where R is the number of relevant documents for a given query.'
     SUPPORTED_PARAMS = {
-        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)')
+        'rel': measures.ParamInfo(dtype=int, default=1, desc='minimum relevance score to be considered relevant (inclusive)'),
+        'judged_only': measures.ParamInfo(dtype=bool, default=False, desc='ignore returned documents that do not have relevance judgments'),
     }
 
 

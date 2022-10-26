@@ -39,9 +39,9 @@ class CwlEvalProvider(providers.Provider):
     """
     NAME = 'cwl_eval'
     SUPPORTED_MEASURES = [
-        measures._P(cutoff=Any(), rel=Any()),
-        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any()),
-        measures._AP(cutoff=Choices(NOT_PROVIDED), rel=Any()),
+        measures._P(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
+        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Choices(False)),
+        measures._AP(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Choices(False)),
         measures._RBP(cutoff=Choices(NOT_PROVIDED), rel=Any(required=True), p=Any()),
         measures._BPM(cutoff=Any(), T=Any(), min_rel=Any(), max_rel=Any(required=True)),
         measures._SDCG(cutoff=Any(required=True), dcg=Choices('log2'), min_rel=Any(), max_rel=Any(required=True)),

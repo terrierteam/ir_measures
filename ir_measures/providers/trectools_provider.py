@@ -26,11 +26,11 @@ class TrectoolsProvider(providers.Provider):
     """
     NAME = 'trectools'
     SUPPORTED_MEASURES = [
-        measures._P(cutoff=Any(), rel=Choices(1)),
-        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Choices(1)),
-        measures._Rprec(rel=Choices(1)),
-        measures._AP(cutoff=Any(), rel=Choices(1)),
-        measures._nDCG(cutoff=Any(), dcg=Any(), gains=Choices(NOT_PROVIDED)),
+        measures._P(cutoff=Any(), rel=Choices(1), judged_only=Choices(False)),
+        measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Choices(1), judged_only=Choices(False)),
+        measures._Rprec(rel=Choices(1), judged_only=Choices(False)),
+        measures._AP(cutoff=Any(), rel=Choices(1), judged_only=Choices(False)),
+        measures._nDCG(cutoff=Any(), dcg=Any(), gains=Choices(NOT_PROVIDED), judged_only=Choices(False)),
         measures._Bpref(rel=Choices(1)),
         measures._RBP(cutoff=Any(), p=Any(), rel=Any()),
         # Other supported metrics: urbp, ubpref, alpha_urbp, geometric_map, unjudged
