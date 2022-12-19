@@ -28,7 +28,7 @@ class TestMeasures(unittest.TestCase):
 1 0 D2 4 0.4 run
 '''))
         provider = ir_measures.judged
-        # based on a manual execution of cwl-eval
+
         expected_results = [
             [Judged(cutoff=1000), [('0', 1.0), ('1', 1.0 / 4.0)]],
             [Judged(cutoff=10), [('0', 1.0), ('1', 1.0 / 4.0)]],
