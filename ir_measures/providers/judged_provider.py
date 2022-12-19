@@ -39,8 +39,24 @@ class JudgedEvaluator(providers.Evaluator):
             qid_qrels = self.qrels.get(qid)
             if qid_qrels:
                 for cutoff, measure in self.cutoffs:
-                    judged_c = sum((did in qid_qrels) for did, _ in sorted_run.get(qid, [])[:cutoff])
+                    current_run = sorted_run.get(qid, [])
+                    # When there is no cutoff, default to the
+                    # size of the run.
+                    if cutoff == NOT_PROVIDED:
+                        cutoff = len(current_run)
+
+                    cutoff_run = current_run[:cutoff]
+                    judged_c = sum((did in qid_qrels) for did, _ in cutoff_run)
+
+                    # The cutoff should be recalculated if it is
+                    # less than the size of then run.
+                    if len(cutoff_run) < cutoff:
+                        cutoff = len(cutoff_run)
+
+                    # A cutoff larger than the run size causes
+                    # this calculation to be incorrect.
                     value = judged_c / cutoff
+
                     yield Metric(query_id=qid, measure=measure, value=value)
 
 
