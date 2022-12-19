@@ -175,3 +175,4 @@ ir_measures qrels run measures... [-q] [-n] [-p 4]
  - Craig Macdonald, University of Glasgow
  - Charlie Clarke, University of Waterloo
  - Benjamin Piwowarski, CNRS
+ - Harry Scells, Leipzig University
