@@ -30,6 +30,7 @@ class TestMeasures(unittest.TestCase):
         provider = ir_measures.judged
 
         expected_results = [
+            [Judged, [('0', 1.0), ('1', 1.0 / 4.0)]],
             [Judged(cutoff=1000), [('0', 1.0), ('1', 1.0 / 4.0)]],
             [Judged(cutoff=10), [('0', 1.0), ('1', 1.0 / 4.0)]],
             [Judged(cutoff=3), [('0', 1.0), ('1', 1.0 / 3.0)]],
