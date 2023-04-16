@@ -116,7 +116,7 @@ class IrmQrelHandler(TrecQrelHandler):
 
 
 class CwlEvaluator(providers.Evaluator):
-    def __init__(self, measures, qrels, invocations):
+    def __init__(self, measures, qrels, invocations, verify_gains=True):
         self.qrhs = {}
         for inv_key in invocations.keys():
             self.qrhs[inv_key] = IrmQrelHandler(*inv_key)
@@ -126,8 +126,9 @@ class CwlEvaluator(providers.Evaluator):
             rel = max(qrel.relevance, 0) # clip all negative scores to 0, following trec_eval convention
             for qrh in self.qrhs.values():
                 qrh.put_value(qrel.query_id, qrel.doc_id, rel)
-        for qrh in self.qrhs.values():
-            qrh.verify_gains()
+        if verify_gains:
+            for qrh in self.qrhs.values():
+                qrh.verify_gains()
         self.invocations = invocations
         super().__init__(measures, qids)
 
