@@ -1,4 +1,4 @@
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 import sys
 import logging
 from . import util
@@ -42,6 +42,7 @@ define_byquery = providers.define_byquery
 CwlMetric = providers.CwlMetric
 
 DefaultPipeline = providers.FallbackProvider([
+    runtime,
     pytrec_eval,
     cwl_eval,
     compat,
@@ -52,7 +53,6 @@ DefaultPipeline = providers.FallbackProvider([
     gdeval,  # doesn't work when installed from package #9
     accuracy,
     ranx,
-    runtime,
 ])
 evaluator = DefaultPipeline.evaluator
 calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
