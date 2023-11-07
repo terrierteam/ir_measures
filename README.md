@@ -161,6 +161,19 @@ ir_measures qrels run measures... [-q] [-n] [-p 4]
  - `-p`: number of decimal places to report results (default: 4)
 
 
+## PyTerrier API
+
+[PyTerrier](https://github.com/terrier-org/pyterrier) uses ir_measures:
+
+```python
+
+from pyterrier.measures import *
+pt.Experiment(
+    [bm25],
+    topics,
+    qrels,
+    measures=[P@10, P(rel=2)@5, nDCG@15]
+```
 
 ## Documentation
 
