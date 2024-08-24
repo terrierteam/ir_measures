@@ -10,17 +10,20 @@ class _AP(measures.Measure):
     AP is typically used for adhoc ranking tasks where getting as many relevant items as possible is. It is commonly referred to as MAP,
     by taking the mean of AP over the query set.
 
-<cite>
-@article{Harman:1992:ESIR,
-  author = {Donna Harman},
-  title = {Evaluation Issues in Information Retrieval},
-  journal = {Information Processing and Management},
-  volume = {28},
-  number = {4},
-  pages = {439 - -440},
-  year = {1992},
-}
-</cite>
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @article{DBLP:journals/ipm/Harman92,
+          author       = {Donna Harman},
+          title        = {Evaluation Issues in Information Retrieval},
+          journal      = {Inf. Process. Manag.},
+          volume       = {28},
+          number       = {4},
+          pages        = {439--440},
+          year         = {1992},
+          url          = {https://doi.org/10.1016/0306-4573(92)90001-G},
+          doi          = {10.1016/0306-4573(92)90001-G}
+        }
     """
     __name__ = 'AP'
     NAME = __name__

@@ -6,15 +6,24 @@ class _NERR8(measures.Measure):
     """
     Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (8) of the the following paper.
 
-<cite>
-@inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-  author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-  title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-  booktitle = {ICTIR},
-  year = {2021},
-  url = {https://doi.org/10.1145/3471158.3472239}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/ictir/AzzopardiMM21,
+          author       = {Leif Azzopardi and
+                          Joel Mackenzie and
+                          Alistair Moffat},
+          title        = {{ERR} is not {C/W/L:} Exploring the Relationship Between Expected
+                          Reciprocal Rank and Other Metrics},
+          booktitle    = {{ICTIR} '21: The 2021 {ACM} {SIGIR} International Conference on the
+                          Theory of Information Retrieval, Virtual Event, Canada, July 11, 2021},
+          pages        = {231--237},
+          publisher    = {{ACM}},
+          year         = {2021},
+          url          = {https://doi.org/10.1145/3471158.3472239},
+          doi          = {10.1145/3471158.3472239}
+        }
     """
     __name__ = 'NERR8'
     NAME = __name__
@@ -30,15 +39,24 @@ class _NERR9(measures.Measure):
     """
     Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (9) of the the following paper.
 
-<cite>
-@inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-  author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-  title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-  booktitle = {ICTIR},
-  year = {2021},
-  url = {https://doi.org/10.1145/3471158.3472239}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/ictir/AzzopardiMM21,
+          author       = {Leif Azzopardi and
+                          Joel Mackenzie and
+                          Alistair Moffat},
+          title        = {{ERR} is not {C/W/L:} Exploring the Relationship Between Expected
+                          Reciprocal Rank and Other Metrics},
+          booktitle    = {{ICTIR} '21: The 2021 {ACM} {SIGIR} International Conference on the
+                          Theory of Information Retrieval, Virtual Event, Canada, July 11, 2021},
+          pages        = {231--237},
+          publisher    = {{ACM}},
+          year         = {2021},
+          url          = {https://doi.org/10.1145/3471158.3472239},
+          doi          = {10.1145/3471158.3472239}
+        }
     """
     __name__ = 'NERR9'
     NAME = __name__
@@ -54,15 +72,24 @@ class _NERR10(measures.Measure):
     """
     Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (10) of the the following paper.
 
-<cite>
-@inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-  author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-  title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-  booktitle = {ICTIR},
-  year = {2021},
-  url = {https://doi.org/10.1145/3471158.3472239}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/ictir/AzzopardiMM21,
+          author       = {Leif Azzopardi and
+                          Joel Mackenzie and
+                          Alistair Moffat},
+          title        = {{ERR} is not {C/W/L:} Exploring the Relationship Between Expected
+                          Reciprocal Rank and Other Metrics},
+          booktitle    = {{ICTIR} '21: The 2021 {ACM} {SIGIR} International Conference on the
+                          Theory of Information Retrieval, Virtual Event, Canada, July 11, 2021},
+          pages        = {231--237},
+          publisher    = {{ACM}},
+          year         = {2021},
+          url          = {https://doi.org/10.1145/3471158.3472239},
+          doi          = {10.1145/3471158.3472239}
+        }
     """
     __name__ = 'NERR10'
     NAME = __name__
@@ -78,15 +105,24 @@ class _NERR11(measures.Measure):
     """
     Version of the Not (but Nearly) Expected Reciprocal Rank (NERR) measure, version from Equation (12) of the the following paper.
 
-<cite>
-@inproceedings{Azzopardi:2021:ECE:3471158.3472239,
-  author = {Azzopardi, Leif and Mackenzie, Joel and Moffat, Alistair},
-  title = {{ERR} is not {C/W/L}: Exploring the Relationship Between Expected Reciprocal Rank and Other Metrics},
-  booktitle = {ICTIR},
-  year = {2021},
-  url = {https://doi.org/10.1145/3471158.3472239}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/ictir/AzzopardiMM21,
+          author       = {Leif Azzopardi and
+                          Joel Mackenzie and
+                          Alistair Moffat},
+          title        = {{ERR} is not {C/W/L:} Exploring the Relationship Between Expected
+                          Reciprocal Rank and Other Metrics},
+          booktitle    = {{ICTIR} '21: The 2021 {ACM} {SIGIR} International Conference on the
+                          Theory of Information Retrieval, Virtual Event, Canada, July 11, 2021},
+          pages        = {231--237},
+          publisher    = {{ACM}},
+          year         = {2021},
+          url          = {https://doi.org/10.1145/3471158.3472239},
+          doi          = {10.1145/3471158.3472239}
+        }
     """
     __name__ = 'NERR11'
     NAME = __name__

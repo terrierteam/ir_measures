@@ -1,0 +1,4 @@
+sphinx
+sphinx-autodoc-typehints
+furo
+sphinx-tabs

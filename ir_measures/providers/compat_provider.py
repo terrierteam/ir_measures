@@ -8,19 +8,22 @@ class CompatProvider(providers.Provider):
     """
     Version of the compatibility measure desribed in:
 
-<cite>
-@article{10.1145/3451161,
-  author = {Clarke, Charles L. A. and Vtyurina, Alexandra and Smucker, Mark D.},
-  title = {Assessing Top-k Preferences},
-  journal = {ACM Transactions on Information Systems},
-  volume = {39},
-  number = {3},
-  articleno = {33},
-  numpages = {21},
-  year = {2021},
-  url = {https://doi.org/10.1145/3451161},
-}
-</cite>
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @article{DBLP:journals/tois/ClarkeVS21,
+          author       = {Charles L. A. Clarke and
+                          Alexandra Vtyurina and
+                          Mark D. Smucker},
+          title        = {Assessing Top-k Preferences},
+          journal      = {{ACM} Trans. Inf. Syst.},
+          volume       = {39},
+          number       = {3},
+          pages        = {33:1--33:21},
+          year         = {2021},
+          url          = {https://doi.org/10.1145/3451161},
+          doi          = {10.1145/3451161}
+        }
     """
     NAME = 'compat'
     SUPPORTED_MEASURES = [

@@ -8,17 +8,23 @@ class _RR(measures.Measure):
     highest-scoring relevance document. An optional cutoff can be provided to limit the
     depth explored. rel (default 1) controls which relevance level is considered relevant.
 
-<cite>
-@article{kantor2000trec,
-  title={The TREC-5 Confusion Track},
-  author={Kantor, Paul and Voorhees, Ellen},
-  journal={Information Retrieval},
-  volume={2},
-  number={2-3},
-  pages={165--176},
-  year={2000}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @article{DBLP:journals/ir/KantorV00,
+          author       = {Paul B. Kantor and
+                          Ellen M. Voorhees},
+          title        = {The {TREC-5} Confusion Track: Comparing Retrieval Methods for Scanned
+                          Text},
+          journal      = {Inf. Retr.},
+          volume       = {2},
+          number       = {2/3},
+          pages        = {165--176},
+          year         = {2000},
+          url          = {https://doi.org/10.1023/A:1009902609570},
+          doi          = {10.1023/A:1009902609570}
+        }
     """
     __name__ = 'RR'
     NAME = __name__

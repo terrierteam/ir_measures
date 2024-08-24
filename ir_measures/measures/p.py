@@ -8,14 +8,17 @@ class _P(measures.Measure):
     that are labeled as relevant. cutoff is a required parameter, and can be provided as
     P@cutoff.
 
-<cite>
-@misc{rijsbergen:1979:ir,
-  title={Information Retrieval.},
-  author={Van Rijsbergen, Cornelis J},
-  year={1979},
-  publisher={USA: Butterworth-Heinemann}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @book{DBLP:books/bu/Rijsbergen79,
+          author       = {C. J. van Rijsbergen},
+          title        = {Information Retrieval},
+          publisher    = {Butterworth},
+          year         = {1979},
+          isbn         = {0-408-70929-4}
+        }
     """
     __name__ = 'P'
     NAME = __name__

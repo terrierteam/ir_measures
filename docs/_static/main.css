@@ -1,0 +1,81 @@
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.75em;
+}
+
+.code-block-caption {
+    background-color: #ddd;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-weight: bold;
+}
+
+.highlight {
+    background-color: #eee;
+}
+
+blockquote {
+    background: #eee;
+    border-left-color: #ccc;
+    border-radius: 4px;
+}
+
+@media not print {
+  body[data-theme="dark"] .code-block-caption {
+    background-color: #333;
+  }
+  body[data-theme="dark"] blockquote {
+    background: #202020;
+    border-left-color: #303335;
+  }
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.feature {
+    flex: 1 1 100%;
+    margin: 0 !important;
+    background-color: white !important;
+}
+
+@media (min-width: 768px) {
+    .feature {
+        flex: 0 0 auto;
+        box-sizing: border-box;
+        width: 48%;
+    }
+}
+
+.feature p.admonition-title {
+    padding-left: 0.5rem;
+}
+
+.feature p.admonition-title::before {
+    display: none;
+}
+
+button.sphinx-tabs-tab {
+    padding: 0.3rem 1rem;
+}
+
+button.sphinx-tabs-tab[aria-selected="true"] {
+    border-bottom-width: 2px;
+}
+
+div.sphinx-tabs-panel {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+div.literal-block-wrapper {
+    margin-bottom: 0.75rem;
+    margin-top: 0.5rem;
+}

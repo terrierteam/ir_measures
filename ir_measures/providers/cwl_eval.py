@@ -28,14 +28,24 @@ class CwlEvalProvider(providers.Provider):
 
     https://github.com/ireval/cwl
 
-<cite>
-@inproceedings{azzopardi2019cwl,
-  author = {Azzopardi, Leif and Thomas, Paul and Moffat, Alistair},
-  title = {cwl\\_eval: An Evaluation Tool for Information Retrieval},
-  booktitle = {SIGIR},
-  year = {2019}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/sigir/AzzopardiTM19,
+          author       = {Leif Azzopardi and
+                          Paul Thomas and
+                          Alistair Moffat},
+          title        = {cwl{\\_}eval: An Evaluation Tool for Information Retrieval},
+          booktitle    = {Proceedings of the 42nd International {ACM} {SIGIR} Conference on
+                          Research and Development in Information Retrieval, {SIGIR} 2019, Paris,
+                          France, July 21-25, 2019},
+          pages        = {1321--1324},
+          publisher    = {{ACM}},
+          year         = {2019},
+          url          = {https://doi.org/10.1145/3331184.3331398},
+          doi          = {10.1145/3331184.3331398}
+        }
     """
     NAME = 'cwl_eval'
     SUPPORTED_MEASURES = [

@@ -10,15 +10,24 @@ class RanxProvider(providers.Provider):
 
     https://amenra.github.io/ranx/
 
-<cite>
-@misc{ranx2021,
-  title = {ranx: A Blazing-Fast Python Library for Ranking Evaluation and Comparison},
-  author = {Bassani, Elias},
-  year = {2021},
-  publisher = {GitHub},
-  howpublished = {\\url{https://github.com/AmenRa/ranx}},
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/ecir/Bassani22,
+          author       = {Elias Bassani},
+          title        = {ranx: {A} Blazing-Fast Python Library for Ranking Evaluation and Comparison},
+          booktitle    = {Advances in Information Retrieval - 44th European Conference on {IR}
+                          Research, {ECIR} 2022, Stavanger, Norway, April 10-14, 2022, Proceedings,
+                          Part {II}},
+          series       = {Lecture Notes in Computer Science},
+          volume       = {13186},
+          pages        = {259--264},
+          publisher    = {Springer},
+          year         = {2022},
+          url          = {https://doi.org/10.1007/978-3-030-99739-7\\_30},
+          doi          = {10.1007/978-3-030-99739-7\\_30}
+        }
     """
     NAME = 'ranx'
     SUPPORTED_MEASURES = [
