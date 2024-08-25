@@ -86,6 +86,9 @@ Providers
 {docstring2rst(val.__doc__)}
 
 ''')
+        inst = val.install_instructions()
+        if inst:
+            f.write(f'''**Installation:**\n\n.. code-block::\n\n    {inst}\n\n''')
         f.write('''**Supported Measures:**\n\n''')
         for measure in val.SUPPORTED_MEASURES:
             f.write(f'- ``{measure}``\n')
