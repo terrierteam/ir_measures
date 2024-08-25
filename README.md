@@ -189,3 +189,24 @@ pt.Experiment(
  - Charlie Clarke, University of Waterloo
  - Benjamin Piwowarski, CNRS
  - Harry Scells, Leipzig University
+
+If you use this package, be sure to cite:
+
+```bibtex
+@inproceedings{DBLP:conf/ecir/MacAvaneyMO22a,
+  author       = {Sean MacAvaney and
+                  Craig Macdonald and
+                  Iadh Ounis},
+  title        = {Streamlining Evaluation with ir-measures},
+  booktitle    = {Advances in Information Retrieval - 44th European Conference on {IR}
+                  Research, {ECIR} 2022, Stavanger, Norway, April 10-14, 2022, Proceedings,
+                  Part {II}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {13186},
+  pages        = {305--310},
+  publisher    = {Springer},
+  year         = {2022},
+  url          = {https://doi.org/10.1007/978-3-030-99739-7\_38},
+  doi          = {10.1007/978-3-030-99739-7\_38}
+}
+```
