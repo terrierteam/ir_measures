@@ -26,6 +26,7 @@ blockquote {
 @media not print {
   body[data-theme="dark"] .code-block-caption {
     background-color: #333;
+    border: 1px solid #202020;
   }
   body[data-theme="dark"] blockquote {
     background: #202020;
@@ -36,6 +37,7 @@ blockquote {
 @media (prefers-color-scheme: dark) {
   body[data-theme="auto"] .code-block-caption {
     background-color: #333;
+    border: 1px solid #202020;
   }
   body[data-theme="auto"] blockquote {
     background: #202020;

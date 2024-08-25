@@ -106,4 +106,10 @@ Table of Contents
    measures
    providers
    api
-   Demos <https://demo.ir-measur.es/>
+
+.. toctree::
+    :caption: Demos
+
+    📐 Explore Measures <https://demo.ir-measur.es/explore>
+    🔧 Reverse Measures <https://demo.ir-measur.es/reverse>
+    💻 Google Colab <https://colab.research.google.com/github/terrierteam/ir_measures/blob/main/examples/demo.ipynb>
