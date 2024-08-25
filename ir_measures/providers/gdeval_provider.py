@@ -1,9 +1,8 @@
-import io
 import pkgutil
 import subprocess
 import tempfile
-import contextlib
 import ir_measures
+from subprocess import CalledProcessError
 from ir_measures import providers, measures, Metric
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 
@@ -40,6 +39,9 @@ class GdevalProvider(providers.Provider):
             subprocess.check_output(['perl', '--version'])
         except CalledProcessError as ex:
             raise RuntimeError('perl not available', ex)
+
+    def install_instructions(self):
+        return 'Install perl, see <https://www.perl.org>'
 
 
 class GdevalEvaluator(providers.Evaluator):

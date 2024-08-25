@@ -1,2 +1,1 @@
 pytrec-eval-terrier>=0.5.5
-cwl-eval>=1.0.10

@@ -3,7 +3,6 @@ import ir_measures
 from ir_measures import providers, Metric
 from ir_measures.providers.base import Any, NOT_PROVIDED
 from ir_measures.measures.accuracy import _Accuracy
-from ir_measures import Metric
 
 
 class AccuracyEvaluator(providers.Evaluator):

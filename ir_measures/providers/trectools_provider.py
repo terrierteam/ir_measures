@@ -117,6 +117,8 @@ class TrectoolsProvider(providers.Provider):
         except ImportError as ex:
             raise RuntimeError('trectools not available', ex)
 
+    def install_instructions(self):
+        return 'pip install ir-measures[trectools]'
 
 class TrectoolsEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations, trectools):
