@@ -2,7 +2,7 @@ import warnings
 import contextlib
 import itertools
 from typing import Iterator, Dict, Union
-from ir_measures import measures, Metric
+from ir_measures import measures, Metric, CalcResults
 
 
 class Evaluator:
@@ -36,6 +36,18 @@ class Evaluator:
         for metric in self.iter_calc(run):
             aggregators[metric.measure].add(metric.value)
         return {m: agg.result() for m, agg in aggregators.items()}
+
+    def calc(self, run) -> CalcResults:
+        """
+        Returns aggregated and per-query results for this run.
+        """
+        aggregators = {m: m.aggregator() for m in self.measures}
+        metrics = []
+        for metric in self.iter_calc(run):
+            aggregators[metric.measure].add(metric.value)
+            metrics.append(metric)
+        agg = {m: agg.result() for m, agg in aggregators.items()}
+        return CalcResults(agg, metrics)
 
 
 class Provider:
@@ -80,6 +92,9 @@ class Provider:
 
     def calc_aggregate(self, measures, qrels, run):
         return self.evaluator(measures, qrels).calc_aggregate(run)
+
+    def calc(self, measures, qrels, run) -> CalcResults:
+        return self.evaluator(measures, qrels).calc(run)
 
     def supports(self, measure):
         measure.validate_params()

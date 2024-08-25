@@ -8,6 +8,8 @@ Metric Calculation
 
 .. autofunction:: ir_measures.calc_aggregate
 
+.. autofunction:: ir_measures.calc
+
 .. autofunction:: ir_measures.evaluator
 
 .. autoclass:: ir_measures.providers.Provider
@@ -33,3 +35,4 @@ Data Classes
 .. autoclass:: ir_measures.Metric
 .. autoclass:: ir_measures.Qrel
 .. autoclass:: ir_measures.ScoredDoc
+.. autoclass:: ir_measures.CalcResults
