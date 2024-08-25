@@ -31,6 +31,9 @@ class TestMeasures(unittest.TestCase):
         measure = ir_measures.P@5
         result = measure.calc_aggregate(qrels, run)
         self.assertEqual(result, 0.5)
+        agg_result, perq_result = measure.calc(qrels, run)
+        self.assertEqual(agg_result, 0.5)
+        self.assertEqual(len(perq_result), 2)
 
 
 if __name__ == '__main__':

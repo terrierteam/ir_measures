@@ -33,6 +33,13 @@ with open('measures.rst', 'wt') as f:
     f.write('''
 Measures
 =========================
+
+:class:`~ir_measures.measures.Measure` objects speficy the measure to calculate, along with any
+parameters they have. (They do not define the implementation --- that's the job of a
+:class:`~ir_measures.providers.Provider`.)
+
+This page provides a list of the Measures that are available in this package.
+
 ''')
     for name, val in measures:
         f.write(f'''
@@ -75,6 +82,12 @@ with open('providers.rst', 'wt') as f:
     f.write('''
 Providers
 =========================
+
+A :class:`~ir_measures.providers.Provider` implements the calculation logic for one or more
+:class:`~ir_measures.measures.Measure`.
+
+This page provides a list of the Providers that are available in this package.
+
 ''')
     for name, val in sorted(ir_measures.providers.registry.items()):
         f.write(f'''
@@ -86,6 +99,9 @@ Providers
 {docstring2rst(val.__doc__)}
 
 ''')
+        inst = val.install_instructions()
+        if inst:
+            f.write(f'''**Installation:**\n\n.. code-block::\n\n    {inst}\n\n''')
         f.write('''**Supported Measures:**\n\n''')
         for measure in val.SUPPORTED_MEASURES:
             f.write(f'- ``{measure}``\n')

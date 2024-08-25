@@ -1,5 +1,6 @@
 import itertools
 import ir_measures
+from ir_measures import CalcResults
 
 
 class Measure:
@@ -53,6 +54,10 @@ class Measure:
 
     def calc_aggregate(self, qrels, run):
         return ir_measures.calc_aggregate([self], qrels, run)[self]
+
+    def calc(self, qrels, run) -> CalcResults:
+        agg, perq = ir_measures.calc([self], qrels, run)
+        return CalcResults(agg[self], perq)
 
     def evaluator(self, qrels):
         return ir_measures.evaluator([self], qrels)
