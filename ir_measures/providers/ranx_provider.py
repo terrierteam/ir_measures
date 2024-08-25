@@ -131,6 +131,9 @@ class RanxProvider(providers.Provider):
         except ImportError as ex:
             raise RuntimeError('ranx not available (do you need to `pip install ranx`?)', ex)
 
+    def install_instructions(self):
+        return 'pip install ir-measures[ranx]'
+
 
 class RanxEvaluator(providers.Evaluator):
     def __init__(self, ranx, measures, invokers, qrels, qids):

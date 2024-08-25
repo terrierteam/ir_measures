@@ -38,6 +38,6 @@ jobs:
     - name: Test with pytest
       run: |
         #install this software
-        pip install --timeout=120 .
+        pip install --timeout=120 .[cwl_eval]
         pip install pytest
         pytest

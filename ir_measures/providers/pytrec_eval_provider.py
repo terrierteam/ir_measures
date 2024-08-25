@@ -194,9 +194,14 @@ class PytrecEvalProvider(providers.Provider):
     def initialize(self):
         try:
             import pytrec_eval
+            if not hasattr(pytrec_eval, '__version__'): # identify recent pytrec_eval versions
+                raise RuntimeError('pytrec_eval version too old')
             self.pytrec_eval = pytrec_eval
         except ImportError as ex:
             raise RuntimeError('pytrec_eval not available', ex)
+
+    def install_instructions(self):
+        return 'pip install --upgrade pytrec-eval-terrier'
 
 
 class PytrecEvalEvaluator(providers.Evaluator):

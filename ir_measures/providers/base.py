@@ -2,7 +2,7 @@ import warnings
 import contextlib
 import itertools
 from typing import Iterator, Dict, Union
-from ir_measures import providers, measures, Metric
+from ir_measures import measures, Metric
 
 
 class Evaluator:
@@ -48,28 +48,29 @@ class Provider:
     def __init__(self):
         self._is_available = None
 
+    def _check_available(self):
+        if not self.is_available():
+            instr = self.install_instructions()
+            if instr:
+                instr = f' To install:\n  {instr}'
+            raise RuntimeError(f'Provider {self.NAME} is not available.{instr}')
+
     def evaluator(self, measures, qrels) -> Evaluator:
-        if self.is_available():
-            return self._evaluator(measures, qrels)
-        else:
-            raise RuntimeError('provider not available')
+        self._check_available()
+        return self._evaluator(measures, qrels)
 
     @contextlib.contextmanager
     def calc_ctxt(self, measures, qrels):
         warnings.warn("calc_ctxt deprecated in 0.2.0. Please use .evaluator(measures, qrels) instead.", DeprecationWarning)
-        if self.is_available():
-            evaluator = self._evaluator(measures, qrels)
-            def _eval(run):
-                yield from evaluator.iter_calc(run)
-            yield _eval
-        else:
-            raise RuntimeError('provider not available')
+        self._check_available()
+        evaluator = self._evaluator(measures, qrels)
+        def _eval(run):
+            yield from evaluator.iter_calc(run)
+        yield _eval
 
     def iter_calc(self, measures, qrels, run):
-        if self.is_available():
-            return self._iter_calc(measures, qrels, run)
-        else:
-            raise RuntimeError('provider %s not available' % self.NAME)
+        self._check_available()
+        return self._iter_calc(measures, qrels, run)
 
     def _evaluator(self, measures, qrels):
         raise NotImplementedError()
@@ -105,6 +106,9 @@ class Provider:
 
     def initialize(self):
         pass
+
+    def install_instructions(self):
+        return None
 
 
 class ParamSpec:

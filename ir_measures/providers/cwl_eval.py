@@ -1,12 +1,15 @@
 import logging
-import sys
 from typing import NamedTuple, Union
-from cwl.cwl_eval import TrecQrelHandler, RankingMaker
-from cwl.ruler.cwl_ruler import CWLRuler, PrecisionCWLMetric, RRCWLMetric, APCWLMetric, RBPCWLMetric, BPMCWLMetric, NDCGCWLMetric, NERReq8CWLMetric, NERReq9CWLMetric, NERReq10CWLMetric, NERReq11CWLMetric, INSTCWLMetric, INSQCWLMetric
 import ir_measures
-from ir_measures import providers, measures, Metric
+from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
-import logging
+
+try:
+    from cwl.cwl_eval import TrecQrelHandler
+except ImportError:
+    # Shim so that the provider can be defined
+    class TrecQrelHandler:
+        pass
 
 logger = logging.getLogger('ir_measures.cwl_eval')
 logger.setLevel('WARNING')
@@ -77,9 +80,16 @@ class CwlEvalProvider(providers.Provider):
         return CwlEvaluator(measures, qrels, invocations)
 
     def initialize(self):
+        try:
+            import cwl
+        except ImportError as ex:
+            raise RuntimeError('pytrec_eval not available', ex)
         # disable the cwl logger (which writes to cwl.log)
         cwl_logger = logging.getLogger('cwl')
         cwl_logger.disabled = True
+
+    def install_instructions(self):
+        return 'pip install ir-measures[cwl_eval]'
 
 
 class IrmQrelHandler(TrecQrelHandler):
@@ -143,6 +153,7 @@ class CwlEvaluator(providers.Evaluator):
         super().__init__(measures, qids)
 
     def _iter_calc(self, run):
+        from cwl.cwl_eval import RankingMaker
         # adapted from cwl_eval's main() method
         ranking_makers = None
         curr_qid = None
@@ -176,6 +187,7 @@ class CwlEvaluator(providers.Evaluator):
                     expected_items=cwl_measure.expected_items)
 
     def _irm_convert_to_measure(self, measure):
+        from cwl.ruler.cwl_ruler import PrecisionCWLMetric, RRCWLMetric, APCWLMetric, RBPCWLMetric, BPMCWLMetric, NDCGCWLMetric, NERReq8CWLMetric, NERReq9CWLMetric, NERReq10CWLMetric, NERReq11CWLMetric, INSTCWLMetric, INSQCWLMetric
         if measure.NAME == 'P':
             return PrecisionCWLMetric(measure['cutoff'])
         if measure.NAME == 'RR':
