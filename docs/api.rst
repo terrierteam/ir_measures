@@ -4,11 +4,11 @@ API Reference
 Metric Calculation
 -------------------------------------------
 
-.. autofunction:: ir_measures.iter_calc
+.. autofunction:: ir_measures.calc
 
 .. autofunction:: ir_measures.calc_aggregate
 
-.. autofunction:: ir_measures.calc
+.. autofunction:: ir_measures.iter_calc
 
 .. autofunction:: ir_measures.evaluator
 
