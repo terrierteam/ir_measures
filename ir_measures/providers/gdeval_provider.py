@@ -35,9 +35,8 @@ class GdevalProvider(providers.Provider):
         return GdevalEvaluator(measures, qrels, invocations)
 
     def initialize(self):
-        try:
-            subprocess.check_output(['perl', '--version'])
-        except CalledProcessError as ex:
+        import shutil
+        if len(shutil.which("perl")) == 0:
             raise RuntimeError('perl not available', ex)
 
     def install_instructions(self):
