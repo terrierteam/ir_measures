@@ -1,0 +1,31 @@
+name: Documentation
+
+on:
+  push: {branches: [main]} # pushes to main
+  pull_request: {} # all PRs
+  schedule: [cron: '0 12 * * 3'] # every Wednesday at noon
+
+jobs:
+  sphinx:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install Python dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install -r requirements-test.txt
+        pip install -r docs/requirements.txt
+        pip install -e .
+        
+    - name: Build docs
+      run: |
+        cd docs
+        make html SPHINXOPTS="-W --keep-going -n"
+
+    - uses: actions/upload-artifact@v4
+      with:
+        path: docs/_build/html

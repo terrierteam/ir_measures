@@ -351,3 +351,30 @@ This behaviour is based on the following reasoning:
 We believe that these are the proper settings, so there is currently no way to change this behaviour
 directly in the software. If you wish to only score some of the queries provided in the qrels, you
 may of course filter down the qrels provided to ir-measures to only those queries.
+
+
+Diversity Measures
+---------------------------------------
+
+Some measures, such as :ref:`alpha_nDCG <measures.alpha_nDCG>` and :ref:`ERR_IA <measures.ERR_IA>`,
+can assess the diversity of search results by introducing "subtopic" assessments. In line
+with TREC conventions, we include the "subtopic ID" as the optional "iteration" field of a qrel:
+
+    >>> from ir_measures import alpha_nDCG, Qrel, ScoredDoc, calc_aggregate
+    >>> measures = [alpha_nDCG@10]
+    >>> qrels = [
+    ...   # the "iteration" field is used to store the subtopic ID, as per trec conventions
+    ...   Qrel('q0', 'd0', 1, iteration="0"), # d0 is relevant to both subtopics 0 and 1
+    ...   Qrel('q0', 'd0', 1, iteration="1"),
+    ...   Qrel('q0', 'd1', 1, iteration="0"), # d1 is only relevant to subtopic 0
+    ... ]
+    >>> run = [
+    ...   ScoredDoc('q0', 'd0', 1),
+    ... ]
+    >>> calc_aggregate(measures, qrels, run)
+    {alpha_nDCG@10: 0.8637574337885664}
+    >>> worse_run = [
+    ...   ScoredDoc('q0', 'd1', 1),
+    ... ]
+    >>> calc_aggregate(measures, qrels, worse_run)
+    {alpha_nDCG@10: 0.4318787168942832}
