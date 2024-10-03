@@ -378,3 +378,38 @@ with TREC conventions, we include the "subtopic ID" as the optional "iteration" 
     ... ]
     >>> calc_aggregate(measures, qrels, worse_run)
     {alpha_nDCG@10: 0.4318787168942832}
+
+Custom Measures
+---------------------------------------
+
+ir-measures is primarily designed for standard measures from existing implementations
+(e.g., :ref:`nDCG <measures.nDCG>` from :ref:`pytrec_eval <providers.pytrec_eval>`). However, sometimes
+it's handy to use the common API that ir-measures provides alongside one-off custom measures.
+:func:`~ir_measures.define` and :func:`~ir_measures.define_byquery` let you do this.
+
+As an example, let's say you're using a collection where the ``doc_id`` is the URL and you want to check
+the proportion of queries that have a result from English Wikipedia. Here, you can define a new
+measure as follows:
+
+.. code-block:: python
+    :caption: Define a custom "HasEnglishWiki" Measure
+
+    >>> import pandas as pd
+    >>> from ir_measures import define_byquery, ScoredDoc, Qrel
+
+    >>> def has_english_wiki(qrels: pd.DataFrame, run: pd.DataFrame) -> float:
+    ...     has_en_wiki = run.doc_id.str.startswith('https://en.wikipedia.org/').any()
+    ...     if has_en_wiki:
+    ...         return 1.
+    ...     else:
+    ...         return 0.
+
+    >>> HasEnglishWiki = define_byquery(has_english_wiki)
+    >>> HasEnglishWiki.calc_aggreate(
+    ...     qrels=[Qrel(query_id='0', doc_id='a', relevance=1)],
+    ...     run=[
+    ...         ScoredDoc(query_id='0', doc_id='https://en.wikipedia.org/wiki/Terrier', score=1.),
+    ...         ScoredDoc(query_id='1', doc_id='https://www.google.com/', score=1.),
+    ...     ],
+    ... )
+    0.5

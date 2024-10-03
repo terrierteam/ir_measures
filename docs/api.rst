@@ -37,6 +37,13 @@ Parsing
 
 .. autofunction:: ir_measures.read_trec_run
 
+Custom Measures
+-------------------------------------------
+
+.. autofunction:: ir_measures.define
+
+.. autofunction:: ir_measures.define_byquery
+
 Data Classes
 -------------------------------------------
 
