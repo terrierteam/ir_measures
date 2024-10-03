@@ -6,7 +6,7 @@ on:
   schedule: [cron: '0 12 * * 3'] # every Wednesday at noon
 
 jobs:
-  build:
+  sphinx:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -19,6 +19,7 @@ jobs:
         pip install -r requirements.txt
         pip install -r requirements-test.txt
         pip install -r docs/requirements.txt
+        pip install -e .
         
     - name: Build docs
       run: |
