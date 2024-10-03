@@ -356,7 +356,8 @@ may of course filter down the qrels provided to ir-measures to only those querie
 Diversity Measures
 ---------------------------------------
 
-Some measures can assess the diversity of search results by introducing "subtopic" assessments. In line
+Some measures, such as :ref:`alpha_nDCG <measures.alpha_nDCG>` and :ref:`ERR_IA <measures.ERR_IA>`,
+can assess the diversity of search results by introducing "subtopic" assessments. In line
 with TREC conventions, we include the "subtopic ID" as the optional "iteration" field of a qrel:
 
     >>> from ir_measures import alpha_nDCG, Qrel, ScoredDoc, calc_aggregate
