@@ -76,7 +76,8 @@ canonical form when printed.
 
 ''')
     for name, val in aliases:
-        f.write(f'- ``{name}`` → :ref:`{val} <measures.{val}>`\n')
+        ref = str(val).split('(')[0]
+        f.write(f'- ``{name}`` → :ref:`{val} <measures.{ref}>`\n')
 
 with open('providers.rst', 'wt') as f:
     f.write('''
