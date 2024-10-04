@@ -309,51 +309,7 @@ and ``ir_measures.evaluator``. You can also calculate values from the measure ob
     Metric(query_id='35', measure=P(rel=2)@10, value=0.9)
 
 
-
-Scoring multiple runs
----------------------------------------
-
-Sometimes you need to evaluate several different systems using the same
-benchmark. To avoid redundant work for every run (such as processing qrels),
-you can create an ``evaluator(measures, qrels)`` object that can be re-used on multiple runs.
-An evaluator object has ``calc_aggregate(run)`` and ``calc_iter(run)`` methods.
-
-    >>> evaluator = ir_measures.evaluator([nDCG@10, P@5, P(rel=2)@5, Judged@10], qrels)
-    >>> evaluator.calc_aggregate(run1)
-    {nDCG@10: 0.6250, P@5: 0.7485, P(rel=2)@5: 0.6000, Judged@10: 0.9485}
-    >>> evaluator.calc_aggregate(run2)
-    {nDCG@10: 0.6285, P@5: 0.7771, P(rel=2)@5: 0.6285, Judged@10: 0.9400}
-    >>> evaluator.calc_aggregate(run3)
-    {nDCG@10: 0.5286, P@5: 0.6228, P(rel=2)@5: 0.4628, Judged@10: 0.8485}
-
-
-.. [1] In the examples, ``P@5`` and ``nDCG@10`` are returned first, as they are both calculated
-   in one invocation of ``pytrec_eval``. Then, results for ``P(rel=2)@5`` are returned (as a
-   second invocation of ``pytrec_eval`` because it only supports one relevance level at a time).
-   Finally, results for ``Judged@10`` are returned, as these are calculated by the ``judged``
-   provider.
-
-
-Empty Set Behaviour
----------------------------------------
-
-ir-measures normalizes the behavior across tools by always returning results based on all queries
-that appear in the provided qrels, regardless of what appears in the run. This corresponds with
-the ``-c`` flag in ``trec_eval``. Queries that appear in the run but not the qrels are ignored,
-and queries that appear in the qrels but not the run are given a score of 0.
-
-This behaviour is based on the following reasoning:
-
- 1. Queries that do not appear in the qrels were not judged, and therefore cannot be properly scored
-    if returned in the run.
- 2. Queries that do not appear in the run may have returned no results, and therefore be scored as such.
-
-We believe that these are the proper settings, so there is currently no way to change this behaviour
-directly in the software. If you wish to only score some of the queries provided in the qrels, you
-may of course filter down the qrels provided to ir-measures to only those queries.
-
-
-Diversity Measures
+Diversity Evaluation
 ---------------------------------------
 
 Some measures, such as :ref:`alpha_nDCG <measures.alpha_nDCG>` and :ref:`ERR_IA <measures.ERR_IA>`,
@@ -379,37 +335,11 @@ with TREC conventions, we include the "subtopic ID" as the optional "iteration" 
     >>> calc_aggregate(measures, qrels, worse_run)
     {alpha_nDCG@10: 0.4318787168942832}
 
-Custom Measures
----------------------------------------
 
-ir-measures is primarily designed for standard measures from existing implementations
-(e.g., :ref:`nDCG <measures.nDCG>` from :ref:`pytrec_eval <providers.pytrec_eval>`). However, sometimes
-it's handy to use the common API that ir-measures provides alongside one-off custom measures.
-:func:`~ir_measures.define` and :func:`~ir_measures.define_byquery` let you do this.
+-------------------------------
 
-As an example, let's say you're using a collection where the ``doc_id`` is the URL and you want to check
-the proportion of queries that have a result from English Wikipedia. Here, you can define a new
-measure as follows:
-
-.. code-block:: python
-    :caption: Define a custom "HasEnglishWiki" Measure
-
-    >>> import pandas as pd
-    >>> from ir_measures import define_byquery, ScoredDoc, Qrel
-
-    >>> def has_english_wiki(qrels: pd.DataFrame, run: pd.DataFrame) -> float:
-    ...     has_en_wiki = run.doc_id.str.startswith('https://en.wikipedia.org/').any()
-    ...     if has_en_wiki:
-    ...         return 1.
-    ...     else:
-    ...         return 0.
-
-    >>> HasEnglishWiki = define_byquery(has_english_wiki)
-    >>> HasEnglishWiki.calc_aggreate(
-    ...     qrels=[Qrel(query_id='0', doc_id='a', relevance=1)],
-    ...     run=[
-    ...         ScoredDoc(query_id='0', doc_id='https://en.wikipedia.org/wiki/Terrier', score=1.),
-    ...         ScoredDoc(query_id='1', doc_id='https://www.google.com/', score=1.),
-    ...     ],
-    ... )
-    0.5
+.. [1] In the examples, ``P@5`` and ``nDCG@10`` are returned first, as they are both calculated
+   in one invocation of ``pytrec_eval``. Then, results for ``P(rel=2)@5`` are returned (as a
+   second invocation of ``pytrec_eval`` because it only supports one relevance level at a time).
+   Finally, results for ``Judged@10`` are returned, as these are calculated by the ``judged``
+   provider.

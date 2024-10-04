@@ -40,6 +40,8 @@ Parsing
 Custom Measures
 -------------------------------------------
 
+See :ref:`here <custom_measures>` for an example of using custom measures.
+
 .. autofunction:: ir_measures.define
 
 .. autofunction:: ir_measures.define_byquery
