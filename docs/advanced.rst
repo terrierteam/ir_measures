@@ -101,6 +101,6 @@ The new measure can also be used in a PyTerrier experiment:
         [bm25, bm25 >> monoT5],
         topics,
         qrels
-        measures = [ NDCG@10, HasEnglishWiki@1, HasEnglishWiki@10 ],
-        names = [ "BM25", "monoT5" ]
+        measures = [nDCG@10, HasEnglishWiki@1, HasEnglishWiki@10],
+        names = ["BM25", "monoT5"]
     )
