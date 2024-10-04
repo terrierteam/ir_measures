@@ -91,3 +91,11 @@ div.literal-block-wrapper {
     margin-bottom: 0.75rem;
     margin-top: 0.5rem;
 }
+
+h2 code.literal {
+    background: inherit;
+}
+
+.toc-tree code.literal {
+    background: inherit;
+}

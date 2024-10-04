@@ -103,6 +103,7 @@ Table of Contents
    :maxdepth: 1
 
    getting-started
+   advanced
    measures
    providers
    api

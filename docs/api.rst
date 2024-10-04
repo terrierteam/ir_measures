@@ -37,6 +37,15 @@ Parsing
 
 .. autofunction:: ir_measures.read_trec_run
 
+Custom Measures
+-------------------------------------------
+
+See :ref:`here <custom_measures>` for an example of using custom measures.
+
+.. autofunction:: ir_measures.define
+
+.. autofunction:: ir_measures.define_byquery
+
 Data Classes
 -------------------------------------------
 

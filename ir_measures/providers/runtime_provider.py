@@ -1,5 +1,9 @@
+from typing import Callable, Optional, Iterable, Tuple, TYPE_CHECKING
 import ir_measures
 from ir_measures import providers, measures, Metric
+
+if TYPE_CHECKING:
+    import pandas as pd
 
 
 class RuntimeProvider(providers.Provider):
@@ -35,7 +39,22 @@ class RuntimeEvaluator(providers.Evaluator):
             yield from measure.runtime_impl(self.qrels, run)
 
 
-def define(impl, name=None, support_cutoff=True):
+def define(
+    impl: Callable[['pd.DataFrame', 'pd.DataFrame'], Iterable[Tuple[str, float]]],
+    name: Optional[str] = None,
+    support_cutoff: bool = True
+):
+    """Defines a new custom measure from a user-specified function that is is provided all queries at once.
+
+    ``impl`` is a function that accepts (``qrels``, ``run``) and returns an iterable of (qid, score) tuples.
+
+    Most of the time, it is probably easier to use :func:`~ir_measures.define_byquery`, since it operates with one
+    query at a time.
+
+    :param impl: A function that takes two pandas DataFrames (qrels and run) and returns an iterable of (qid, score) tuples.
+    :param name: The name of the measure (optional)
+    :param support_cutoff: Whether the measure supports a cutoff parameter, which reduces the results in run.
+    """
     _SUPPORTED_PARAMS = {}
     if support_cutoff:
         _SUPPORTED_PARAMS['cutoff'] = measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold')
@@ -64,8 +83,26 @@ def _byquery_impl(impl):
     return _wrapped
 
 
-def define_byquery(impl, name=None, support_cutoff=True):
-    return define(_byquery_impl(impl), name or repr(impl), support_cutoff)
+def define_byquery(
+    impl: Callable[['pd.DataFrame', 'pd.DataFrame'], float],
+    name: Optional[str] = None,
+    support_cutoff: bool = True
+):
+    """Defines a new custom measure from a user-specified function that is called once per query.
+
+    ``impl`` is a function that accepts (``qrels``, ``run``) and is called once per query, returning a float
+    value each time for the specific query.
+
+    :param impl: A function that takes two pandas DataFrames (qrels and run) and returns a float.
+    :param name: The name of the measure (optional)
+    :param support_cutoff: Whether the measure supports a cutoff parameter, which reduces the results in run.
+    """
+    if name is None:
+        if hasattr(impl, '__name__'):
+            name = impl.__name__
+        else:
+            name = repr(impl)
+    return define(_byquery_impl(impl), name, support_cutoff)
 
 
 providers.register(RuntimeProvider())
