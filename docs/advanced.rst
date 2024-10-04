@@ -91,3 +91,16 @@ Now you can use the new measure, e.g., by running :func:`~ir_measures.calc_aggre
     # apply a custoff of @1, now no queries have a wiki result
     calc_aggregate([HasEnglishWiki@1], qrels, run)
     # -> {HasEnglishWiki@1: 0.0}
+
+The new measure can also be used in a PyTerrier experiment:
+
+.. code-block:: python
+    :caption: Evaluate results using a custom "HasEnglishWiki" Measure in PyTerrier
+
+    pt.Experiment(
+        [bm25, bm25 >> monoT5],
+        topics,
+        qrels
+        measures = [ NDCG@10, HasEnglishWiki@1, HasEnglishWiki@10 ],
+        names = [ "BM25", "monoT5" ]
+    )
