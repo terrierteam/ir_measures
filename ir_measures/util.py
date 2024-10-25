@@ -46,9 +46,10 @@ GenericScoredDoc._fields = ScoredDoc._fields
 
 
 class QrelsConverter:
-    def __init__(self, qrels):
+    def __init__(self, qrels, strict=True):
         self.qrels = qrels
         self._predicted_format = None
+        self.strict = strict # setting strict to false prevents missing columns from raising an error for DFs
 
     def tee(self, count):
         t, err = self.predict_type()
@@ -67,10 +68,10 @@ class QrelsConverter:
         elif hasattr(self.qrels, 'itertuples'):
             cols = self.qrels.columns
             missing_cols = [f for f in Qrel._fields if f not in cols and f not in Qrel._field_defaults]
-            if not missing_cols:
-                result = 'pd_dataframe'
-            else:
+            if missing_cols and self.strict:
                 error = f'DataFrame missing columns: {list(missing_cols)} (found {list(cols)})'
+            else:
+                result = 'pd_dataframe'                
         elif hasattr(self.qrels, '__iter__'):
             # peek
             # TODO: is this an OK approach?
@@ -145,9 +146,10 @@ class QrelsConverter:
 
 
 class RunConverter:
-    def __init__(self, run):
+    def __init__(self, run, strict=True):
         self.run = run
         self._predicted_format = None
+        self.strict = strict # setting strict to false prevents missing columns from raising an error for DFs
 
     def tee(self, count):
         t, err = self.predict_type()
@@ -166,10 +168,10 @@ class RunConverter:
         elif hasattr(self.run, 'itertuples'):
             cols = self.run.columns
             missing_cols = set(ScoredDoc._fields) - set(cols)
-            if not missing_cols:
-                result = 'pd_dataframe'
-            else:
+            if missing_cols and self.strict:
                 error = f'DataFrame missing columns: {list(missing_cols)} (found {list(cols)})'
+            else:
+                result = 'pd_dataframe'
         elif hasattr(self.run, '__iter__'):
             # peek
             # TODO: is this an OK approach?

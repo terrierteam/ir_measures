@@ -1,9 +1,41 @@
 import unittest
 import itertools
 import ir_measures
-
+import pandas as pd
 
 class TestRuntime(unittest.TestCase):
+
+    def test_non_doc_qrels(self):
+        # source: https://thecleverprogrammer.com/2022/07/27/longest-common-prefix-using-python/
+        def longestCommonPrefix(strs):
+            l = len(strs[0])
+            for i in range(1, len(strs)):
+                length = min(l, len(strs[i]))
+                while length > 0 and strs[0][0:length] != strs[i][0:length]:
+                    length = length - 1
+                    if length == 0:
+                        return 0
+            return strs[0][0:length]
+
+        LenMeasure = ir_measures.define_byquery(lambda qrels, run: len(run.iloc[0]["qanswer"]))
+        LCSMeasure = ir_measures.define_byquery(lambda qrels, run: len(longestCommonPrefix(
+            [qrels.iloc[0]["gold_answer"],
+            run.iloc[0]["qanswer"]]
+        )))
+        
+        prefix = 'professor proton mixed the '
+        test_answer = prefix + 'reactants'
+        gold_answer = prefix + 'chemicals'
+        df_res = pd.DataFrame([['q1', test_answer]], columns=['query_id', 'qanswer'])
+        df_gold = pd.DataFrame([['q1', gold_answer]], columns=['query_id', 'gold_answer'])
+        measurements = ir_measures.iter_calc([LenMeasure, LCSMeasure], df_gold, df_res)
+        for m in measurements:
+            if m.measure == LenMeasure:
+                self.assertEqual(len(test_answer), m.value)
+            elif m.measure == LCSMeasure:
+                self.assertEqual(len(prefix), m.value)
+            else:
+                raise Exception()
 
     def test_define_byquery(self):
         def my_p(qrels, run):
