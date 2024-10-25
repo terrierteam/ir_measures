@@ -18,8 +18,11 @@ class RuntimeProvider(providers.Provider):
     def _evaluator(self, measures, qrels):
         measures = ir_measures.util.flatten_measures(measures)
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
-        qrels = ir_measures.util.QrelsConverter(qrels).as_pd_dataframe()
-        qrels.sort_values(by=['query_id', 'doc_id'], inplace=True)
+        qrels = ir_measures.util.QrelsConverter(qrels, strict=False).as_pd_dataframe()
+        sort_columns=['query_id']
+        if 'doc_id' in qrels.columns:
+            sort_columns.append('doc_id')
+        qrels.sort_values(by=sort_columns, inplace=True)
         return RuntimeEvaluator(measures, qrels)
 
 
@@ -29,8 +32,13 @@ class RuntimeEvaluator(providers.Evaluator):
         self.qrels = qrels
 
     def _iter_calc(self, run):
-        run = ir_measures.util.RunConverter(run).as_pd_dataframe()
-        run.sort_values(by=['query_id', 'score'], ascending=[True, False], inplace=True)
+        run = ir_measures.util.RunConverter(run, strict=False).as_pd_dataframe()
+        sort_columns = ['query_id']
+        sort_orders = [True]
+        if 'score' in run.columns:
+            sort_columns.append('score')
+            sort_orders.append(False)
+        run.sort_values(by=sort_columns, ascending=sort_orders, inplace=True)
         for measure in self.measures:
             yield from measure.runtime_impl(self.qrels, run)
 
