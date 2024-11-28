@@ -302,10 +302,7 @@ def read_trec_run(file):
 def flatten_measures(measures):
     result = set()
     for measure in measures:
-        if isinstance(measure, ir_measures.measures.MultiMeasures):
-            result = result | measure.measures
-        else:
-            result.add(measure)
+        result.add(measure)
     return result
 
 

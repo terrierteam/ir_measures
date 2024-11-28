@@ -57,20 +57,9 @@ class Measure:
         self.validated = True
 
     def __call__(self, **kwargs):
-        product = []
-        for k, v in kwargs.items():
-            if isinstance(v, (list, tuple)):
-                product.append([(k, item) for item in v])
-        results = []
-        for items in itertools.product(*product):
-            params = dict(self.params)
-            params.update(kwargs)
-            params.update(items)
-            results.append(type(self)(**params))
-        if product:
-            result = MultiMeasures(*results)
-            return result
-        return results[0]
+        params = dict(self.params)
+        params.update(kwargs)
+        return type(self)(**params)
 
     def __matmul__(self, at_param) -> 'ir_measures.Measure':
         return self(**{self.AT_PARAM: at_param})
@@ -151,41 +140,3 @@ class SumAgg(Agg):
 
     def result(self):
         return self.sum
-
-
-class MultiMeasures:
-    def __init__(self, *measures):
-        self.measures = set()
-        self._add_measures(measures)
-
-    def _add_measures(self, measures):
-        for m in measures:
-            if isinstance(m, MultiMeasures):
-                self._add_measures(m.measures)
-            else:
-                self.measures.add(m)
-
-    def __call__(self, **kwargs):
-        return MultiMeasures(*(m(**kwargs) for m in self.measures))
-
-    def __matmul__(self, at_param):
-        return MultiMeasures(*(m(**{m.AT_PARAM: at_param}) for m in self.measures))
-
-    def __str__(self):
-        return repr(self)
-
-    def __repr__(self):
-        if self.measures:
-            return f'MultiMeasures({repr(self.measures)[1:-1]})'
-        return 'MultiMeasures()'
-
-    def iter_calc(self, qrels, run):
-        return ir_measures.DefaultPipeline.iter_calc(self.measures, qrels, run)
-
-    def calc_aggregate(self, qrels, run) -> Dict[Measure, Union[float, int]]:
-        return self.aggregate(self.iter_calc())
-
-
-
-
-
