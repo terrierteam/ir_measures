@@ -1,22 +1,26 @@
 __version__ = "0.3.4"
 import sys
 import logging
-from . import util
-from . import lazylibs
-from .util import (parse_measure, parse_trec_measure,
-                   read_trec_qrels, read_trec_run,
-                   Qrel, ScoredDoc, Metric, CalcResults,
-                   GenericQrel, # deprecated; replaced with Qrel
-                   GenericScoredDoc, # deprecated; replaced with ScoredDoc
-                   convert_trec_name, # deprecated; replaced with parse_trec_measure
-                   parse_trec_qrels, # deprecated; replaced with read_trec_qrels
-                   parse_trec_run, # deprecated; replaced with read_trec_run
-                  )
-from . import measures
-from .measures import Accuracy, alpha_DCG, alpha_nDCG, AP, AP_IA, BaseMeasure, BPM, Bpref, BPref, Compat, ERR, ERR_IA, infAP, INSQ, INST, IPrec, Judged, MAP, MAP_IA, MeanAgg, Measure, MRR, nDCG, NDCG, NERR10, NERR11, NERR8, NERR9, nERR_IA, nNRBP, NRBP, NumQ, NumRel, NumRelRet, NumRet, P, P_IA, ParamInfo, Precision, R, RBP, Recall, Rprec, RPrec, RR, SDCG, SetAP, SetF, SetP, SetR, SetRelP, StRecall, Success, SumAgg, α_DCG, α_nDCG
-from .measures import Measure
-from . import providers
-from .providers import Provider, Evaluator
+from ir_measures import util
+from ir_measures import lazylibs
+from ir_measures.util import (
+    parse_measure, parse_trec_measure, read_trec_qrels, read_trec_run,
+    Qrel, ScoredDoc, Metric, CalcResults,
+    GenericQrel, # deprecated; replaced with Qrel
+    GenericScoredDoc, # deprecated; replaced with ScoredDoc
+    convert_trec_name, # deprecated; replaced with parse_trec_measure
+    parse_trec_qrels, # deprecated; replaced with read_trec_qrels
+    parse_trec_run, # deprecated; replaced with read_trec_run
+)
+from ir_measures import measures
+from ir_measures.measures import (
+    Accuracy, alpha_DCG, alpha_nDCG, AP, AP_IA, BaseMeasure, BPM, Bpref, BPref, Compat, ERR, ERR_IA, infAP, INSQ, INST,
+    IPrec, Judged, MAP, MAP_IA, MeanAgg, Measure, MRR, nDCG, NDCG, NERR10, NERR11, NERR8, NERR9, nERR_IA, nNRBP, NRBP,
+    NumQ, NumRel, NumRelRet, NumRet, P, P_IA, ParamInfo, Precision, R, RBP, Recall, Rprec, RPrec, RR, SDCG, SetAP, SetF,
+    SetP, SetR, SetRelP, StRecall, Success, SumAgg, α_DCG, α_nDCG
+)
+from ir_measures import providers
+from ir_measures.providers import Provider, Evaluator
 
 
 
@@ -63,4 +67,28 @@ iter_calc = DefaultPipeline.iter_calc
 calc_aggregate = DefaultPipeline.calc_aggregate
 calc = DefaultPipeline.calc
 
-__all__ = measures.__all__
+__all__ = [
+    'accuracy', 'cwl_eval', 'compat', 'gdeval', 'pytrec_eval', 'trectools', 'judged', 'msmarco', 'pyndeval', 'ranx',
+    'runtime',
+    'define', 'define_byquery',
+    'CwlMetric',
+    'DefaultPipeline',
+    'evaluator', 'calc_ctxt', 'iter_calc', 'calc_aggregate', 'calc',
+    'Accuracy', 'alpha_DCG', 'alpha_nDCG', 'AP', 'AP_IA', 'BaseMeasure', 'BPM', 'Bpref', 'BPref', 'Compat', 'ERR',
+    'ERR_IA', 'infAP', 'INSQ', 'INST', 'IPrec', 'Judged', 'MAP', 'MAP_IA', 'MeanAgg', 'Measure', 'MRR', 'nDCG', 'NDCG',
+    'NERR10', 'NERR11', 'NERR8', 'NERR9', 'nERR_IA', 'nNRBP', 'NRBP', 'NumQ', 'NumRel', 'NumRelRet', 'NumRet', 'P',
+    'P_IA', 'ParamInfo', 'Precision', 'R', 'RBP', 'Recall', 'Rprec', 'RPrec', 'RR', 'SDCG', 'SetAP', 'SetF', 'SetP',
+    'SetR', 'SetRelP', 'StRecall', 'Success', 'SumAgg', 'α_DCG', 'α_nDCG',
+    'Measure',
+    'Provider', 'Evaluator',
+    'Qrel', 'ScoredDoc', 'Metric', 'CalcResults',
+    'GenericQrel', 'GenericScoredDoc',
+    'convert_trec_name', 'parse_trec_measure',
+    'read_trec_qrels', 'read_trec_run',
+    'parse_measure', 'parse_trec_qrels', 'parse_trec_run',
+    'util',
+    'measures',
+    'providers',
+    'lazylibs',
+    '__version__',
+]

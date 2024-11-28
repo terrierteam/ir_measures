@@ -1,5 +1,4 @@
 import sys
-import contextlib
 import functools
 import ir_measures
 from ir_measures import providers, measures, Metric
@@ -99,9 +98,9 @@ class TrectoolsProvider(providers.Provider):
                     # TODO: how to handle different relevance levels? I think the only way is to modify
                     # the dataframe.
                     raise RuntimeError('unsupported')
-                    fn = lambda ev: self.trectools.TrecEval.get_rbp(ev, p=measure['p'], depth=depth(), per_query=True, binary_topical_relevance=True, average_ties=True, removeUnjudged=False)[0]
                 else:
-                    fn = lambda ev: self.trectools.TrecEval.get_rbp(ev, p=measure['p'], depth=depth(), per_query=True, binary_topical_relevance=False, average_ties=True, removeUnjudged=False)[0]
+                    def fn(ev):
+                        return self.trectools.TrecEval.get_rbp(ev, p=measure['p'], depth=depth(), per_query=True, binary_topical_relevance=False, average_ties=True, removeUnjudged=False)[0]
             else:
                 raise ValueError(f'unsupported measure {measure}')
 

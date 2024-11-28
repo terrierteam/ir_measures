@@ -1,5 +1,5 @@
 from ir_measures import measures
-from .base import Measure, ParamInfo, SumAgg
+from .base import SumAgg
 
 
 class _NumRet(measures.Measure):

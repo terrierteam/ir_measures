@@ -1,4 +1,3 @@
-import contextlib
 import ir_measures
 from ir_measures import providers, measures, Metric
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED

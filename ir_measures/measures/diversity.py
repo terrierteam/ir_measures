@@ -1,5 +1,4 @@
 from ir_measures import measures
-from .base import BaseMeasure, ParamInfo
 
 
 class _ERR_IA(measures.BaseMeasure):

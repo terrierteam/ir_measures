@@ -80,7 +80,7 @@ class CwlEvalProvider(providers.Provider):
 
     def initialize(self):
         try:
-            import cwl
+            import cwl # noqa: F401 just checking if available
         except ImportError as ex:
             raise RuntimeError('pytrec_eval not available', ex)
         # disable the cwl logger (which writes to cwl.log)
@@ -174,8 +174,8 @@ class CwlEvaluator(providers.Evaluator):
 
     def flush(self, qid, ranking_makers):
         rankings = {inv_key: maker.get_ranking() for inv_key, maker in ranking_makers.items()}
-        for inv_key, measures in self.invocations.items():
-            for measure in measures:
+        for inv_key, meas in self.invocations.items():
+            for measure in meas:
                 cwl_measure = self._irm_convert_to_measure(measure)
                 value = cwl_measure.measure(rankings[inv_key])
                 yield CwlMetric(query_id=qid, measure=measure,

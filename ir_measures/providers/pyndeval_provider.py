@@ -1,8 +1,7 @@
 import sys
-import contextlib
 import ir_measures
 from ir_measures import providers, measures
-from ir_measures.providers.base import Any, Choices, Metric, NOT_PROVIDED
+from ir_measures.providers.base import Any, Metric
 
 
 class PyNdEvalProvider(providers.Provider):
@@ -55,7 +54,7 @@ class PyNdEvalProvider(providers.Provider):
                 measure_str = f'{measure.NAME.replace("_", "-")}@{measure["cutoff"]}'
             elif measure.NAME == 'AP_IA':
                 invocation_key = (measure['rel'], DEFAULT_ALPHA, DEFAULT_BETA, measure['judged_only'])
-                measure_str = f'MAP-IA'
+                measure_str = 'MAP-IA'
             elif measure.NAME == 'StRecall':
                 invocation_key = (measure['rel'], DEFAULT_ALPHA, DEFAULT_BETA, False)
                 measure_str = f'strec@{measure["cutoff"]}'

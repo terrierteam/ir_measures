@@ -1,5 +1,4 @@
 from ir_measures import measures
-from .base import Measure, ParamInfo, SumAgg
 
 
 class _INST(measures.Measure):

@@ -2,7 +2,6 @@ import pkgutil
 import subprocess
 import tempfile
 import ir_measures
-from subprocess import CalledProcessError
 from ir_measures import providers, measures, Metric
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
 
@@ -37,7 +36,7 @@ class GdevalProvider(providers.Provider):
     def initialize(self):
         import shutil
         if len(shutil.which("perl")) == 0:
-            raise RuntimeError('perl not available', ex)
+            raise RuntimeError('perl not available')
 
     def install_instructions(self):
         return 'Install perl, see <https://www.perl.org>'

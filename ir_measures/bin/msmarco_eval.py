@@ -1,3 +1,4 @@
+# flake8: noqa
 """
 This module computes evaluation metrics for MSMARCO dataset on the ranking task.
 Command line:
