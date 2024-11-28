@@ -1,9 +1,11 @@
-registry = {}
+from typing import Dict
+from .base import Provider, Evaluator
+
+registry : Dict[str,Provider] = {}
 def register(provider):
 	registry[provider.NAME] = provider
 	return provider
 
-from .base import Provider, Evaluator
 from .accuracy_provider import AccuracyProvider
 from .fallback_provider import FallbackProvider
 from .compat_provider import CompatProvider

@@ -1,7 +1,7 @@
 import warnings
 import contextlib
 import itertools
-from typing import Iterator, Dict, Union
+from typing import Iterator, Dict, Union, List
 from ir_measures import providers, measures, Metric
 
 
@@ -42,8 +42,8 @@ class Provider:
     """
     The base class for all measure providers (e.g., pytrec_eval, gdeval, etc.).
     """
-    NAME = None
-    SUPPORTED_MEASURES = []
+    NAME : str
+    SUPPORTED_MEASURES : List[measures.Measure] = []
 
     def __init__(self):
         self._is_available = None

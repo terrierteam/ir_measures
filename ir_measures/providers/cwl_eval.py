@@ -14,7 +14,7 @@ logger.setLevel('WARNING')
 
 class CwlMetric(NamedTuple):
     query_id: str
-    measure: 'Measure'
+    measure: 'ir_measures.Measure'
     value: Union[float, int] # i.e., expected_utility
     expected_total_utility: float
     expected_cost: float
