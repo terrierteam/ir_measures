@@ -3,3 +3,4 @@ ranx>=0.1.11
 pyndeval>=0.0.6
 mypy
 ruff
+cwl-eval
