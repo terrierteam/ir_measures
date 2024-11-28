@@ -1,6 +1,6 @@
 import itertools
 import ir_measures
-from typing import Self, Dict, Union, Iterator
+from typing import Dict, Union, Iterator
 from ir_measures.providers.base import Evaluator
 from ir_measures.util import Metric
 from ir_measures import CalcResults
@@ -70,7 +70,7 @@ class Measure:
             return result
         return results[0]
 
-    def __matmul__(self, at_param) -> Self:
+    def __matmul__(self, at_param) -> 'ir_measures.Measure':
         return self(**{self.AT_PARAM: at_param})
 
     def __getitem__(self, key):
