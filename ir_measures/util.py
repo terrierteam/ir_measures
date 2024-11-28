@@ -325,6 +325,7 @@ def _ast_to_value(node):
 
 
 def parse_measure(measure: str) -> 'ir_measures.Measure':
+    node: Union[List[ast.stmt], ast.stmt, ast.expr]
     if isinstance(measure, ir_measures.Measure):
         return measure
     try:
@@ -441,8 +442,8 @@ def parse_trec_measure(measure: str) -> List['ir_measures.Measure']:
         raise ValueError(f'unknown argument for {measure}: {meas_args}')
     result = []
     dtype = meas.SUPPORTED_PARAMS[arg_name].dtype
-    for arg in meas_args.split(','):
-        result.append(meas(**{arg_name: dtype(arg)}))
+    for marg in meas_args.split(','):
+        result.append(meas(**{arg_name: dtype(marg)}))
     return result
 
 

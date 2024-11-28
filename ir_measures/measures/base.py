@@ -1,13 +1,12 @@
 import itertools
 import ir_measures
 from abc import ABC, abstractmethod
-from typing import Dict, Union, Iterator
-from ir_measures.providers.base import Evaluator
+from typing import Any, Dict, Union, Iterator
 from ir_measures.util import Metric
 from ir_measures import CalcResults
 
 
-_NOT_PROVIDED = object()
+_NOT_PROVIDED: Any = object()
 
 class Agg(ABC):
     @abstractmethod
@@ -92,7 +91,7 @@ class Measure:
         assert isinstance(agg, dict)
         return CalcResults(agg[self], perq)
 
-    def evaluator(self, qrels) -> Evaluator:
+    def evaluator(self, qrels) -> 'ir_measures.Evaluator':
         return ir_measures.evaluator([self], qrels)
 
     def __str__(self):

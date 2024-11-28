@@ -16,6 +16,7 @@ from . import measures
 from .measures import Accuracy, alpha_DCG, alpha_nDCG, AP, AP_IA, BaseMeasure, BPM, Bpref, BPref, Compat, ERR, ERR_IA, infAP, INSQ, INST, IPrec, Judged, MAP, MAP_IA, MeanAgg, Measure, MRR, MultiMeasures, nDCG, NDCG, NERR10, NERR11, NERR8, NERR9, nERR_IA, nNRBP, NRBP, NumQ, NumRel, NumRelRet, NumRet, P, P_IA, ParamInfo, Precision, R, RBP, Recall, Rprec, RPrec, RR, SDCG, SetAP, SetF, SetP, SetR, SetRelP, StRecall, Success, SumAgg, α_DCG, α_nDCG
 from .measures import Measure
 from . import providers
+from .providers import Provider, Evaluator
 
 
 

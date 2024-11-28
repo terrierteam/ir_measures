@@ -2,7 +2,8 @@ import warnings
 import contextlib
 import itertools
 from typing import Iterator, Iterable, Dict, Union, List
-from ir_measures import measures, Metric, Qrel, ScoredDoc, CalcResults, Measure
+from ir_measures.util import Metric, Qrel, ScoredDoc, CalcResults
+from ir_measures.measures.base import Measure, _NOT_PROVIDED
 
 
 class Evaluator:
@@ -28,7 +29,7 @@ class Evaluator:
     def _iter_calc(self, run: Iterable[ScoredDoc]) -> Iterator[Metric]:
         raise NotImplementedError()
 
-    def calc_aggregate(self, run: Iterable[ScoredDoc]) -> Dict[measures.Measure, Union[float, int]]:
+    def calc_aggregate(self, run: Iterable[ScoredDoc]) -> Dict[Measure, Union[float, int]]:
         """
         Returns aggregated measure values for this run.
         """
@@ -58,7 +59,7 @@ class Provider:
     :ref:`measures.nDCG`, :ref:`measures.P`, etc.).
     """
     NAME : str
-    SUPPORTED_MEASURES : List[measures.Measure] = []
+    SUPPORTED_MEASURES : List[Measure] = []
 
     def __init__(self):
         self._is_available = None
@@ -174,4 +175,4 @@ class Choices:
             return repr(self.choices[0])
         return repr(self.choices)
 
-NOT_PROVIDED = measures.base._NOT_PROVIDED
+NOT_PROVIDED: Any = _NOT_PROVIDED
