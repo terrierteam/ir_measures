@@ -24,11 +24,11 @@ class ScoredDoc(NamedTuple):
 
 class Metric(NamedTuple):
     query_id: str
-    measure: 'Measure'
+    measure: 'ir_measures.Measure'
     value: Union[float, int]
 
 class CalcResults(NamedTuple):
-    aggregated: Union[Dict['Measure', Union[float, int]], float, int]
+    aggregated: Union[Dict['ir_measures.Measure', Union[float, int]], float, int]
     per_query: List[Metric]
 
 class GenericQrel(Qrel):
@@ -238,9 +238,7 @@ class RunConverter:
         pertopic = defaultdict(list)
         for item in self.as_namedtuple_iter():
             pertopic[item.query_id].append(item)
-        pertopic = {qid: sorted(items, key=lambda x: x.score, reverse=True) for qid, items in pertopic.items()}
-
-        return pertopic
+        return {qid: sorted(items, key=lambda x: x.score, reverse=True) for qid, items in pertopic.items()}
 
     def as_pd_dataframe(self):
         t, err = self.predict_type()
@@ -301,15 +299,6 @@ def read_trec_run(file):
             with reader(file, 'rt') as f:
                 yield from read_trec_run(f)
 
-def flatten_measures(measures):
-    result = set()
-    for measure in measures:
-        if isinstance(measure, ir_measures.measures.MultiMeasures):
-            result = result | measure.measures
-        else:
-            result.add(measure)
-    return result
-
 
 _AST_PARSE_ERROR = 'problem parsing measure {}; must be in format Measure(k1=v1, k2=v2)@c'
 
@@ -326,7 +315,8 @@ def _ast_to_value(node):
     raise ValueError(_AST_PARSE_ERROR.format('values must be str, float, int, bool, etc.'))
 
 
-def parse_measure(measure: str) -> 'Measure':
+def parse_measure(measure: str) -> 'ir_measures.Measure':
+    node: Union[List[ast.stmt], ast.stmt, ast.expr]
     if isinstance(measure, ir_measures.Measure):
         return measure
     try:
@@ -355,13 +345,13 @@ def parse_measure(measure: str) -> 'Measure':
     measure_name = node.id
     if measure_name not in ir_measures.measures.registry:
         raise NameError(f'measure not found: {measure_name}')
-    measure = ir_measures.measures.registry[measure_name]
+    measure_clz = ir_measures.measures.registry[measure_name]
     if at_param is not None:
-        args[measure.AT_PARAM] = at_param
-    return measure(**args)
+        args[ measure_clz.AT_PARAM] = at_param
+    return  measure_clz(**args)
 
 
-def parse_trec_measure(measure: str) -> List['Measure']:
+def parse_trec_measure(measure: str) -> List['ir_measures.Measure']:
     TREC_NAME_MAP = {
         'ndcg': (ir_measures.nDCG, None, None),
         'P': (ir_measures.P, 'cutoff', [5, 10, 15, 20, 30, 100, 200, 500, 1000]),
@@ -435,7 +425,7 @@ def parse_trec_measure(measure: str) -> List['Measure']:
     match = next(filter(lambda x: x[1] is not None, matches), None)
     if match is None:
         raise ValueError('unkonwn measure {}'.format(measure))
-    base_meas, meas_args = match[0], match[1].group(1)
+    base_meas, meas_args = match[0], match[1].group(1) # type: ignore
     meas, arg_name, _ = TREC_NAME_MAP[base_meas]
     if meas is None:
         raise ValueError(f'known trec name {measure}, but not yet supported')
@@ -443,11 +433,11 @@ def parse_trec_measure(measure: str) -> List['Measure']:
         raise ValueError(f'unknown argument for {measure}: {meas_args}')
     result = []
     dtype = meas.SUPPORTED_PARAMS[arg_name].dtype
-    for arg in meas_args.split(','):
-        result.append(meas(**{arg_name: dtype(arg)}))
+    for marg in meas_args.split(','):
+        result.append(meas(**{arg_name: dtype(marg)}))
     return result
 
 
-def convert_trec_name(measure: str) -> List['Measure']:
+def convert_trec_name(measure: str) -> List['ir_measures.Measure']:
     warnings.warn("convert_trec_name deprecated in 0.2.0. Please use ir_measures.parse_trec_measure() instead.", DeprecationWarning)
     return parse_trec_measure(measure)

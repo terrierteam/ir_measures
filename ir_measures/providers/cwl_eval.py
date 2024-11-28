@@ -8,7 +8,7 @@ try:
     from cwl.cwl_eval import TrecQrelHandler
 except ImportError:
     # Shim so that the provider can be defined
-    class TrecQrelHandler:
+    class TrecQrelHandler: # type: ignore
         pass
 
 logger = logging.getLogger('ir_measures.cwl_eval')
@@ -17,7 +17,7 @@ logger.setLevel('WARNING')
 
 class CwlMetric(NamedTuple):
     query_id: str
-    measure: 'Measure'
+    measure: 'ir_measures.Measure'
     value: Union[float, int] # i.e., expected_utility
     expected_total_utility: float
     expected_cost: float
@@ -68,7 +68,6 @@ class CwlEvalProvider(providers.Provider):
 
     def _evaluator(self, measures, qrels):
         invocations = {}
-        measures = ir_measures.util.flatten_measures(measures)
         for measure in measures:
             if measure.NAME in ('P', 'RR', 'AP', 'RBP'):
                 inv_key = (measure['rel'], None, None)

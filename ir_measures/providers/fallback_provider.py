@@ -1,5 +1,5 @@
 from ir_measures import providers
-from ir_measures.util import QrelsConverter, RunConverter, flatten_measures
+from ir_measures.util import QrelsConverter, RunConverter
 
 
 class FallbackProvider(providers.Provider):
@@ -8,7 +8,7 @@ class FallbackProvider(providers.Provider):
         self.providers = providers
 
     def _evaluator(self, measures, qrels):
-        measures = flatten_measures(measures)
+        measures = set(measures)
         orig_measures = list(measures)
         provider_measure_pairs = []
         provides_that_would_support = []

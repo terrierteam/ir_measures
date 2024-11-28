@@ -48,7 +48,6 @@ class RanxProvider(providers.Provider):
         self.ranx = None
 
     def _evaluator(self, measures, qrels):
-        measures = ir_measures.util.flatten_measures(measures)
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         qrels = ir_measures.util.QrelsConverter(qrels).as_pd_dataframe()
         qids = set(qrels['query_id'].unique())

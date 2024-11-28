@@ -1,12 +1,43 @@
 import itertools
 import ir_measures
+from abc import ABC, abstractmethod
+from typing import Any, Dict, Union, Iterator, Optional
+from ir_measures.util import Metric
 from ir_measures import CalcResults
 
 
+_NOT_PROVIDED: Any = object()
+
+class Agg(ABC):
+    @abstractmethod
+    def add(self, value: float):
+        pass
+
+    @abstractmethod
+    def result(self) -> float:
+        pass
+
+class ParamInfo:
+    def __init__(self, dtype=None, required=False, choices=_NOT_PROVIDED, default=_NOT_PROVIDED, desc=None):
+        self.dtype = dtype
+        self.required = required
+        self.choices = choices
+        self.default = default
+        self.desc = desc
+
+    def validate(self, value):
+        if value is _NOT_PROVIDED:
+            return not self.required
+        if self.dtype is not None and not isinstance(value, self.dtype):
+            return False
+        if self.choices is not _NOT_PROVIDED and value not in self.choices:
+            return False
+        return True
+
 class Measure:
-    NAME = None
+    NAME: Optional[str] = None
     AT_PARAM = 'cutoff' # allows measures to configure which param measure@X updates (default is cutoff)
-    SUPPORTED_PARAMS = {}
+    SUPPORTED_PARAMS: Dict[str, ParamInfo] = {}
     DEFAULT = 0. # value if no documents are returned for this query
 
     def __init__(self, **params):
@@ -26,40 +57,30 @@ class Measure:
         self.validated = True
 
     def __call__(self, **kwargs):
-        product = []
-        for k, v in kwargs.items():
-            if isinstance(v, (list, tuple)):
-                product.append([(k, item) for item in v])
-        results = []
-        for items in itertools.product(*product):
-            params = dict(self.params)
-            params.update(kwargs)
-            params.update(items)
-            results.append(type(self)(**params))
-        if product:
-            result = MultiMeasures(*results)
-            return result
-        return results[0]
+        params = dict(self.params)
+        params.update(kwargs)
+        return type(self)(**params)
 
-    def __matmul__(self, at_param):
+    def __matmul__(self, at_param) -> 'ir_measures.Measure':
         return self(**{self.AT_PARAM: at_param})
 
     def __getitem__(self, key):
         default = self.SUPPORTED_PARAMS[key].default
         return self.params.get(key, default)
 
-    def iter_calc(self, qrels, run):
+    def iter_calc(self, qrels, run) -> Iterator[Metric]:
         self.validate_params()
         return ir_measures.iter_calc([self], qrels, run)
 
-    def calc_aggregate(self, qrels, run):
+    def calc_aggregate(self, qrels, run) -> Union[float, int]:
         return ir_measures.calc_aggregate([self], qrels, run)[self]
 
     def calc(self, qrels, run) -> CalcResults:
         agg, perq = ir_measures.calc([self], qrels, run)
+        assert isinstance(agg, dict)
         return CalcResults(agg[self], perq)
 
-    def evaluator(self, qrels):
+    def evaluator(self, qrels) -> 'ir_measures.Evaluator':
         return ir_measures.evaluator([self], qrels)
 
     def __str__(self):
@@ -87,14 +108,14 @@ class Measure:
     def __hash__(self):
         return hash(repr(self))
 
-    def aggregator(self):
+    def aggregator(self) -> Agg:
         return MeanAgg()
 
 
 BaseMeasure = Measure # for compatibility
 
 
-class MeanAgg:
+class MeanAgg(Agg):
     def __init__(self, default=float('NaN')):
         self.sum = 0.
         self.count = 0
@@ -110,7 +131,7 @@ class MeanAgg:
         return self.sum / self.count
 
 
-class SumAgg:
+class SumAgg(Agg):
     def __init__(self):
         self.sum = 0
 
@@ -119,57 +140,3 @@ class SumAgg:
 
     def result(self):
         return self.sum
-
-
-class MultiMeasures:
-    def __init__(self, *measures):
-        self.measures = set()
-        self._add_measures(measures)
-
-    def _add_measures(self, measures):
-        for m in measures:
-            if isinstance(m, MultiMeasures):
-                self._add_measures(m.measures)
-            else:
-                self.measures.add(m)
-
-    def __call__(self, **kwargs):
-        return MultiMeasures(*(m(**kwargs) for m in self.measures))
-
-    def __matmul__(self, at_param):
-        return MultiMeasures(*(m(**{m.AT_PARAM: at_param}) for m in self.measures))
-
-    def __str__(self):
-        return repr(self)
-
-    def __repr__(self):
-        if self.measures:
-            return f'MultiMeasures({repr(self.measures)[1:-1]})'
-        return 'MultiMeasures()'
-
-    def iter_calc(self, qrels, run):
-        return ir_measures.DefaultPipeline.iter_calc(self.measures, qrels, run)
-
-    def calc_aggregate(self, qrels, run):
-        return self.aggregate(self.iter_calc())
-
-
-_NOT_PROVIDED = object()
-
-
-class ParamInfo:
-    def __init__(self, dtype=None, required=False, choices=_NOT_PROVIDED, default=_NOT_PROVIDED, desc=None):
-        self.dtype = dtype
-        self.required = required
-        self.choices = choices
-        self.default = default
-        self.desc = desc
-
-    def validate(self, value):
-        if value is _NOT_PROVIDED:
-            return not self.required
-        if self.dtype is not None and not isinstance(value, self.dtype):
-            return False
-        if self.choices is not _NOT_PROVIDED and value not in self.choices:
-            return False
-        return True

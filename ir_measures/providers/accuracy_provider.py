@@ -47,7 +47,7 @@ class AccuracyProvider(providers.Provider):
 
     def _evaluator(self, measures, qrels) -> providers.Evaluator:
         invocations = []
-        for measure in ir_measures.util.flatten_measures(measures):
+        for measure in measures:
             if measure.NAME == _Accuracy.NAME:
                 cutoff = 0 if measure['cutoff'] is NOT_PROVIDED else measure['cutoff']
                 invocations.append((measure, cutoff, measure['rel']))

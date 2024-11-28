@@ -67,9 +67,6 @@ class TestMeasures(unittest.TestCase):
         measure = ir_measures.Bpref(rel=2)
         result = list(measure.iter_calc(qrels, run))
         print(result)
-        measure = ir_measures.P(rel=(1, 2))@(1,5,10,20)
-        result = list(measure.iter_calc(qrels, run))
-        print(result)
         measure = ir_measures.Judged@5
         result = list(measure.iter_calc(qrels, run))
         print(result)
@@ -110,23 +107,23 @@ class TestMeasures(unittest.TestCase):
 0 0 D3 4 0.4 run
 0 0 D4 5 0.1 run
 '''))
-        measures = ir_measures.util.flatten_measures([
-            ir_measures.P(rel=[1,2])@[1,5,10,20,50,100],
-            ir_measures.R(rel=[1,2])@[1,5,10,20,50,100],
-            ir_measures.RR(rel=[1,2]),
-            ir_measures.RR(rel=[1,2])@[1,5,10,20,50,100],
-            ir_measures.Rprec(rel=[1,2]),
-            ir_measures.AP(rel=[1,2]),
-            ir_measures.AP(rel=[1,2])@[1,5,10,20,50,100],
-            ir_measures.nDCG(dcg=['log2', 'exp-log2']),
-            ir_measures.nDCG(dcg=['log2', 'exp-log2'])@[1,5,10,20,50,100],
-            ir_measures.Bpref(rel=[1,2]),
-            ir_measures.Judged@[1,5,10,20,50,100],
-            ir_measures.ERR@[1,5,10,20,50,100],
+        measures = list(itertools.chain.from_iterable([
+            [ir_measures.P(rel=r)@k for r in [1, 2] for k in [1,5,10,20,50,100]],
+            [ir_measures.R(rel=r)@k for r in [1, 2] for k in [1,5,10,20,50,100]],
+            [ir_measures.RR(rel=r) for r in [1, 2]],
+            [ir_measures.RR(rel=r)@k for r in [1, 2] for k in [1,5,10,20,50,100]],
+            [ir_measures.Rprec(rel=r) for r in [1, 2]],
+            [ir_measures.AP(rel=r) for r in [1, 2]],
+            [ir_measures.AP(rel=r)@k for r in [1, 2] for k in [1,5,10,20,50,100]],
+            [ir_measures.nDCG(dcg=d) for d in ['log2', 'exp-log2']],
+            [ir_measures.nDCG(dcg=d)@k for d in ['log2', 'exp-log2'] for k in [1,5,10,20,50,100]],
+            [ir_measures.Bpref(rel=r) for r in [1, 2]],
+            [ir_measures.Judged@k for k in [1,5,10,20,50,100]],
+            [ir_measures.ERR@k for k in [1,5,10,20,50,100]],
             #disable RBP
             #ir_measures.RBP(p=[0.5, 0.8, 1.0, 1.2, 1.5]),
             #ir_measures.RBP(p=[0.5, 0.8, 1.0, 1.2, 1.5])@[1,5,10,20,50,100],
-        ])
+        ]))
         providers = [v for k, v in ir_measures.providers.registry.items() if k != 'trectools']
         for measure in measures:
             values = [(next(p.iter_calc([measure], qrels, run)), p) for p in providers if p.supports(measure)]

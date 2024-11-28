@@ -50,7 +50,6 @@ class TrectoolsProvider(providers.Provider):
 
     def _evaluator(self, measures, qrels):
         import pandas as pd
-        measures = ir_measures.util.flatten_measures(measures)
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         tmp_qrels = ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()
         tmp_qrels = pd.DataFrame(tmp_qrels)

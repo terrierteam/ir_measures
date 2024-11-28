@@ -10,7 +10,7 @@ def register(measure, aliases=[], name=None):
     return registry
 
 from .accuracy import Accuracy, _Accuracy
-from .base import Measure, BaseMeasure, ParamInfo, MultiMeasures, MeanAgg, SumAgg
+from .base import Measure, BaseMeasure, ParamInfo, MeanAgg, SumAgg
 from .ap import AP, MAP, _AP
 from .bpm import BPM, _BPM
 from .bpref import Bpref, BPref, _Bpref

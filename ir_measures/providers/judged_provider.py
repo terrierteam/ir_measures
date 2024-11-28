@@ -17,7 +17,7 @@ class JudgedProvider(providers.Provider):
 
     def _evaluator(self, measures, qrels):
         cutoffs = []
-        for measure in ir_measures.util.flatten_measures(measures):
+        for measure in measures:
             if measure.NAME == 'Judged':
                 cutoffs.append((measure['cutoff'], measure))
             else:

@@ -31,7 +31,7 @@ class CompatProvider(providers.Provider):
 
     def _evaluator(self, measures, qrels):
         invocations = []
-        for measure in ir_measures.util.flatten_measures(measures):
+        for measure in measures:
             if measure.NAME == 'Compat':
                 invocations.append((measure, measure['p'], measure['normalize']))
             else:

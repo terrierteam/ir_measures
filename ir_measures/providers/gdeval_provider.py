@@ -20,7 +20,7 @@ class GdevalProvider(providers.Provider):
     def _evaluator(self, measures, qrels):
         MEASURES = ('nDCG', 'ERR')
         cutoffs = {}
-        for measure in ir_measures.util.flatten_measures(measures):
+        for measure in measures:
             if measure.NAME in MEASURES:
                 cutoff = measure['cutoff']
                 if cutoff not in cutoffs:
