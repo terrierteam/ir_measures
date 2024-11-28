@@ -2,7 +2,7 @@ import warnings
 import contextlib
 import itertools
 from typing import Iterator, Iterable, Dict, Union, List
-from ir_measures.util import Metric, Qrel, ScoredDoc, CalcResults
+from ir_measures.util import Metric, TYPE_QREL, TYPE_RUN, CalcResults
 from ir_measures.measures.base import Measure, _NOT_PROVIDED
 
 
@@ -15,7 +15,7 @@ class Evaluator:
         self.measures = measures
         self.qrel_qids = qrel_qids
 
-    def iter_calc(self, run: Iterable[ScoredDoc]) -> Iterator[Metric]:
+    def iter_calc(self, run: TYPE_RUN) -> Iterator[Metric]:
         """
         Yields per-topic metrics this run.
         """
@@ -26,10 +26,10 @@ class Evaluator:
         for measure, query_id in sorted(expected_measure_qids, key=lambda x: (str(x[0]), x[1])):
             yield Metric(query_id=query_id, measure=measure, value=measure.DEFAULT)
 
-    def _iter_calc(self, run: Iterable[ScoredDoc]) -> Iterator[Metric]:
+    def _iter_calc(self, run: TYPE_RUN) -> Iterator[Metric]:
         raise NotImplementedError()
 
-    def calc_aggregate(self, run: Iterable[ScoredDoc]) -> Dict[Measure, Union[float, int]]:
+    def calc_aggregate(self, run: TYPE_RUN) -> Dict[Measure, Union[float, int]]:
         """
         Returns aggregated measure values for this run.
         """
@@ -38,7 +38,7 @@ class Evaluator:
             aggregators[metric.measure].add(metric.value)
         return {m: agg.result() for m, agg in aggregators.items()}
 
-    def calc(self, run: Iterable[ScoredDoc]) -> CalcResults:
+    def calc(self, run: TYPE_RUN) -> CalcResults:
         """
         Returns aggregated and per-query results for this run.
         """
@@ -71,7 +71,7 @@ class Provider:
                 instr = f' To install:\n  {instr}'
             raise RuntimeError(f'Provider {self.NAME} is not available.{instr}')
 
-    def evaluator(self, measures: Iterable[Measure], qrels: Iterable[Qrel]) -> Evaluator:
+    def evaluator(self, measures: Iterable[Measure], qrels: TYPE_QREL) -> Evaluator:
         """
         Returns an :class:`~ir_measures.providers.Evaluator` for these measures and qrels, which
         can efficiently process multiple runs.
@@ -88,32 +88,32 @@ class Provider:
             yield from evaluator.iter_calc(run)
         yield _eval
 
-    def iter_calc(self, measures: Iterable[Measure], qrels, run: Iterable[ScoredDoc]) -> Iterator[Metric]:
+    def iter_calc(self, measures: Iterable[Measure], qrels : TYPE_QREL, run: TYPE_RUN) -> Iterator[Metric]:
         """
         Yields per-topic metrics for these measures, qrels, and run.
         """
         self._check_available()
         return self._iter_calc(measures, qrels, run)
 
-    def _evaluator(self, measures: Iterable[Measure], qrels: Iterable[Qrel]):
+    def _evaluator(self, measures: Iterable[Measure], qrels: TYPE_QREL):
         raise NotImplementedError()
 
-    def _iter_calc(self, measures: Iterable[Measure], qrels: Iterable[Qrel], run: Iterable[ScoredDoc]):
+    def _iter_calc(self, measures: Iterable[Measure], qrels: TYPE_QREL, run: TYPE_RUN):
         return self._evaluator(measures, qrels).iter_calc(run)
 
-    def calc_aggregate(self, measures: Iterable[Measure], qrels: Iterable[Qrel], run: Iterable[ScoredDoc]) -> Dict[Measure, Union[float, int]]:
+    def calc_aggregate(self, measures: Iterable[Measure], qrels: TYPE_QREL, run: TYPE_RUN) -> Dict[Measure, Union[float, int]]:
         """
         Returns aggregated measure values for these measures, qrels, and run.
         """
         return self.evaluator(measures, qrels).calc_aggregate(run)
 
-    def calc(self, measures: Iterable[Measure], qrels: Iterable[Qrel], run: Iterable[ScoredDoc]) -> CalcResults:
+    def calc(self, measures: Iterable[Measure], qrels: TYPE_QREL, run:TYPE_RUN) -> CalcResults:
         """
         Returns aggregated and per-query results for these measures, qrels, and run.
         """
         return self.evaluator(measures, qrels).calc(run)
 
-    def supports(self, measure):
+    def supports(self, measure) -> bool:
         measure.validate_params()
         for supported_measure in self.SUPPORTED_MEASURES:
             if supported_measure.NAME == measure.NAME:
@@ -126,7 +126,7 @@ class Provider:
                     return True
         return False
 
-    def is_available(self):
+    def is_available(self) -> bool:
         if self._is_available is not None:
             return self._is_available
         try:
