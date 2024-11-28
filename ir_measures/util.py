@@ -299,12 +299,6 @@ def read_trec_run(file):
             with reader(file, 'rt') as f:
                 yield from read_trec_run(f)
 
-def flatten_measures(measures):
-    result = set()
-    for measure in measures:
-        result.add(measure)
-    return result
-
 
 _AST_PARSE_ERROR = 'problem parsing measure {}; must be in format Measure(k1=v1, k2=v2)@c'
 

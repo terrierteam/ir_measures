@@ -27,8 +27,6 @@ class PyNdEvalProvider(providers.Provider):
         self.pyndeval = None
 
     def _evaluator(self, measures, qrels):
-        measures = ir_measures.util.flatten_measures(measures)
-
         qrels = [self._map_qrel_namedtuple(q) for q in ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter()]
 
         # Depending on the measures, we may need multiple invocations of pyndeval

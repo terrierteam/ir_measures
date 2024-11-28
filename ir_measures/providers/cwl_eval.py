@@ -68,7 +68,6 @@ class CwlEvalProvider(providers.Provider):
 
     def _evaluator(self, measures, qrels):
         invocations = {}
-        measures = ir_measures.util.flatten_measures(measures)
         for measure in measures:
             if measure.NAME in ('P', 'RR', 'AP', 'RBP'):
                 inv_key = (measure['rel'], None, None)

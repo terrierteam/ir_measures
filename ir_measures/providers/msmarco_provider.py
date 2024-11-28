@@ -15,8 +15,6 @@ class MsMarcoProvider(providers.Provider):
     ]
 
     def _evaluator(self, measures, qrels):
-        measures = ir_measures.util.flatten_measures(measures)
-
         invocations = []
         for measure in measures:
             if measure.NAME == 'RR':
