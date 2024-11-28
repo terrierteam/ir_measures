@@ -92,6 +92,9 @@ class PyNdEvalProvider(providers.Provider):
             doc_id=record.doc_id,
             relevance=record.relevance)
 
+    def install_instructions(self):
+        return 'pip install ir-measures[pyndeval]'
+
 
 class PyNdEvalEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invokers):

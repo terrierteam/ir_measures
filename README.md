@@ -161,6 +161,19 @@ ir_measures qrels run measures... [-q] [-n] [-p 4]
  - `-p`: number of decimal places to report results (default: 4)
 
 
+## PyTerrier API
+
+[PyTerrier](https://github.com/terrier-org/pyterrier) uses ir_measures:
+
+```python
+
+from pyterrier.measures import *
+pt.Experiment(
+    [bm25],
+    topics,
+    qrels,
+    measures=[P@10, P(rel=2)@5, nDCG@15]
+```
 
 ## Documentation
 
@@ -176,3 +189,24 @@ ir_measures qrels run measures... [-q] [-n] [-p 4]
  - Charlie Clarke, University of Waterloo
  - Benjamin Piwowarski, CNRS
  - Harry Scells, Leipzig University
+
+If you use this package, be sure to cite:
+
+```bibtex
+@inproceedings{DBLP:conf/ecir/MacAvaneyMO22a,
+  author       = {Sean MacAvaney and
+                  Craig Macdonald and
+                  Iadh Ounis},
+  title        = {Streamlining Evaluation with ir-measures},
+  booktitle    = {Advances in Information Retrieval - 44th European Conference on {IR}
+                  Research, {ECIR} 2022, Stavanger, Norway, April 10-14, 2022, Proceedings,
+                  Part {II}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {13186},
+  pages        = {305--310},
+  publisher    = {Springer},
+  year         = {2022},
+  url          = {https://doi.org/10.1007/978-3-030-99739-7\_38},
+  doi          = {10.1007/978-3-030-99739-7\_38}
+}
+```

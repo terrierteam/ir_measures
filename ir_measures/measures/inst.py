@@ -6,17 +6,25 @@ class _INST(measures.Measure):
     """
     INST, a variant of INSQ
 
-<cite>
-@inproceedings{10.1145/2766462.2767728,
-  author = {Bailey, Peter and Moffat, Alistair and Scholer, Falk and Thomas, Paul},
-  title = {User Variability and IR System Evaluation},
-  year = {2015},
-  booktitle = {Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval},
-  pages = {625–634},
-  series = {SIGIR '15},
-  url = {https://doi.org/10.1145/2766462.2767728}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/sigir/BaileyMST15,
+          author       = {Peter Bailey and
+                          Alistair Moffat and
+                          Falk Scholer and
+                          Paul Thomas},
+          title        = {User Variability and {IR} System Evaluation},
+          booktitle    = {Proceedings of the 38th International {ACM} {SIGIR} Conference on
+                          Research and Development in Information Retrieval, Santiago, Chile,
+                          August 9-13, 2015},
+          pages        = {625--634},
+          publisher    = {{ACM}},
+          year         = {2015},
+          url          = {https://doi.org/10.1145/2766462.2767728},
+          doi          = {10.1145/2766462.2767728}
+        }
     """
     __name__ = 'INST'
     NAME = __name__
@@ -33,15 +41,23 @@ class _INSQ(measures.Measure):
     """
     INSQ
 
-<cite>
-@inproceedings{Moffat:2012:MMI:2407085.2407092,
-  author = {Moffat, Alistair and Scholer, Falk and Thomas, Paul},
-  title = {Models and Metrics: IR Evaluation As a User Process},
-  booktitle = {Proceedings of the Seventeenth Australasian Document Computing Symposium},
-  year = {2012},
-  url = {http://doi.acm.org/10.1145/2407085.2407092}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/adcs/MoffatST12,
+          author       = {Alistair Moffat and
+                          Falk Scholer and
+                          Paul Thomas},
+          title        = {Models and metrics: {IR} evaluation as a user process},
+          booktitle    = {The Seventeenth Australasian Document Computing Symposium, {ADCS}
+                          '12, Dunedin, New Zealand, December 5-6, 2012},
+          pages        = {47--54},
+          publisher    = {{ACM}},
+          year         = {2012},
+          url          = {https://doi.org/10.1145/2407085.2407092},
+          doi          = {10.1145/2407085.2407092}
+        }
     """
     __name__ = 'INSQ'
     NAME = __name__

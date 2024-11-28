@@ -2,8 +2,7 @@ from ir_measures import measures
 from .base import Measure, ParamInfo
 
 class _Accuracy(Measure):
-    """Accuracy metric
-
+    """
     Reports the probability that a relevant document is ranked before a non relevant one.
     This metric purpose is to be used for diagnosis (checking that train/test/validation accuracy match).
     As such, it only considers relevant documents which are within the returned ones.

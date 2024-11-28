@@ -12,16 +12,25 @@ class TrectoolsProvider(providers.Provider):
 
     https://github.com/joaopalotti/trectools
 
-<cite>
-@inproceedings{palotti2019,
-   author = {Palotti, Joao and Scells, Harrisen and Zuccon, Guido},
-   title = {TrecTools: an open-source Python library for Information Retrieval practitioners involved in TREC-like campaigns},
-   series = {SIGIR'19},
-   year = {2019},
-   location = {Paris, France},
-   publisher = {ACM}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/sigir/PalottiSZ19,
+          author       = {Jo{\\~{a}}o R. M. Palotti and
+                          Harrisen Scells and
+                          Guido Zuccon},
+          title        = {TrecTools: an Open-source Python Library for Information Retrieval
+                          Practitioners Involved in TREC-like Campaigns},
+          booktitle    = {Proceedings of the 42nd International {ACM} {SIGIR} Conference on
+                          Research and Development in Information Retrieval, {SIGIR} 2019, Paris,
+                          France, July 21-25, 2019},
+          pages        = {1325--1328},
+          publisher    = {{ACM}},
+          year         = {2019},
+          url          = {https://doi.org/10.1145/3331184.3331399},
+          doi          = {10.1145/3331184.3331399}
+        }
     """
     NAME = 'trectools'
     SUPPORTED_MEASURES = [
@@ -108,6 +117,8 @@ class TrectoolsProvider(providers.Provider):
         except ImportError as ex:
             raise RuntimeError('trectools not available', ex)
 
+    def install_instructions(self):
+        return 'pip install ir-measures[trectools]'
 
 class TrectoolsEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations, trectools):

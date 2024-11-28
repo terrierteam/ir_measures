@@ -6,15 +6,22 @@ class _RBP(measures.Measure):
     """
     The Rank-Biased Precision (RBP).
 
-<cite>
-@article{Moffat:2008:RPM:1416950.1416952,
-  author = {Moffat, Alistair and Zobel, Justin},
-  title = {Rank-biased Precision for Measurement of Retrieval Effectiveness},
-  journal = {ACM Trans. Inf. Syst.},
-  year = {2008},
-  url = {http://doi.acm.org/10.1145/1416950.1416952}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @article{DBLP:journals/tois/MoffatZ08,
+          author       = {Alistair Moffat and
+                          Justin Zobel},
+          title        = {Rank-biased precision for measurement of retrieval effectiveness},
+          journal      = {{ACM} Trans. Inf. Syst.},
+          volume       = {27},
+          number       = {1},
+          pages        = {2:1--2:27},
+          year         = {2008},
+          url          = {https://doi.org/10.1145/1416950.1416952},
+          doi          = {10.1145/1416950.1416952}
+        }
     """
     __name__ = 'RBP'
     NAME = __name__

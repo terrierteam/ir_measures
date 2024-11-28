@@ -20,15 +20,23 @@ class PytrecEvalProvider(providers.Provider):
 
     https://github.com/cvangysel/pytrec_eval
 
-<cite>
-@inproceedings{VanGysel2018pytreceval,
-    title={Pytrec\\_eval: An Extremely Fast Python Interface to trec\\_eval},
-    author={Van Gysel, Christophe and de Rijke, Maarten},
-    publisher={ACM},
-    booktitle={SIGIR},
-    year={2018},
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/sigir/GyselR18,
+          author       = {Christophe Van Gysel and
+                          Maarten de Rijke},
+          title        = {Pytrec{\\_}eval: An Extremely Fast Python Interface to trec{\\_}eval},
+          booktitle    = {The 41st International {ACM} {SIGIR} Conference on Research {\\&}
+                          Development in Information Retrieval, {SIGIR} 2018, Ann Arbor, MI,
+                          USA, July 08-12, 2018},
+          pages        = {873--876},
+          publisher    = {{ACM}},
+          year         = {2018},
+          url          = {https://doi.org/10.1145/3209978.3210065},
+          doi          = {10.1145/3209978.3210065}
+        }
     """
     NAME = 'pytrec_eval'
     SUPPORTED_MEASURES = [
@@ -186,9 +194,14 @@ class PytrecEvalProvider(providers.Provider):
     def initialize(self):
         try:
             import pytrec_eval
+            if not hasattr(pytrec_eval, '__version__'): # identify recent pytrec_eval versions
+                raise RuntimeError('pytrec_eval version too old')
             self.pytrec_eval = pytrec_eval
         except ImportError as ex:
             raise RuntimeError('pytrec_eval not available', ex)
+
+    def install_instructions(self):
+        return 'pip install --upgrade pytrec-eval-terrier'
 
 
 class PytrecEvalEvaluator(providers.Evaluator):

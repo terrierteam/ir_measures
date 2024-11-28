@@ -3,6 +3,10 @@ import ir_measures
 from typing import Self, Dict, Union, Iterator
 from ir_measures.providers.base import Evaluator
 from ir_measures.util import Metric
+from ir_measures import CalcResults
+
+
+_NOT_PROVIDED = object()
 
 class Agg:
     def add(self, value : float):
@@ -79,6 +83,10 @@ class Measure:
 
     def calc_aggregate(self, qrels, run) -> Dict[Self, Union[float, int]]:
         return ir_measures.calc_aggregate([self], qrels, run)[self]
+
+    def calc(self, qrels, run) -> CalcResults:
+        agg, perq = ir_measures.calc([self], qrels, run)
+        return CalcResults(agg[self], perq)
 
     def evaluator(self, qrels) -> Evaluator:
         return ir_measures.evaluator([self], qrels)
@@ -175,7 +183,6 @@ class MultiMeasures:
         return self.aggregate(self.iter_calc())
 
 
-_NOT_PROVIDED = object()
 
 
 

@@ -34,6 +34,8 @@ setuptools.setup(
     packages=setuptools.find_packages(include=['ir_measures', 'ir_measures.*']),
     install_requires=list(open('requirements.txt')),
     extras_require={
+        "cwl_eval": ["cwl-eval>=1.0.10"],
+        "pyndeval": ["pyndeval>=0.0.6"],
         "trectools": ["trectools>=0.0.44"],
         "ranx": ["ranx>=0.1.11"],
     },

@@ -1,11 +1,11 @@
-__version__ = "0.3.3"
+__version__ = "0.3.4"
 import sys
 import logging
 from . import util
 from . import lazylibs
 from .util import (parse_measure, parse_trec_measure,
                    read_trec_qrels, read_trec_run,
-                   Qrel, ScoredDoc, Metric,
+                   Qrel, ScoredDoc, Metric, CalcResults,
                    GenericQrel, # deprecated; replaced with Qrel
                    GenericScoredDoc, # deprecated; replaced with ScoredDoc
                    convert_trec_name, # deprecated; replaced with parse_trec_measure
@@ -58,5 +58,6 @@ evaluator = DefaultPipeline.evaluator
 calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
 iter_calc = DefaultPipeline.iter_calc
 calc_aggregate = DefaultPipeline.calc_aggregate
+calc = DefaultPipeline.calc
 
 __all__ = measures.__all__

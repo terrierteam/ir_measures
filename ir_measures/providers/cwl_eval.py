@@ -1,12 +1,15 @@
 import logging
-import sys
 from typing import NamedTuple, Union
-from cwl.cwl_eval import TrecQrelHandler, RankingMaker
-from cwl.ruler.cwl_ruler import CWLRuler, PrecisionCWLMetric, RRCWLMetric, APCWLMetric, RBPCWLMetric, BPMCWLMetric, NDCGCWLMetric, NERReq8CWLMetric, NERReq9CWLMetric, NERReq10CWLMetric, NERReq11CWLMetric, INSTCWLMetric, INSQCWLMetric
 import ir_measures
-from ir_measures import providers, measures, Metric
+from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
-import logging
+
+try:
+    from cwl.cwl_eval import TrecQrelHandler
+except ImportError:
+    # Shim so that the provider can be defined
+    class TrecQrelHandler:
+        pass
 
 logger = logging.getLogger('ir_measures.cwl_eval')
 logger.setLevel('WARNING')
@@ -28,14 +31,24 @@ class CwlEvalProvider(providers.Provider):
 
     https://github.com/ireval/cwl
 
-<cite>
-@inproceedings{azzopardi2019cwl,
-  author = {Azzopardi, Leif and Thomas, Paul and Moffat, Alistair},
-  title = {cwl\\_eval: An Evaluation Tool for Information Retrieval},
-  booktitle = {SIGIR},
-  year = {2019}
-}
-</cite>
+
+    .. code-block:: bibtex
+        :caption: Citation
+
+        @inproceedings{DBLP:conf/sigir/AzzopardiTM19,
+          author       = {Leif Azzopardi and
+                          Paul Thomas and
+                          Alistair Moffat},
+          title        = {cwl{\\_}eval: An Evaluation Tool for Information Retrieval},
+          booktitle    = {Proceedings of the 42nd International {ACM} {SIGIR} Conference on
+                          Research and Development in Information Retrieval, {SIGIR} 2019, Paris,
+                          France, July 21-25, 2019},
+          pages        = {1321--1324},
+          publisher    = {{ACM}},
+          year         = {2019},
+          url          = {https://doi.org/10.1145/3331184.3331398},
+          doi          = {10.1145/3331184.3331398}
+        }
     """
     NAME = 'cwl_eval'
     SUPPORTED_MEASURES = [
@@ -67,9 +80,16 @@ class CwlEvalProvider(providers.Provider):
         return CwlEvaluator(measures, qrels, invocations)
 
     def initialize(self):
+        try:
+            import cwl
+        except ImportError as ex:
+            raise RuntimeError('pytrec_eval not available', ex)
         # disable the cwl logger (which writes to cwl.log)
         cwl_logger = logging.getLogger('cwl')
         cwl_logger.disabled = True
+
+    def install_instructions(self):
+        return 'pip install ir-measures[cwl_eval]'
 
 
 class IrmQrelHandler(TrecQrelHandler):
@@ -133,6 +153,7 @@ class CwlEvaluator(providers.Evaluator):
         super().__init__(measures, qids)
 
     def _iter_calc(self, run):
+        from cwl.cwl_eval import RankingMaker
         # adapted from cwl_eval's main() method
         ranking_makers = None
         curr_qid = None
@@ -166,6 +187,7 @@ class CwlEvaluator(providers.Evaluator):
                     expected_items=cwl_measure.expected_items)
 
     def _irm_convert_to_measure(self, measure):
+        from cwl.ruler.cwl_ruler import PrecisionCWLMetric, RRCWLMetric, APCWLMetric, RBPCWLMetric, BPMCWLMetric, NDCGCWLMetric, NERReq8CWLMetric, NERReq9CWLMetric, NERReq10CWLMetric, NERReq11CWLMetric, INSTCWLMetric, INSQCWLMetric
         if measure.NAME == 'P':
             return PrecisionCWLMetric(measure['cutoff'])
         if measure.NAME == 'RR':
