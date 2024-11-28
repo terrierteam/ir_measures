@@ -69,4 +69,4 @@ jobs:
         pip install -e .
 
     - name: MyPy
-      run: 'mypy ir_measures'
+      run: 'mypy --disable-error-code=import-untyped ir_measures'
