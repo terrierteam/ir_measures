@@ -1,7 +1,7 @@
 import itertools
 import ir_measures
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Union, Iterator
+from typing import Any, Dict, Union, Iterator, Optional
 from ir_measures.util import Metric
 from ir_measures import CalcResults
 
@@ -35,7 +35,7 @@ class ParamInfo:
         return True
 
 class Measure:
-    NAME: str
+    NAME: Optional[str] = None
     AT_PARAM = 'cutoff' # allows measures to configure which param measure@X updates (default is cutoff)
     SUPPORTED_PARAMS: Dict[str, ParamInfo] = {}
     DEFAULT = 0. # value if no documents are returned for this query

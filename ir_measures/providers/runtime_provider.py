@@ -68,7 +68,7 @@ def define(
     class _RuntimeMeasure(measures.Measure):
         nonlocal _SUPPORTED_PARAMS
         SUPPORTED_PARAMS = _SUPPORTED_PARAMS
-        NAME = name or ''
+        NAME = name
         __name__ = name
 
         def runtime_impl(self, qrels, run):
