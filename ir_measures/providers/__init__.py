@@ -1,7 +1,7 @@
 from typing import Dict
 from .base import Provider, Evaluator
 
-registry : Dict[str,Provider] = {}
+registry: Dict[str,Provider] = {}
 def register(provider):
 	registry[provider.NAME] = provider
 	return provider

@@ -10,7 +10,7 @@ _NOT_PROVIDED: Any = object()
 
 class Agg(ABC):
     @abstractmethod
-    def add(self, value : float):
+    def add(self, value: float):
         pass
 
     @abstractmethod
@@ -35,9 +35,9 @@ class ParamInfo:
         return True
 
 class Measure:
-    NAME : str
+    NAME: str
     AT_PARAM = 'cutoff' # allows measures to configure which param measure@X updates (default is cutoff)
-    SUPPORTED_PARAMS : Dict[str, ParamInfo] = {}
+    SUPPORTED_PARAMS: Dict[str, ParamInfo] = {}
     DEFAULT = 0. # value if no documents are returned for this query
 
     def __init__(self, **params):

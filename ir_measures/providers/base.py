@@ -58,8 +58,8 @@ class Provider:
     A ``Provider`` implements the calculation logic for one or more :class:`~ir_measures.measures.Measure` (e.g.,
     :ref:`measures.nDCG`, :ref:`measures.P`, etc.).
     """
-    NAME : str
-    SUPPORTED_MEASURES : List[Measure] = []
+    NAME: str
+    SUPPORTED_MEASURES: List[Measure] = []
 
     def __init__(self):
         self._is_available = None
