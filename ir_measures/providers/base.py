@@ -176,3 +176,9 @@ class Choices:
         return repr(self.choices)
 
 NOT_PROVIDED: Any = _NOT_PROVIDED
+
+registry: Dict[str,Provider] = {}
+
+def register(provider):
+    registry[provider.NAME] = provider
+    return provider

@@ -1,10 +1,9 @@
 import os
-import re
 import sys
 import argparse
 import json
 import ir_measures
-from ir_measures.util import ScoredDoc, Qrel, Metric
+from ir_measures.util import Metric
 
 DEFAULT_PLACES = 4
 SUMMARY_QID = 'all'
@@ -83,7 +82,7 @@ def _get_qrels(args):
         import ir_datasets
         irds_available = True
     except ImportError:
-        sys.stderr.write(f'Skipping ir_datasets lookup. To use this feature, install ir_datasets.\n')
+        sys.stderr.write('Skipping ir_datasets lookup. To use this feature, install ir_datasets.\n')
     if irds_available:
         try:
             ds = ir_datasets.load(args.qrels)

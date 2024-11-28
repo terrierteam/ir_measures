@@ -1,7 +1,6 @@
-import contextlib
 import ir_measures
 from ir_measures import providers, measures, Metric
-from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
+from ir_measures.providers.base import Any, NOT_PROVIDED
 
 
 class JudgedProvider(providers.Provider):

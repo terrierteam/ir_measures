@@ -1,4 +1,3 @@
-import contextlib
 import ir_measures
 from ir_measures import providers, measures, Metric
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
@@ -59,7 +58,6 @@ class RanxProvider(providers.Provider):
 
     def _build_invokers(self, measures, qrels):
         invocations = {}
-        setf_count = 0
         for measure in measures:
             match_str = None
             if measure.NAME == 'P':
@@ -67,31 +65,31 @@ class RanxProvider(providers.Provider):
                 measure_str = f'precision@{measure["cutoff"]}'
             elif measure.NAME == 'SetP':
                 invocation_key = (measure['rel'], 0)
-                measure_str = f'precision'
+                measure_str = 'precision'
             elif measure.NAME == 'R':
                 invocation_key = (measure['rel'], 0)
                 measure_str = f'recall@{measure["cutoff"]}'
             elif measure.NAME == 'SetR':
                 invocation_key = (measure['rel'], 0)
-                measure_str = f'recall'
+                measure_str = 'recall'
             elif measure.NAME == 'RR':
                 invocation_key = (measure['rel'], 0)
                 if 'cutoff' in measure.params:
                     measure_str = f'mrr@{measure["cutoff"]}'
                 else:
-                    measure_str = f'mrr'
+                    measure_str = 'mrr'
             elif measure.NAME == 'AP':
                 invocation_key = (measure['rel'], 0)
                 if 'cutoff' in measure.params:
                     measure_str = f'map@{measure["cutoff"]}'
                 else:
-                    measure_str = f'map'
+                    measure_str = 'map'
             elif measure.NAME == 'Success':
                 invocation_key = (measure['rel'], 0)
                 measure_str = f'hit_rate@{measure["cutoff"]}'
             elif measure.NAME == 'NumRet':
                 invocation_key = (measure['rel'], 0)
-                measure_str = f'hits'
+                measure_str = 'hits'
             elif measure.NAME == 'nDCG':
                 invocation_key = (None, 0)
                 name = 'ndcg_burges' if measure.params.get('dcg', measure.SUPPORTED_PARAMS['dcg'].default) == 'exp-log2' else 'ndcg'
@@ -101,7 +99,7 @@ class RanxProvider(providers.Provider):
                     measure_str = name
             elif measure.NAME == 'Rprec':
                 invocation_key = (measure['rel'], 0)
-                measure_str = f'r-precision'
+                measure_str = 'r-precision'
             else:
                 raise ValueError(f'unsupported measure {measure}')
 

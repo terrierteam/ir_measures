@@ -1,5 +1,4 @@
 from ir_measures import measures
-from .base import Measure, ParamInfo
 
 
 class _Rprec(measures.Measure):

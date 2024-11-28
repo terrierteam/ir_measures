@@ -12,7 +12,7 @@ You can also install from current development version::
 
     $ git clone git@github.com:terrierteam/ir_measures.git
     $ cd ir_measures
-    $ python setup.py install
+    $ pip install -e .
 
 
 Command Line Interface

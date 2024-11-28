@@ -1,4 +1,3 @@
-import itertools
 import ir_measures
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Union, Iterator, Optional
@@ -140,3 +139,15 @@ class SumAgg(Agg):
 
     def result(self):
         return self.sum
+
+
+registry = {}
+def register(measure, aliases=[], name=None):
+    if name is None:
+        name = measure.__name__
+    assert name not in registry
+    registry[name] = measure
+    for alias in aliases:
+        assert alias not in registry
+        registry[alias] = measure
+    return registry

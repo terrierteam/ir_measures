@@ -7,7 +7,7 @@ import contextlib
 import itertools
 import tempfile
 from typing import Dict, List
-from collections import namedtuple, defaultdict
+from collections import defaultdict
 from typing import NamedTuple, Union
 import ir_measures
 
@@ -88,7 +88,7 @@ class QrelsConverter:
             elif item is sentinal:
                 result = 'namedtuple_iter'
             else:
-                error = f'iterable not a namedtuple iterator'
+                error = 'iterable not a namedtuple iterator'
         else:
             required_fields = tuple(f for f in Qrel._fields if f not in Qrel._field_defaults)
             error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {required_fields}, e.g., from ir_measures.Qrel); (2) a pandas DataFrame with columns {required_fields}; or (3) a dict-of-dict'
@@ -188,7 +188,7 @@ class RunConverter:
             elif item is sentinal:
                 result = 'namedtuple_iter'
             else:
-                error = f'iterable not a namedtuple iterator'
+                error = 'iterable not a namedtuple iterator'
         else:
             error = f'unexpected format; please provide either: (1) an iterable of namedtuples (fields {ScoredDoc._fields}, e.g., from ir_measures.ScoredDoc); (2) a pandas DataFrame with columns {ScoredDoc._fields}; or (3) a dict-of-dict'
         self._predicted_format = (result, error)

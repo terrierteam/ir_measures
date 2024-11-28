@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ir_measures"
+description = "Provides a common interface to many IR measure tools"
+requires-python = ">=3.6"
+authors = [
+  {name = "Sean MacAvaney", email = "sean.macavaney@glasgow.ac.uk"},
+]
+maintainers = [
+  {name = "Sean MacAvaney", email = "sean.macavaney@glasgow.ac.uk"},
+]
+readme = "README.md"
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Operating System :: OS Independent"
+]
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools.dynamic]
+version = {attr = "ir_measures.__version__"}
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+include = ["ir_measures", "ir_measures.*"]
+
+[project.optional-dependencies]
+cwl_eval = ["cwl-eval >= 1.0.10"]
+pyndeval = ["pyndeval >= 0.0.6"]
+trectools = ["trectools >= 0.0.44"]
+ranx = ["ranx >= 0.1.11"]
+
+[project.urls]
+Repository = "https://github.com/terrierteam/ir_measures"
+"Bug Tracker" = "https://github.com/terrierteam/ir_measures/issues"
+
+[project.scripts]
+ir_measures = "ir_measures.__main__:main_cli"
