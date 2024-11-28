@@ -1,5 +1,6 @@
-
-[![Python package](https://github.com/terrierteam/ir_measures/actions/workflows/test.yml/badge.svg)](https://github.com/terrierteam/ir_measures/actions/workflows/push.yml)
+[![test](https://github.com/terrierteam/ir_measures/actions/workflows/test.yml/badge.svg)](https://github.com/terrierteam/ir_measures/actions/workflows/test.yml)
+[![style](https://github.com/terrierteam/ir_measures/actions/workflows/style.yml/badge.svg)](https://github.com/terrierteam/ir_measures/actions/workflows/style.yml)
+[![docs](https://github.com/terrierteam/ir_measures/actions/workflows/docs.yml/badge.svg)](https://github.com/terrierteam/ir_measures/actions/workflows/docs.yml)
 
 # ir_measures
 
