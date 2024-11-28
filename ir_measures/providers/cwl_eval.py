@@ -8,7 +8,7 @@ try:
     from cwl.cwl_eval import TrecQrelHandler
 except ImportError:
     # Shim so that the provider can be defined
-    class TrecQrelHandler:
+    class TrecQrelHandler: # type: ignore
         pass
 
 logger = logging.getLogger('ir_measures.cwl_eval')
