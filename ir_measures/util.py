@@ -28,7 +28,7 @@ class Metric(NamedTuple):
     value: Union[float, int]
 
 class CalcResults(NamedTuple):
-    aggregated: Union[Dict['Measure', Union[float, int]], float, int]
+    aggregated: Union[Dict['ir_measures.Measure', Union[float, int]], float, int]
     per_query: List[Metric]
 
 class GenericQrel(Qrel):

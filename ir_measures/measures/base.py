@@ -81,11 +81,12 @@ class Measure:
         self.validate_params()
         return ir_measures.iter_calc([self], qrels, run)
 
-    def calc_aggregate(self, qrels, run) -> Dict[Self, Union[float, int]]:
+    def calc_aggregate(self, qrels, run) -> Union[float, int]:
         return ir_measures.calc_aggregate([self], qrels, run)[self]
 
     def calc(self, qrels, run) -> CalcResults:
         agg, perq = ir_measures.calc([self], qrels, run)
+        assert isinstance(agg, dict)
         return CalcResults(agg[self], perq)
 
     def evaluator(self, qrels) -> Evaluator:

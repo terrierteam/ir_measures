@@ -1,7 +1,7 @@
 import warnings
 import contextlib
 import itertools
-from typing import Iterator, Iterable, Dict, Union
+from typing import Iterator, Iterable, Dict, Union, List
 from ir_measures import measures, Metric, Qrel, ScoredDoc, CalcResults, Measure
 
 
