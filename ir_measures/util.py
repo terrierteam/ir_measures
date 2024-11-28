@@ -8,7 +8,7 @@ import itertools
 import tempfile
 from typing import Dict, List
 from collections import defaultdict
-from typing import NamedTuple, Union, Iterable, Type
+from typing import NamedTuple, Union, Iterable
 import ir_measures
 if False: # this is to allow type-checking for pandas
     import pandas
@@ -46,8 +46,8 @@ class GenericScoredDoc(ScoredDoc):
         return super().__new__(self, *args, **kwargs)
 GenericScoredDoc._fields = ScoredDoc._fields
 
-TYPE_RUN = Union[ Iterable[ScoredDoc], Type['pandas.DataFrame'], Dict[str, Dict[str, float]]]
-TYPE_QREL = Union[ Iterable[Qrel], Type['pandas.DataFrame'], Dict[str, Dict[str, int]]] 
+TYPE_RUN = Union[ Iterable[ScoredDoc], 'pandas.DataFrame', Dict[str, Dict[str, float]]]
+TYPE_QREL = Union[ Iterable[Qrel], 'pandas.DataFrame', Dict[str, Dict[str, int]]] 
 
 class QrelsConverter:
     def __init__(self, qrels, strict=True):
