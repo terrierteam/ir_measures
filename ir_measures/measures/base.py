@@ -1,5 +1,6 @@
 import itertools
 import ir_measures
+from abc import ABC, abstractmethod
 from typing import Dict, Union, Iterator
 from ir_measures.providers.base import Evaluator
 from ir_measures.util import Metric
@@ -8,10 +9,12 @@ from ir_measures import CalcResults
 
 _NOT_PROVIDED = object()
 
-class Agg:
+class Agg(ABC):
+    @abstractmethod
     def add(self, value : float):
         pass
 
+    @abstractmethod
     def result(self) -> float:
         pass
 
