@@ -1,5 +1,5 @@
 from ir_measures import measures
-from .base import Measure, ParamInfo
+from ir_measures.measures.base import Measure, ParamInfo
 
 class _Accuracy(Measure):
     """
