@@ -2,3 +2,5 @@ sphinx
 sphinx-autodoc-typehints
 furo
 sphinx-tabs
+bibtexparser
+pylatexenc
