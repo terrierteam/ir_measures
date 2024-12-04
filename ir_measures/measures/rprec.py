@@ -6,16 +6,9 @@ class _Rprec(measures.Measure):
     The precision at R, where R is the number of relevant documents for a given query. Has the cute property that
     it is also the recall at R.
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @book{841681,
-          author = {C Buckley and Ellen Voorhees},
-          title = {Retrieval System Evaluation},
-          year = {2005},
-          month = {2005-09-26 00:09:00},
-          publisher = {TREC   Chapter to be published: TREC: Experiment and Evaluation in Information Retrieval, 2005, }
-        }
+    .. cite:: retrieval-system-evaluation
+        :citation: Buckley and Voorhees. Retrieval System Evaluation. 2005.
+        :link: https://www.nist.gov/publications/retrieval-system-evaluation
     """
     __name__ = 'Rprec'
     NAME = __name__

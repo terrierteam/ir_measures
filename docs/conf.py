@@ -1,11 +1,13 @@
 import re
 import ir_measures
+import sys
+sys.path.append('.')
 
 project = 'ir-measures'
 copyright = '2021'
 author = 'Sean MacAvaney'
 
-extensions = ['sphinx.ext.autodoc', 'sphinx_tabs.tabs']
+extensions = ['extras.cite', 'sphinx.ext.autodoc', 'sphinx_tabs.tabs']
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = 'furo'

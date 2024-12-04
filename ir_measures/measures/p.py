@@ -8,16 +8,7 @@ class _P(measures.Measure):
     P@cutoff.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @book{DBLP:books/bu/Rijsbergen79,
-          author       = {C. J. van Rijsbergen},
-          title        = {Information Retrieval},
-          publisher    = {Butterworth},
-          year         = {1979},
-          isbn         = {0-408-70929-4}
-        }
+    .. cite.dblp:: books/bu/Rijsbergen79
     """
     __name__ = 'P'
     NAME = __name__

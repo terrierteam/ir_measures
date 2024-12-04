@@ -8,21 +8,7 @@ class _nDCG(measures.Measure):
     It is normalized wrt. the Ideal NDCG, i.e. documents ranked in descending order of graded label.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @article{DBLP:journals/tois/JarvelinK02,
-          author       = {Kalervo J{\"{a}}rvelin and
-                          Jaana Kek{\"{a}}l{\"{a}}inen},
-          title        = {Cumulated gain-based evaluation of {IR} techniques},
-          journal      = {{ACM} Trans. Inf. Syst.},
-          volume       = {20},
-          number       = {4},
-          pages        = {422--446},
-          year         = {2002},
-          url          = {http://doi.acm.org/10.1145/582415.582418},
-          doi          = {10.1145/582415.582418}
-        }
+    .. cite.dblp:: journals/tois/JarvelinK02
     """
     __name__ = 'nDCG'
     NAME = __name__

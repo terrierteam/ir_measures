@@ -8,22 +8,7 @@ class _RR(measures.Measure):
     depth explored. rel (default 1) controls which relevance level is considered relevant.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @article{DBLP:journals/ir/KantorV00,
-          author       = {Paul B. Kantor and
-                          Ellen M. Voorhees},
-          title        = {The {TREC-5} Confusion Track: Comparing Retrieval Methods for Scanned
-                          Text},
-          journal      = {Inf. Retr.},
-          volume       = {2},
-          number       = {2/3},
-          pages        = {165--176},
-          year         = {2000},
-          url          = {https://doi.org/10.1023/A:1009902609570},
-          doi          = {10.1023/A:1009902609570}
-        }
+    .. cite.dblp:: journals/ir/KantorV00
     """
     __name__ = 'RR'
     NAME = __name__

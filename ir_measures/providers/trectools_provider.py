@@ -12,24 +12,7 @@ class TrectoolsProvider(providers.Provider):
     https://github.com/joaopalotti/trectools
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/sigir/PalottiSZ19,
-          author       = {Jo{\\~{a}}o R. M. Palotti and
-                          Harrisen Scells and
-                          Guido Zuccon},
-          title        = {TrecTools: an Open-source Python Library for Information Retrieval
-                          Practitioners Involved in TREC-like Campaigns},
-          booktitle    = {Proceedings of the 42nd International {ACM} {SIGIR} Conference on
-                          Research and Development in Information Retrieval, {SIGIR} 2019, Paris,
-                          France, July 21-25, 2019},
-          pages        = {1325--1328},
-          publisher    = {{ACM}},
-          year         = {2019},
-          url          = {https://doi.org/10.1145/3331184.3331399},
-          doi          = {10.1145/3331184.3331399}
-        }
+    .. cite.dblp:: conf/sigir/PalottiSZ19
     """
     NAME = 'trectools'
     SUPPORTED_MEASURES = [

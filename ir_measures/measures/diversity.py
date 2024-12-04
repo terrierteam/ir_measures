@@ -6,23 +6,7 @@ class _ERR_IA(measures.BaseMeasure):
     Intent-Aware Expected Reciprocal Rank with collection-independent normalisation.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/cikm/ChapelleMZG09,
-          author       = {Olivier Chapelle and
-                          Donald Metlzer and
-                          Ya Zhang and
-                          Pierre Grinspan},
-          title        = {Expected reciprocal rank for graded relevance},
-          booktitle    = {Proceedings of the 18th {ACM} Conference on Information and Knowledge
-                          Management, {CIKM} 2009, Hong Kong, China, November 2-6, 2009},
-          pages        = {621--630},
-          publisher    = {{ACM}},
-          year         = {2009},
-          url          = {https://doi.org/10.1145/1645953.1646033},
-          doi          = {10.1145/1645953.1646033}
-        }
+    .. cite.dblp:: conf/cikm/ChapelleMZG09
     """
     __name__ = 'ERR_IA'
     NAME = __name__
@@ -39,23 +23,7 @@ class _nERR_IA(measures.BaseMeasure):
     Intent-Aware Expected Reciprocal Rank with collection-dependent normalisation.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/cikm/ChapelleMZG09,
-          author       = {Olivier Chapelle and
-                          Donald Metlzer and
-                          Ya Zhang and
-                          Pierre Grinspan},
-          title        = {Expected reciprocal rank for graded relevance},
-          booktitle    = {Proceedings of the 18th {ACM} Conference on Information and Knowledge
-                          Management, {CIKM} 2009, Hong Kong, China, November 2-6, 2009},
-          pages        = {621--630},
-          publisher    = {{ACM}},
-          year         = {2009},
-          url          = {https://doi.org/10.1145/1645953.1646033},
-          doi          = {10.1145/1645953.1646033}
-        }
+    .. cite.dblp:: conf/cikm/ChapelleMZG09
     """
     __name__ = 'nERR_IA'
     NAME = __name__
@@ -72,27 +40,7 @@ class _alpha_DCG(measures.BaseMeasure):
     A version of DCG that accounts for multiple possible query intents.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/sigir/ClarkeKCVABM08,
-          author       = {Charles L. A. Clarke and
-                          Maheedhar Kolla and
-                          Gordon V. Cormack and
-                          Olga Vechtomova and
-                          Azin Ashkan and
-                          Stefan B{\"{u}}ttcher and
-                          Ian MacKinnon},
-          title        = {Novelty and diversity in information retrieval evaluation},
-          booktitle    = {Proceedings of the 31st Annual International {ACM} {SIGIR} Conference
-                          on Research and Development in Information Retrieval, {SIGIR} 2008,
-                          Singapore, July 20-24, 2008},
-          pages        = {659--666},
-          publisher    = {{ACM}},
-          year         = {2008},
-          url          = {https://doi.org/10.1145/1390334.1390446},
-          doi          = {10.1145/1390334.1390446}
-        }
+    .. cite.dblp:: conf/sigir/ClarkeKCVABM08
     """
     __name__ = 'alpha_DCG'
     NAME = __name__
@@ -110,27 +58,7 @@ class _alpha_nDCG(measures.BaseMeasure):
     A version of nDCG that accounts for multiple possible query intents.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/sigir/ClarkeKCVABM08,
-          author       = {Charles L. A. Clarke and
-                          Maheedhar Kolla and
-                          Gordon V. Cormack and
-                          Olga Vechtomova and
-                          Azin Ashkan and
-                          Stefan B{\"{u}}ttcher and
-                          Ian MacKinnon},
-          title        = {Novelty and diversity in information retrieval evaluation},
-          booktitle    = {Proceedings of the 31st Annual International {ACM} {SIGIR} Conference
-                          on Research and Development in Information Retrieval, {SIGIR} 2008,
-                          Singapore, July 20-24, 2008},
-          pages        = {659--666},
-          publisher    = {{ACM}},
-          year         = {2008},
-          url          = {https://doi.org/10.1145/1390334.1390446},
-          doi          = {10.1145/1390334.1390446}
-        }
+    .. cite.dblp:: conf/sigir/ClarkeKCVABM08
     """
     __name__ = 'alpha_nDCG'
     NAME = __name__
@@ -148,25 +76,7 @@ class _NRBP(measures.BaseMeasure):
     Novelty- and Rank-Biased Precision with collection-independent normalisation.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/ictir/ClarkeKV09,
-          author       = {Charles L. A. Clarke and
-                          Maheedhar Kolla and
-                          Olga Vechtomova},
-          title        = {An Effectiveness Measure for Ambiguous and Underspecified Queries},
-          booktitle    = {Advances in Information Retrieval Theory, Second International Conference
-                          on the Theory of Information Retrieval, {ICTIR} 2009, Cambridge, UK,
-                          September 10-12, 2009, Proceedings},
-          series       = {Lecture Notes in Computer Science},
-          volume       = {5766},
-          pages        = {188--199},
-          publisher    = {Springer},
-          year         = {2009},
-          url          = {https://doi.org/10.1007/978-3-642-04417-5\\_17},
-          doi          = {10.1007/978-3-642-04417-5\\_17}
-        }
+    .. cite.dblp:: conf/ictir/ClarkeKV09
     """
     __name__ = 'NRBP'
     NAME = __name__
@@ -183,25 +93,7 @@ class _nNRBP(measures.BaseMeasure):
     Novelty- and Rank-Biased Precision with collection-dependent normalisation.
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/ictir/ClarkeKV09,
-          author       = {Charles L. A. Clarke and
-                          Maheedhar Kolla and
-                          Olga Vechtomova},
-          title        = {An Effectiveness Measure for Ambiguous and Underspecified Queries},
-          booktitle    = {Advances in Information Retrieval Theory, Second International Conference
-                          on the Theory of Information Retrieval, {ICTIR} 2009, Cambridge, UK,
-                          September 10-12, 2009, Proceedings},
-          series       = {Lecture Notes in Computer Science},
-          volume       = {5766},
-          pages        = {188--199},
-          publisher    = {Springer},
-          year         = {2009},
-          url          = {https://doi.org/10.1007/978-3-642-04417-5\\_17},
-          doi          = {10.1007/978-3-642-04417-5\\_17}
-        }
+    .. cite.dblp:: conf/ictir/ClarkeKV09
     """
     __name__ = 'nNRBP'
     NAME = __name__

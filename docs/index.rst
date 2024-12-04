@@ -124,22 +124,4 @@ For a full list of contributors, see `here <https://github.com/terrierteam/ir_me
 
 If you use this package, be sure to cite:
 
-.. code-block:: bibtex
-    :caption: Citation for ``ir_measures``
-
-    @inproceedings{DBLP:conf/ecir/MacAvaneyMO22a,
-      author       = {Sean MacAvaney and
-                      Craig Macdonald and
-                      Iadh Ounis},
-      title        = {Streamlining Evaluation with ir-measures},
-      booktitle    = {Advances in Information Retrieval - 44th European Conference on {IR}
-                      Research, {ECIR} 2022, Stavanger, Norway, April 10-14, 2022, Proceedings,
-                      Part {II}},
-      series       = {Lecture Notes in Computer Science},
-      volume       = {13186},
-      pages        = {305--310},
-      publisher    = {Springer},
-      year         = {2022},
-      url          = {https://doi.org/10.1007/978-3-030-99739-7\_38},
-      doi          = {10.1007/978-3-030-99739-7\_38}
-    }
+.. cite.dblp:: conf/ecir/MacAvaneyMO22a

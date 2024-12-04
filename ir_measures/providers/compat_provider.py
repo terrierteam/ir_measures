@@ -7,22 +7,7 @@ class CompatProvider(providers.Provider):
     """
     Version of the compatibility measure desribed in:
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @article{DBLP:journals/tois/ClarkeVS21,
-          author       = {Charles L. A. Clarke and
-                          Alexandra Vtyurina and
-                          Mark D. Smucker},
-          title        = {Assessing Top-k Preferences},
-          journal      = {{ACM} Trans. Inf. Syst.},
-          volume       = {39},
-          number       = {3},
-          pages        = {33:1--33:21},
-          year         = {2021},
-          url          = {https://doi.org/10.1145/3451161},
-          doi          = {10.1145/3451161}
-        }
+    .. cite.dblp:: journals/tois/ClarkeVS21
     """
     NAME = 'compat'
     SUPPORTED_MEASURES = [

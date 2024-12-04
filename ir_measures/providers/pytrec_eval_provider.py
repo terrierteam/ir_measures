@@ -20,22 +20,7 @@ class PytrecEvalProvider(providers.Provider):
     https://github.com/cvangysel/pytrec_eval
 
 
-    .. code-block:: bibtex
-        :caption: Citation
-
-        @inproceedings{DBLP:conf/sigir/GyselR18,
-          author       = {Christophe Van Gysel and
-                          Maarten de Rijke},
-          title        = {Pytrec{\\_}eval: An Extremely Fast Python Interface to trec{\\_}eval},
-          booktitle    = {The 41st International {ACM} {SIGIR} Conference on Research {\\&}
-                          Development in Information Retrieval, {SIGIR} 2018, Ann Arbor, MI,
-                          USA, July 08-12, 2018},
-          pages        = {873--876},
-          publisher    = {{ACM}},
-          year         = {2018},
-          url          = {https://doi.org/10.1145/3209978.3210065},
-          doi          = {10.1145/3209978.3210065}
-        }
+    .. cite.dblp:: conf/sigir/GyselR18
     """
     NAME = 'pytrec_eval'
     SUPPORTED_MEASURES = [

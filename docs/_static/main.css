@@ -99,3 +99,13 @@ h2 code.literal {
 .toc-tree code.literal {
     background: inherit;
 }
+
+.dblp-citation summary {
+    cursor: pointer;
+}
+
+.dblp-citation pre {
+    margin-top: 6px;
+    font-size: 0.7em;
+    line-height: 1,1;
+}
