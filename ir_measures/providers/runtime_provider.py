@@ -25,7 +25,7 @@ class RuntimeProvider(providers.Provider):
         sort_columns=['query_id']
         if 'doc_id' in qrels.columns:
             sort_columns.append('doc_id')
-        qrels.sort_values(by=sort_columns, inplace=True)
+        qrels = qrels.sort_values(by=sort_columns)
         return RuntimeEvaluator(measures, qrels)
 
 
@@ -41,7 +41,7 @@ class RuntimeEvaluator(providers.Evaluator):
         if 'score' in run.columns:
             sort_columns.append('score')
             sort_orders.append(False)
-        run.sort_values(by=sort_columns, ascending=sort_orders, inplace=True)
+        run = run.sort_values(by=sort_columns, ascending=sort_orders)
         for measure in self.measures:
             yield from measure.runtime_impl(self.qrels, run)
 
