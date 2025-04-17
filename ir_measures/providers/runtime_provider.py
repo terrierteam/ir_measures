@@ -22,7 +22,7 @@ class RuntimeProvider(providers.Provider):
     def _evaluator(self, measures, qrels):
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         qrels = ir_measures.util.QrelsConverter(qrels, strict=False).as_pd_dataframe()
-        if "query_id" not in run.columns:
+        if "query_id" not in qrels.columns:
             raise ValueError("Required column query_id not found in qrels. Found columns was " + qrels.columns)
         sort_columns=['query_id']
         if 'doc_id' in qrels.columns:
