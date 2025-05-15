@@ -35,6 +35,7 @@ class CwlEvalProvider(providers.Provider):
     .. cite.dblp:: conf/sigir/AzzopardiTM19
     """
     NAME = 'cwl_eval'
+    PRIORITY = -8
     SUPPORTED_MEASURES = [
         measures._P(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Choices(False)),
@@ -196,6 +197,3 @@ class CwlEvaluator(providers.Evaluator):
         if measure.NAME == 'INSQ':
             return INSQCWLMetric(measure['T'])
         raise KeyError(f'measure {measure} not supported')
-
-
-providers.register(CwlEvalProvider())

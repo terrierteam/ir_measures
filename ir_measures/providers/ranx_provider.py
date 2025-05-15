@@ -13,6 +13,7 @@ class RanxProvider(providers.Provider):
     .. cite.dblp:: conf/ecir/Bassani22
     """
     NAME = 'ranx'
+    PRIORITY = -1
     SUPPORTED_MEASURES = [
         measures._P(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
         measures._SetP(rel=Any(), judged_only=Choices(False)),
@@ -140,6 +141,3 @@ class RanxInvoker:
             for query_id, value in qid_value_map.items():
                 yield Metric(query_id=query_id, measure=self.measure_map[measure][0], value=value)
         run.scores.clear()
-
-
-providers.register(RanxProvider())

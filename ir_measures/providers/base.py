@@ -1,8 +1,8 @@
 import warnings
 import contextlib
 import itertools
-from typing import Iterator, Iterable, Dict, Union, List
-from ir_measures.util import Metric, TYPE_QREL, TYPE_RUN, CalcResults
+from typing import Iterator, Iterable, Dict, Union, List, Optional
+from ir_measures.util import Metric, TYPE_QREL, TYPE_RUN, CalcResults, entry_points
 from ir_measures.measures.base import Measure, _NOT_PROVIDED
 
 
@@ -59,6 +59,7 @@ class Provider:
     :ref:`measures.nDCG`, :ref:`measures.P`, etc.).
     """
     NAME: str
+    PRIORITY: Optional[float] = 0.0
     SUPPORTED_MEASURES: List[Measure] = []
 
     def __init__(self):
@@ -177,8 +178,9 @@ class Choices:
 
 NOT_PROVIDED: Any = _NOT_PROVIDED
 
-registry: Dict[str,Provider] = {}
+registry: Dict[str, Provider] = {}
 
 def register(provider):
+    # deprecated -- registger using entry points instead
     registry[provider.NAME] = provider
     return provider

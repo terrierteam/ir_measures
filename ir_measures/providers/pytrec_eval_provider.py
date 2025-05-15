@@ -23,6 +23,7 @@ class PytrecEvalProvider(providers.Provider):
     .. cite.dblp:: conf/sigir/GyselR18
     """
     NAME = 'pytrec_eval'
+    PRIORITY = -9
     SUPPORTED_MEASURES = [
         measures._P(cutoff=Any(), rel=Any(), judged_only=Any()),
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Any()),
@@ -209,6 +210,3 @@ class PytrecEvalInvoker:
         for query_id, meas in result.items():
             for measure_str, value in meas.items():
                 yield Metric(query_id=query_id, measure=self.measure_map[measure_str][0], value=value)
-
-
-providers.register(PytrecEvalProvider())

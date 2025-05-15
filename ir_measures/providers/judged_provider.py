@@ -10,6 +10,7 @@ class JudgedProvider(providers.Provider):
     Adapted from OpenNIR's implementation: https://github.com/Georgetown-IR-Lab/OpenNIR/blob/master/onir/metrics/judged.py
     """
     NAME = 'judged'
+    PRIORITY = -5
     SUPPORTED_MEASURES = [
         measures._Judged(cutoff=Any())
     ]
@@ -57,6 +58,3 @@ class JudgedEvaluator(providers.Evaluator):
                     value = judged_c / cutoff
 
                     yield Metric(query_id=qid, measure=measure, value=value)
-
-
-providers.register(JudgedProvider())

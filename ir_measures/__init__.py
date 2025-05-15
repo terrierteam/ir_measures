@@ -1,4 +1,4 @@
-__version__ = "0.3.7"
+__version__ = "0.4.0"
 import sys
 import logging
 from ir_measures import util
@@ -48,19 +48,8 @@ define_byquery = providers.define_byquery
 
 CwlMetric = providers.CwlMetric
 
-DefaultPipeline = providers.FallbackProvider([
-    runtime,
-    pytrec_eval,
-    cwl_eval,
-    compat,
-    pyndeval,
-    # trectools,  # buggy; will add back later
-    judged,
-    msmarco,
-    gdeval,  # doesn't work when installed from package #9
-    accuracy,
-    ranx,
-])
+# load ir_measures.provider entry points:
+DefaultPipeline = providers.FallbackProvider(sorted([p for p in providers.registry.values() if p.PRIORITY is not None], key=lambda x: x.PRIORITY))
 evaluator = DefaultPipeline.evaluator
 calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
 iter_calc = DefaultPipeline.iter_calc

@@ -10,6 +10,7 @@ class CompatProvider(providers.Provider):
     .. cite.dblp:: journals/tois/ClarkeVS21
     """
     NAME = 'compat'
+    PRIORITY = -7
     SUPPORTED_MEASURES = [
         measures._Compat(p=Any(), normalize=Any())
     ]
@@ -71,6 +72,3 @@ class CompatEvaluator(providers.Evaluator):
                 if qid in self.qrels:
                     value = compatibility(self.qrels[qid], run[qid], p, normalize)
                     yield Metric(query_id=qid, measure=measure, value=value)
-
-
-providers.register(CompatProvider())

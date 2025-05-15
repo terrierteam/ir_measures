@@ -9,6 +9,7 @@ class MsMarcoProvider(providers.Provider):
     MS MARCO's implementation of RR
     """
     NAME = 'msmarco'
+    PRIORITY = -4
     SUPPORTED_MEASURES = [
         measures._RR(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
     ]
@@ -46,6 +47,3 @@ class MsMarcoEvaluator(providers.Evaluator):
             msmarco_result = msmarco_eval.compute_metrics(self.qrels_by_rel[rel], sorted_run, max_rank=cutoff)
             for qid, value in msmarco_result[f'MRR @{cutoff} by query'].items():
                 yield Metric(query_id=qid, measure=measure, value=value)
-
-
-providers.register(MsMarcoProvider())

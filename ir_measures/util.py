@@ -9,8 +9,9 @@ import tempfile
 from typing import Dict, List
 from collections import defaultdict
 from typing import NamedTuple, Union, Iterable
+from importlib.metadata import entry_points as eps
 import ir_measures
-if False: # this is to allow type-checking for pandas
+if False: # this is to allow type-checking for pandas
     import pandas
 
 class Qrel(NamedTuple):
@@ -445,3 +446,25 @@ def parse_trec_measure(measure: str) -> List['ir_measures.Measure']:
 def convert_trec_name(measure: str) -> List['ir_measures.Measure']:
     warnings.warn("convert_trec_name deprecated in 0.2.0. Please use ir_measures.parse_trec_measure() instead.", DeprecationWarning)
     return parse_trec_measure(measure)
+
+
+def entry_points(group: str):
+    """
+    A shim for Python<=3.X to support importlib.metadata.entry_points(group).
+    Also ensures that no duplicates (by name) are returned.
+
+    See <https://docs.python.org/3/library/importlib.metadata.html#entry-points> for more details.
+    """
+    try:
+        orig_res = tuple(eps(group=group))
+    except TypeError:
+        orig_res = tuple(eps().get(group, tuple()))
+
+    names = set()
+    res = []
+    for ep in orig_res:
+        if ep.name not in names:
+            res.append(ep)
+            names.add(ep.name)
+
+    return tuple(res)

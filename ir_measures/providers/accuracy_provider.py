@@ -4,7 +4,6 @@ from ir_measures import providers, Metric
 from ir_measures.providers.base import Any, NOT_PROVIDED
 from ir_measures.measures.accuracy import _Accuracy
 
-
 class AccuracyEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations):
         super().__init__(measures, set(qrels.keys()))
@@ -41,6 +40,7 @@ class AccuracyEvaluator(providers.Evaluator):
 class AccuracyProvider(providers.Provider):
     """Accuracy provider"""
     NAME = "accuracy"
+    PRIORITY = -2
     SUPPORTED_MEASURES = [
         _Accuracy(cutoff=Any(), rel=Any()),
     ]
@@ -56,5 +56,3 @@ class AccuracyProvider(providers.Provider):
         qrels = ir_measures.util.QrelsConverter(qrels).as_dict_of_dict()
         
         return AccuracyEvaluator(measures, qrels, invocations)
-
-providers.register(AccuracyProvider())

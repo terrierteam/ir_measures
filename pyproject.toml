@@ -34,6 +34,19 @@ pyndeval = ["pyndeval >= 0.0.6"]
 trectools = ["trectools >= 0.0.44"]
 ranx = ["ranx >= 0.1.11"]
 
+[project.entry-points."ir_measures.provider"]
+accuracy = "ir_measures.providers.accuracy_provider:AccuracyProvider"
+compat = "ir_measures.providers.compat_provider:CompatProvider"
+cwl_eval = "ir_measures.providers.cwl_eval:CwlEvalProvider"
+gdeval = "ir_measures.providers.gdeval_provider:GdevalProvider"
+judged = "ir_measures.providers.judged_provider:JudgedProvider"
+msmarco = "ir_measures.providers.msmarco_provider:MsMarcoProvider"
+pyndeval = "ir_measures.providers.pyndeval_provider:PyNdEvalProvider"
+pytrec_eval = "ir_measures.providers.pytrec_eval_provider:PytrecEvalProvider"
+ranx = "ir_measures.providers.ranx_provider:RanxProvider"
+runtime = "ir_measures.providers.runtime_provider:RuntimeProvider"
+trectools = "ir_measures.providers.trectools_provider:TrectoolsProvider"
+
 [project.urls]
 Repository = "https://github.com/terrierteam/ir_measures"
 "Bug Tracker" = "https://github.com/terrierteam/ir_measures/issues"

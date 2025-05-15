@@ -9,6 +9,7 @@ class PyNdEvalProvider(providers.Provider):
     pyndeval
     """
     NAME = 'pyndeval'
+    PRIORITY = -6
     SUPPORTED_MEASURES = [
         measures._ERR_IA(cutoff=Any(), rel=Any(), judged_only=Any()),
         measures._nERR_IA(cutoff=Any(), rel=Any(), judged_only=Any()),
@@ -129,6 +130,3 @@ class PyNdEvalInvoker:
             del record['query_id']
             for measure_str, value in record.items():
                 yield Metric(query_id=query_id, measure=self.measure_map[measure_str], value=value)
-
-
-providers.register(PyNdEvalProvider())

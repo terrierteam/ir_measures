@@ -1,3 +1,4 @@
+import ir_measures
 from ir_measures.providers.base import Provider, Evaluator, registry, register
 from ir_measures.providers.accuracy_provider import AccuracyProvider
 from ir_measures.providers.fallback_provider import FallbackProvider
@@ -11,6 +12,8 @@ from ir_measures.providers.trectools_provider import TrectoolsProvider
 from ir_measures.providers.msmarco_provider import MsMarcoProvider
 from ir_measures.providers.ranx_provider import RanxProvider
 from ir_measures.providers.runtime_provider import RuntimeProvider, define, define_byquery
+
+registry.update({ep.name: ep.load()() for ep in ir_measures.util.entry_points('ir_measures.provider')})
 
 __all__ = [
 	'registry', 'register',

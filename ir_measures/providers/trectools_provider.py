@@ -125,7 +125,3 @@ class TrectoolsEvaluator(providers.Evaluator):
             for query_id, value in invocation(evaluator).itertuples():
                 if query_id in available_qids:
                     yield Metric(query_id=query_id, measure=measure, value=value)
-
-
-
-providers.register(TrectoolsProvider())

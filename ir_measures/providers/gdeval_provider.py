@@ -11,6 +11,7 @@ class GdevalProvider(providers.Provider):
     gdeval
     """
     NAME = 'gdeval'
+    PRIORITY = -3
     SUPPORTED_MEASURES = [
         measures._nDCG(cutoff=Any(required=True), dcg=Choices('exp-log2'), gains=Choices(NOT_PROVIDED), judged_only=Choices(False)),
         measures._ERR(cutoff=Any(required=True)),
@@ -69,6 +70,3 @@ class GdevalEvaluator(providers.Evaluator):
                         yield Metric(query_id=qid, measure=nDCG_measure, value=float(ndcg))
                     if ERR_measure is not None:
                         yield Metric(query_id=qid, measure=ERR_measure, value=float(err))
-
-
-providers.register(GdevalProvider())

@@ -12,6 +12,7 @@ class RuntimeProvider(providers.Provider):
     `ir_measures.define_byquery()`.
     """
     NAME = 'runtime'
+    PRIORITY = -10
 
     def supports(self, measure):
         measure.validate_params()
@@ -114,6 +115,3 @@ def define_byquery(
         else:
             name = repr(impl)
     return define(_byquery_impl(impl), name, support_cutoff)
-
-
-providers.register(RuntimeProvider())
