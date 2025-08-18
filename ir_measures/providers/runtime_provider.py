@@ -63,7 +63,7 @@ class RuntimeProvider(providers.Provider):
         """
         inputs = set()
         for measure in measures:
-            if hasattr('QREL_INPUTS'):
+            if hasattr(measure, 'QREL_INPUTS'):
                 inputs.update(measure.QREL_INPUTS)
         return list(inputs)
 
