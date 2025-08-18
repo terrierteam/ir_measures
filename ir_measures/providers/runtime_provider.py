@@ -45,7 +45,8 @@ class RuntimeProvider(providers.Provider):
         """
         inputs = set()
         for measure in measures:
-            inputs.update(measure.RUN_INPUTS)
+            if hasattr(measure, 'RUN_INPUTS'):
+                inputs.update(measure.RUN_INPUTS)
         return list(inputs)
 
     def qrel_inputs(self, measures: Iterable[Measure]) -> List[str]:
@@ -62,7 +63,8 @@ class RuntimeProvider(providers.Provider):
         """
         inputs = set()
         for measure in measures:
-            inputs.update(measure.QREL_INPUTS)
+            if hasattr('QREL_INPUTS'):
+                inputs.update(measure.QREL_INPUTS)
         return list(inputs)
 
 
