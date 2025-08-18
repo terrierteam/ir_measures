@@ -142,6 +142,38 @@ class Provider:
     def install_instructions(self):
         return None
 
+    def run_inputs(self, measures: Iterable[Measure]) -> List[str]:
+        """Returns the inputs required by the provided measures in the run.
+
+        .. note::
+            By default, this method returns the prototypical inputs required by all built-in
+            measures: ``['query_id', 'doc_id', 'score']``. This method should be overridden by
+            providers that support measures with different run inputs.
+
+        Args:
+            measures: A collection of measures to find required inputs for.
+
+        Returns:
+            A list of the required inputs.
+        """
+        return ['query_id', 'doc_id', 'score']
+
+    def qrel_inputs(self, measures: Iterable[Measure]) -> List[str]:
+        """Returns the inputs required by the provided measures in the qrels.
+
+        .. note::
+            By default, this method returns the prototypical inputs required by all built-in
+            measures: ``['query_id', 'doc_id', 'relevance']``. This method should be overridden by
+            providers that support measures with different qrel inputs.
+
+        Args:
+            measures: A collection of measures to find required inputs for.
+
+        Returns:
+            A list of the required inputs.
+        """
+        return ['query_id', 'doc_id', 'relevance']
+
 
 class ParamSpec:
     def validate(self, value):

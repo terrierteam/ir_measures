@@ -156,6 +156,41 @@ class TestRuntime(unittest.TestCase):
         self.assertEqual(result[1].value, 0.)
         self.assertEqual((MyS@2).calc_aggregate(qrels, run), 0.5)
 
+    def test_run_qrel_inputs(self):
+        def a(qrels, run):
+            ...
+        def b(qrels, run):
+            ...
+        A = ir_measures.define(a, run_inputs=['query_id'], qrel_inputs=['query_id', 'doc_id', 'x'])
+        B = ir_measures.define(b)
+        provider = ir_measures.providers.RuntimeProvider()
+        inputs = provider.run_inputs([A, B])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'score'})
+        inputs = provider.run_inputs([A])
+        self.assertEqual(set(inputs), {'query_id'})
+        inputs = provider.run_inputs([B])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'score'})
+        inputs = ir_measures.DefaultPipeline.run_inputs([A, B])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'score'})
+        inputs = ir_measures.DefaultPipeline.run_inputs([A])
+        self.assertEqual(set(inputs), {'query_id'})
+        inputs = ir_measures.DefaultPipeline.run_inputs([A, ir_measures.P@5])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'score'})
+
+        inputs = provider.qrel_inputs([A, B])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'relevance', 'x'})
+        inputs = provider.qrel_inputs([A])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'x'})
+        inputs = provider.qrel_inputs([B])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'relevance'})
+        inputs = ir_measures.DefaultPipeline.qrel_inputs([A, B])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'relevance', 'x'})
+        inputs = ir_measures.DefaultPipeline.qrel_inputs([A])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'x'})
+        inputs = ir_measures.DefaultPipeline.qrel_inputs([A, ir_measures.P@5])
+        self.assertEqual(set(inputs), {'query_id', 'doc_id', 'relevance', 'x'})
+
+
 
 if __name__ == '__main__':
     unittest.main()

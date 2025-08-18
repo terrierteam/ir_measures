@@ -1,6 +1,7 @@
-from typing import Callable, Optional, Iterable, Tuple, TYPE_CHECKING
+from typing import Callable, Optional, Iterable, List, Tuple, TYPE_CHECKING
 import ir_measures
 from ir_measures import providers, measures, Metric
+from ir_measures.measures.base import Measure
 
 if TYPE_CHECKING:
     import pandas as pd
@@ -30,6 +31,40 @@ class RuntimeProvider(providers.Provider):
         qrels = qrels.sort_values(by=sort_columns)
         return RuntimeEvaluator(measures, qrels)
 
+    def run_inputs(self, measures: Iterable[Measure]) -> List[str]:
+        """Returns the inputs required by the provided measures in the run.
+
+        .. note::
+            This method only supports runtime-defined measures.
+
+        Args:
+            measures: A collection of measures to find required inputs for.
+
+        Returns:
+            A list of the required inputs.
+        """
+        inputs = set()
+        for measure in measures:
+            inputs.update(measure.RUN_INPUTS)
+        return list(inputs)
+
+    def qrel_inputs(self, measures: Iterable[Measure]) -> List[str]:
+        """Returns the inputs required by the provided measures in the qrels.
+
+        .. note::
+            This method only supports runtime-defined measures.
+
+        Args:
+            measures: A collection of measures to find required inputs for.
+
+        Returns:
+            A list of the required inputs.
+        """
+        inputs = set()
+        for measure in measures:
+            inputs.update(measure.QREL_INPUTS)
+        return list(inputs)
+
 
 class RuntimeEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels):
@@ -53,7 +88,10 @@ class RuntimeEvaluator(providers.Evaluator):
 def define(
     impl: Callable[['pd.DataFrame', 'pd.DataFrame'], Iterable[Tuple[str, float]]],
     name: Optional[str] = None,
-    support_cutoff: bool = True
+    support_cutoff: bool = True,
+    *,
+    run_inputs: Optional[List[str]] = None,
+    qrel_inputs: Optional[List[str]] = None,
 ):
     """Defines a new custom measure from a user-specified function that is is provided all queries at once.
 
@@ -65,15 +103,25 @@ def define(
     :param impl: A function that takes two pandas DataFrames (qrels and run) and returns an iterable of (qid, score) tuples.
     :param name: The name of the measure (optional)
     :param support_cutoff: Whether the measure supports a cutoff parameter, which reduces the results in run.
+    :param run_inputs: Optional list of input columns required by in runs. If not provided, it defaults to ``[query_id, doc_id, score]``.
+    :param qrel_inputs: Optional list of input columns required by in qrels. If not provided, it defaults to ``[query_id, doc_id, relevance]``.
     """
     _SUPPORTED_PARAMS = {}
     if support_cutoff:
         _SUPPORTED_PARAMS['cutoff'] = measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold')
+    if run_inputs is None:
+        run_inputs = ['query_id', 'doc_id', 'score']
+    if qrel_inputs is None:
+        qrel_inputs = ['query_id', 'doc_id', 'relevance']
     class _RuntimeMeasure(measures.Measure):
         nonlocal _SUPPORTED_PARAMS
+        nonlocal run_inputs
+        nonlocal qrel_inputs
         SUPPORTED_PARAMS = _SUPPORTED_PARAMS
         NAME = name
         __name__ = name
+        RUN_INPUTS = run_inputs
+        QREL_INPUTS = qrel_inputs
 
         def runtime_impl(self, qrels, run):
             if 'cutoff' in self.params and self.params['cutoff'] is not None:
@@ -82,6 +130,11 @@ def define(
                 run = run.groupby('query_id').head(cutoff).reset_index(drop=True)
             for qid, score in impl(qrels, run):
                 yield Metric(qid, self, score)
+
+        def __repr__(self):
+            if self.NAME is not None:
+                return super().__repr__()
+            return object.__repr__(self)
     return _RuntimeMeasure()
 
 
@@ -97,7 +150,10 @@ def _byquery_impl(impl):
 def define_byquery(
     impl: Callable[['pd.DataFrame', 'pd.DataFrame'], float],
     name: Optional[str] = None,
-    support_cutoff: bool = True
+    support_cutoff: bool = True,
+    *,
+    run_inputs: Optional[List[str]] = None,
+    qrel_inputs: Optional[List[str]] = None,
 ):
     """Defines a new custom measure from a user-specified function that is called once per query.
 
@@ -107,13 +163,15 @@ def define_byquery(
     :param impl: A function that takes two pandas DataFrames (qrels and run) and returns a float.
     :param name: The name of the measure (optional)
     :param support_cutoff: Whether the measure supports a cutoff parameter, which reduces the results in run.
+    :param run_inputs: Optional list of input columns required by in runs. If not provided, it defaults to ``[query_id, doc_id, score]``.
+    :param qrel_inputs: Optional list of input columns required by in qrels. If not provided, it defaults to ``[query_id, doc_id, relevance]``.
     """
     if name is None:
         if hasattr(impl, '__name__'):
             name = impl.__name__
         else:
             name = repr(impl)
-    return define(_byquery_impl(impl), name, support_cutoff)
+    return define(_byquery_impl(impl), name, support_cutoff, run_inputs=run_inputs, qrel_inputs=qrel_inputs)
 
 
 providers.register(RuntimeProvider())
