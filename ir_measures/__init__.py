@@ -1,4 +1,4 @@
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 import sys
 import logging
 from ir_measures import util
@@ -66,6 +66,8 @@ calc_ctxt = DefaultPipeline.calc_ctxt # deprecated; replaced with evaluator
 iter_calc = DefaultPipeline.iter_calc
 calc_aggregate = DefaultPipeline.calc_aggregate
 calc = DefaultPipeline.calc
+run_inputs = DefaultPipeline.run_inputs
+qrel_inputs = DefaultPipeline.qrel_inputs
 
 __all__ = [
     'accuracy', 'cwl_eval', 'compat', 'gdeval', 'pytrec_eval', 'trectools', 'judged', 'msmarco', 'pyndeval', 'ranx',
