@@ -64,13 +64,16 @@ interface.
                 Judged@10: 0.9486
             }
 
-        You can also use ``qrels`` from `ir_datasets <https://ir-datasets.com/>`_ instead of loading them from a file.
+        You can also provide the qrels and run in :doc:`a variety of other formats <getting-started>`:
 
         .. code-block:: python
-            :caption: Loading qrels from ``ir_datasets`` in Python
+            :caption: qrels and runs in other formats
 
-            >>> import ir_datasets
-            >>> qrels = ir_datasets.load('dataset_id').qrels
+            >>> qrels = ir_datasets.load('dataset_id').qrels # ir-datasets
+            >>> qrels = pd.DataFrame(..., columns=['query_id', 'doc_id', 'relevance']) # dataframe
+            >>> qrels = {'q0': {'d0': 1, ...}, ...} # dict-of-dict
+            >>> run = pd.DataFrame(..., columns=['query_id', 'doc_id', 'score']) # dataframe
+            >>> run = {'q0': {'d0': 0.425, ...}, ...} # dict-of-dict
             >>> ...
 
     .. tab:: PyTerrier
