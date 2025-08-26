@@ -92,6 +92,7 @@ Per-topic results can be calculated using ``iter_calc``:
 Here again, the results from ``iter_calc`` may not be returned in a predictable order [1]_.
 
 
+.. _qrel_formats:
 
 Qrels formats
 ---------------------------------------
@@ -174,6 +175,7 @@ map to (integer) relevance scores::
 
 Note that this format does not support the iteration field, so it should not be used with diversity measures.
 
+.. _run_formats:
 
 Run formats
 ---------------------------------------
