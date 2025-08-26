@@ -64,7 +64,8 @@ interface.
                 Judged@10: 0.9486
             }
 
-        You can also use ``qrels`` from `ir_datasets <https://ir-datasets.com/>`_ instead of loading them from a file.
+        :ref:`Qrels <qrel_formats>` and `runs <run_formats>` can be specified from dict-of-dicts, or from Pandas DataFrames. You 
+        can also use ``qrels`` from `ir_datasets <https://ir-datasets.com/>`_ instead of loading them from a file.
 
         .. code-block:: python
             :caption: Loading qrels from ``ir_datasets`` in Python
