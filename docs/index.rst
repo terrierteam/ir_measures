@@ -64,7 +64,7 @@ interface.
                 Judged@10: 0.9486
             }
 
-        :ref:`Qrels <qrel_formats>` and `runs <run_formats>` can be specified from dict-of-dicts, or from Pandas DataFrames. You 
+        :ref:`Qrels <qrel_formats>` and :ref:`run <run_formats>` can be specified from dict-of-dicts, or from Pandas DataFrames. You 
         can also use ``qrels`` from `ir_datasets <https://ir-datasets.com/>`_ instead of loading them from a file.
 
         .. code-block:: python
