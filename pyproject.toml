@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ir_measures"
 description = "Provides a common interface to many IR measure tools"
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 authors = [
   {name = "Sean MacAvaney", email = "sean.macavaney@glasgow.ac.uk"},
 ]
