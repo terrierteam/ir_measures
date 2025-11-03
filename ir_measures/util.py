@@ -135,7 +135,7 @@ class QrelsConverter:
             return self.qrels
         else:
             pd = ir_measures.lazylibs.pandas()
-            return pd.DataFrame(self.as_namedtuple_iter())
+            return pd.DataFrame(self.as_namedtuple_iter(), columns=['query_id', 'doc_id', 'relevance', 'iteration'])
 
     @contextlib.contextmanager
     def as_tmp_file(self):
@@ -250,7 +250,7 @@ class RunConverter:
             return self.run
         else:
             pd = ir_measures.lazylibs.pandas()
-            return pd.DataFrame(self.as_namedtuple_iter())
+            return pd.DataFrame(self.as_namedtuple_iter(), columns=['query_id', 'doc_id', 'score'])
 
     @contextlib.contextmanager
     def as_tmp_file(self):

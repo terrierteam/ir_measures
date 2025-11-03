@@ -24,7 +24,7 @@ class RuntimeProvider(providers.Provider):
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         qrels = ir_measures.util.QrelsConverter(qrels, strict=False).as_pd_dataframe()
         if "query_id" not in qrels.columns:
-            raise ValueError("Required column query_id not found in qrels. Found columns was " + str(qrels.columns))
+            raise ValueError("Required column query_id not found in qrels. Found columns was " + str(qrels.columns.to_list()))
         sort_columns=['query_id']
         if 'doc_id' in qrels.columns:
             sort_columns.append('doc_id')
@@ -76,7 +76,7 @@ class RuntimeEvaluator(providers.Evaluator):
     def _iter_calc(self, run):
         run = ir_measures.util.RunConverter(run, strict=False).as_pd_dataframe()
         if "query_id" not in run.columns:
-            raise ValueError("Required column query_id not found in run. Found columns was " + str(run.columns))
+            raise ValueError("Required column query_id not found in run. Found columns was " + str(run.columns.to_list()))
         sort_columns = ['query_id']
         sort_orders = [True]
         if 'score' in run.columns:
