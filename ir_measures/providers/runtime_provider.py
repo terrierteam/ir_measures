@@ -110,7 +110,7 @@ def define(
     :param run_inputs: Optional list of input columns required by in runs. If not provided, it defaults to ``[query_id, doc_id, score]``.
     :param qrel_inputs: Optional list of input columns required by in qrels. If not provided, it defaults to ``[query_id, doc_id, relevance]``.
     :param pretty_name: Optional str giving a pretty name for the measure.
-    :param short_dersc: Optional str giving a short description of the measure.  
+    :param short_desc: Optional str giving a short description of the measure.  
     """
     _SUPPORTED_PARAMS = {}
     if support_cutoff:
@@ -176,7 +176,7 @@ def define_byquery(
     :param run_inputs: Optional list of input columns required by in runs. If not provided, it defaults to ``[query_id, doc_id, score]``.
     :param qrel_inputs: Optional list of input columns required by in qrels. If not provided, it defaults to ``[query_id, doc_id, relevance]``.
     :param pretty_name: Optional str giving a pretty name for the measure.
-    :param short_dersc: Optional str giving a short description of the measure.
+    :param short_desc: Optional str giving a short description of the measure.
     """
     if name is None:
         if hasattr(impl, '__name__'):
