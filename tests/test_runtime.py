@@ -156,6 +156,11 @@ class TestRuntime(unittest.TestCase):
         self.assertEqual(result[1].value, 0.)
         self.assertEqual((MyS@2).calc_aggregate(qrels, run), 0.5)
 
+        # check empty lists
+        result = list((MyS@2).iter_calc(qrels, []))
+        result = list((MyS@2).iter_calc([], run))
+        result = list((MyS@2).iter_calc([], []))
+
     def test_run_qrel_inputs(self):
         def a(qrels, run):
             ...

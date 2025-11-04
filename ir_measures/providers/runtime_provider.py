@@ -24,7 +24,7 @@ class RuntimeProvider(providers.Provider):
         # Convert qrels to dict_of_dict (input format used by pytrec_eval)
         qrels = ir_measures.util.QrelsConverter(qrels, strict=False).as_pd_dataframe()
         if "query_id" not in qrels.columns:
-            raise ValueError("Required column query_id not found in qrels. Found columns was " + qrels.columns)
+            raise ValueError("Required column query_id not found in qrels. Found columns was " + str(qrels.columns.to_list()))
         sort_columns=['query_id']
         if 'doc_id' in qrels.columns:
             sort_columns.append('doc_id')
@@ -76,7 +76,7 @@ class RuntimeEvaluator(providers.Evaluator):
     def _iter_calc(self, run):
         run = ir_measures.util.RunConverter(run, strict=False).as_pd_dataframe()
         if "query_id" not in run.columns:
-            raise ValueError("Required column query_id not found in run. Found columns was " + run.columns)
+            raise ValueError("Required column query_id not found in run. Found columns was " + str(run.columns.to_list()))
         sort_columns = ['query_id']
         sort_orders = [True]
         if 'score' in run.columns:
@@ -94,6 +94,8 @@ def define(
     *,
     run_inputs: Optional[List[str]] = None,
     qrel_inputs: Optional[List[str]] = None,
+    pretty_name : Optional[str] = None,
+    short_desc : Optional[str] = None
 ):
     """Defines a new custom measure from a user-specified function that is is provided all queries at once.
 
@@ -107,6 +109,8 @@ def define(
     :param support_cutoff: Whether the measure supports a cutoff parameter, which reduces the results in run.
     :param run_inputs: Optional list of input columns required by in runs. If not provided, it defaults to ``[query_id, doc_id, score]``.
     :param qrel_inputs: Optional list of input columns required by in qrels. If not provided, it defaults to ``[query_id, doc_id, relevance]``.
+    :param pretty_name: Optional str giving a pretty name for the measure.
+    :param short_desc: Optional str giving a short description of the measure.  
     """
     _SUPPORTED_PARAMS = {}
     if support_cutoff:
@@ -124,6 +128,8 @@ def define(
         __name__ = name
         RUN_INPUTS = run_inputs
         QREL_INPUTS = qrel_inputs
+        SHORT_DESC = short_desc
+        PRETTY_NAME = pretty_name
 
         def runtime_impl(self, qrels, run):
             if 'cutoff' in self.params and self.params['cutoff'] is not None:
@@ -156,6 +162,8 @@ def define_byquery(
     *,
     run_inputs: Optional[List[str]] = None,
     qrel_inputs: Optional[List[str]] = None,
+    pretty_name : Optional[str] = None,
+    short_desc : Optional[str] = None
 ):
     """Defines a new custom measure from a user-specified function that is called once per query.
 
@@ -167,13 +175,17 @@ def define_byquery(
     :param support_cutoff: Whether the measure supports a cutoff parameter, which reduces the results in run.
     :param run_inputs: Optional list of input columns required by in runs. If not provided, it defaults to ``[query_id, doc_id, score]``.
     :param qrel_inputs: Optional list of input columns required by in qrels. If not provided, it defaults to ``[query_id, doc_id, relevance]``.
+    :param pretty_name: Optional str giving a pretty name for the measure.
+    :param short_desc: Optional str giving a short description of the measure.
     """
     if name is None:
         if hasattr(impl, '__name__'):
             name = impl.__name__
         else:
             name = repr(impl)
-    return define(_byquery_impl(impl), name, support_cutoff, run_inputs=run_inputs, qrel_inputs=qrel_inputs)
+    return define(_byquery_impl(impl), name, support_cutoff, 
+                  run_inputs=run_inputs, qrel_inputs=qrel_inputs, 
+                  pretty_name=pretty_name, short_desc=short_desc)
 
 
 providers.register(RuntimeProvider())
