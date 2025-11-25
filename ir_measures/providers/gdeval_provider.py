@@ -35,7 +35,7 @@ class GdevalProvider(providers.Provider):
 
     def initialize(self):
         import shutil
-        if len(shutil.which("perl")) == 0:
+        if not shutil.which("perl"):
             raise RuntimeError('perl not available')
 
     def install_instructions(self):
