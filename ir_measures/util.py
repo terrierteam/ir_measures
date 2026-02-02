@@ -434,7 +434,7 @@ def parse_trec_measure(measure: str) -> List['ir_measures.Measure']:
     matches = ((m, re.match(RE_BASE.format(re.escape(m)), measure)) for m in TREC_NAME_MAP)
     match = next(filter(lambda x: x[1] is not None, matches), None)
     if match is None:
-        raise ValueError('unkonwn measure {}'.format(measure))
+        raise ValueError('unknown measure {}'.format(measure))
     base_meas, meas_args = match[0], match[1].group(1) # type: ignore
     meas, arg_name, _ = TREC_NAME_MAP[base_meas]
     if meas is None:
