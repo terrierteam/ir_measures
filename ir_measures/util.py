@@ -314,7 +314,6 @@ _AST_PARSE_ERROR = 'problem parsing measure {}; must be in format Measure(k1=v1,
 
 
 def _ast_to_value(node):
-    
     if isinstance(node, ast.Constant):
         return node.value
     if isinstance(node, ast.Dict):
