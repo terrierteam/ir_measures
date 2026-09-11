@@ -1,5 +1,6 @@
 import logging
-from typing import NamedTuple, Union
+from typing import NamedTuple, Optional, Union
+
 import ir_measures
 from ir_measures import providers, measures
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
@@ -23,6 +24,11 @@ class CwlMetric(NamedTuple):
     expected_cost: float
     expected_total_cost: float
     expected_items: float
+    residual_expected_utility: Optional[float] = None
+    residual_expected_total_utility: Optional[float] = None
+    residual_expected_cost: Optional[float] = None
+    residual_expected_total_cost: Optional[float] = None
+    residual_expected_items: Optional[float] = None
 
 
 class CwlEvalProvider(providers.Provider):
@@ -39,7 +45,12 @@ class CwlEvalProvider(providers.Provider):
         measures._P(cutoff=Any(), rel=Any(), judged_only=Choices(False)),
         measures._RR(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Choices(False)),
         measures._AP(cutoff=Choices(NOT_PROVIDED), rel=Any(), judged_only=Choices(False)),
-        measures._RBP(cutoff=Choices(NOT_PROVIDED), rel=Any(required=True), p=Any()),
+        measures._RBP(
+            cutoff=Choices(NOT_PROVIDED),
+            rel=Any(required=True),
+            p=Any(),
+            residual=Any(),
+        ),
         measures._BPM(cutoff=Any(), T=Any(), min_rel=Any(), max_rel=Any(required=True)),
         measures._SDCG(cutoff=Any(required=True), dcg=Choices('log2'), min_rel=Any(), max_rel=Any(required=True)),
         measures._NERR8(cutoff=Any(required=True), min_rel=Any(), max_rel=Any(required=True)),
@@ -167,7 +178,18 @@ class CwlEvaluator(providers.Evaluator):
                     expected_total_utility=cwl_measure.expected_total_utility,
                     expected_cost=cwl_measure.expected_cost,
                     expected_total_cost=cwl_measure.expected_total_cost,
-                    expected_items=cwl_measure.expected_items)
+                    expected_items=cwl_measure.expected_items,
+                    residual_expected_utility=(
+                        cwl_measure.residual_expected_utility
+                    ),
+                    residual_expected_total_utility=(
+                        cwl_measure.residual_expected_total_utility
+                    ),
+                    residual_expected_cost=cwl_measure.residual_expected_cost,
+                    residual_expected_total_cost=(
+                        cwl_measure.residual_expected_total_cost
+                    ),
+                    residual_expected_items=cwl_measure.residual_expected_items)
 
     def _irm_convert_to_measure(self, measure):
         from cwl.ruler.cwl_ruler import PrecisionCWLMetric, RRCWLMetric, APCWLMetric, RBPCWLMetric, BPMCWLMetric, NDCGCWLMetric, NERReq8CWLMetric, NERReq9CWLMetric, NERReq10CWLMetric, NERReq11CWLMetric, INSTCWLMetric, INSQCWLMetric
@@ -178,7 +200,9 @@ class CwlEvaluator(providers.Evaluator):
         if measure.NAME == 'AP':
             return APCWLMetric()
         if measure.NAME == 'RBP':
-            return RBPCWLMetric(measure['p'])
+            result = RBPCWLMetric(measure['p'])
+            result.residuals = measure['residual']
+            return result
         if measure.NAME == 'BPM':
             return BPMCWLMetric(measure['T'], measure['cutoff'])
         if measure.NAME == 'NERR8':

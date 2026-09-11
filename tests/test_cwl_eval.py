@@ -1,6 +1,6 @@
 import os
 import unittest
-import itertools
+
 import ir_measures
 from ir_measures import *
 
@@ -39,6 +39,33 @@ class TestCwlEval(unittest.TestCase):
                 for result, (query_id, value) in zip(results, expected):
                     self.assertAlmostEqual(result.query_id, query_id, delta=0.0001)
                     self.assertAlmostEqual(result.value, value, delta=0.0001)
+
+    def test_rbp_residuals(self):
+        qrels = list(ir_measures.read_trec_qrels(
+            os.path.join(os.path.dirname(__file__), 'cwl.qrels')))
+        run = list(ir_measures.read_trec_run(
+            os.path.join(os.path.dirname(__file__), 'cwl.run')))
+        measure = ir_measures.RBP(p=0.9, rel=1, residual=True)
+        provider = ir_measures.cwl_eval
+
+        self.assertTrue(provider.supports(measure))
+        results = list(provider.iter_calc([measure], qrels, run))
+
+        expected = [
+            ('T1', 0.3501, 0.4733),
+            ('T2', 0.3996, 0.5026),
+            ('T3', 0.1988, 0.6197),
+        ]
+        for result, (query_id, value, residual) in zip(results, expected):
+            self.assertEqual(result.query_id, query_id)
+            self.assertAlmostEqual(result.value, value, delta=0.0001)
+            self.assertAlmostEqual(
+                result.residual_expected_utility,
+                residual,
+                delta=0.0001)
+            self.assertEqual(result.residual_expected_cost, 0.0)
+            self.assertEqual(result.residual_expected_total_cost, 0.0)
+            self.assertEqual(result.residual_expected_items, 0.0)
 
 
 if __name__ == '__main__':
