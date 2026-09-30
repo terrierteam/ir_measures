@@ -571,6 +571,20 @@ class TestPytrecEval(BaseMeasureTest):
                 [Metric(query_id='0', measure=measure, value=0.97177),
                 Metric(query_id='1', measure=measure, value=0.14949)])
 
+        # A plain nDCG requested together with an nDCG(gains=...) must be computed on the original qrels,
+        # whatever order the measures arrive in.
+        gains_measure = ir_measures.nDCG(gains={0:0,1:0,2:1})
+        gains_only = {m.query_id: m.value for m in provider.iter_calc([gains_measure], qrels, run)}
+        for plain in (ir_measures.nDCG@3, ir_measures.nDCG):
+            plain_only = {m.query_id: m.value for m in provider.iter_calc([plain], qrels, run)}
+            for measures in ([gains_measure, plain], [plain, gains_measure]):
+                results = {}
+                for m in provider.iter_calc(measures, qrels, run):
+                    results[(m.query_id, m.measure)] = m.value
+                for qid in ('0', '1'):
+                    self.assertAlmostEqual(results[(qid, plain)], plain_only[qid], places=4)
+                    self.assertAlmostEqual(results[(qid, gains_measure)], gains_only[qid], places=4)
+
     def test_P(self):
         qrels = list(ir_measures.read_trec_qrels('''
 0 0 D0 -1
