@@ -82,13 +82,9 @@ class PytrecEvalProvider(providers.Provider):
                 measure_str = 'infAP'
             elif measure.NAME == 'nDCG':
                 if measure['gains'] is NOT_PROVIDED:
-                    # Doesn't matter where this goes... Put it in an existing invocation, or just (1,) if none yet exist
-                    if invocations:
-                        invocation_key = next(iter(invocations))
-                        if invocation_key[3] != measure['judged_only']:
-                            invocation_key = (invocation_key[0], invocation_key[1], invocation_key[2], measure['judged_only'])
-                    else:
-                        invocation_key = (1, 0, None, measure['judged_only'])
+                    # Use the invocation on the original qrels. Reusing an arbitrary existing invocation could pick
+                    # one whose qrels were remapped through another nDCG measure's gains.
+                    invocation_key = (1, 0, None, measure['judged_only'])
                 else:
                     invocation_key = (1, 0, hashabledict(measure['gains']), measure['judged_only'])
                 if measure['cutoff'] is NOT_PROVIDED:
