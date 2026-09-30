@@ -22,7 +22,12 @@ class TrectoolsProvider(providers.Provider):
         measures._AP(cutoff=Any(), rel=Choices(1), judged_only=Choices(False)),
         measures._nDCG(cutoff=Any(), dcg=Any(), gains=Choices(NOT_PROVIDED), judged_only=Choices(False)),
         measures._Bpref(rel=Choices(1)),
-        measures._RBP(cutoff=Any(), p=Any(), rel=Any()),
+        measures._RBP(
+            cutoff=Any(),
+            p=Any(),
+            rel=Any(),
+            residual=Choices(False),
+        ),
         # Other supported metrics: urbp, ubpref, alpha_urbp, geometric_map, unjudged
     ]
 
