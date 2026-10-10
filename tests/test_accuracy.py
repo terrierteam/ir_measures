@@ -71,7 +71,7 @@ class TestMeasures(unittest.TestCase):
 '''))
         provider = ir_measures.accuracy
 
-        # Only relevant documents are retrieved (within the cutoff)
+        # Query 1 (and query 0 at cutoff 1) retrieves only relevant documents
         expected_results = [
             [Accuracy@1, [('0', 1.), ('1', 1.)]],
             [Accuracy(), [('0', 1.), ('1', 1.)]],
