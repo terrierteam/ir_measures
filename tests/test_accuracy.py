@@ -54,6 +54,33 @@ class TestMeasures(unittest.TestCase):
         expected = sum(value for _, value in results_1) / len(results_1)
         self.assertAlmostEqual(provider.calc_aggregate([accuracy_1], qrels, run)[accuracy_1], expected, delta=1e-9)
 
+    def test_accuracy_no_non_relevant(self):
+        qrels = list(ir_measures.read_trec_qrels('''
+0 0 A0_1 1
+0 0 C0_1 0
+
+1 0 A1_1 1
+1 0 A1_2 2
+'''))
+        run = list(ir_measures.read_trec_run('''
+0 0 A0_1 1 0.4 run
+0 0 C0_1 2 0.3 run
+
+1 0 A1_1 1 0.8 run
+1 0 A1_2 2 0.7 run
+'''))
+        provider = ir_measures.accuracy
+
+        # Only relevant documents are retrieved (within the cutoff)
+        expected_results = [
+            [Accuracy@1, [('0', 1.), ('1', 1.)]],
+            [Accuracy(), [('0', 1.), ('1', 1.)]],
+        ]
+        for measure, expected in expected_results:
+            with self.subTest(measure=measure):
+                results = list(provider.iter_calc([measure], qrels, run))
+                self.assertEqual([(r.query_id, r.value) for r in results], expected)
+
 
 if __name__ == '__main__':
     unittest.main()
