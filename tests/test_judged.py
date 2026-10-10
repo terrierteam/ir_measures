@@ -44,6 +44,16 @@ class TestMeasures(unittest.TestCase):
                     self.assertAlmostEqual(result.query_id, query_id, delta=0.0001)
                     self.assertAlmostEqual(result.value, value, delta=0.0001)
 
+    def test_judged_empty_ranking(self):
+        qrels = {'0': {'D0': 1}, '1': {'D0': 1}}
+        run = {'0': {'D0': 0.8}, '1': {}}
+        provider = ir_measures.judged
+
+        for measure in [Judged, Judged(cutoff=5)]:
+            with self.subTest(measure=measure):
+                results = sorted(provider.iter_calc([measure], qrels, run))
+                self.assertEqual([(r.query_id, r.value) for r in results], [('0', 1.0), ('1', 0.0)])
+
 
 if __name__ == '__main__':
     unittest.main()
