@@ -92,6 +92,19 @@ class TestPytrecEval(unittest.TestCase):
         self.assertEqual(result[1].value, 0.09375)
         self.assertEqual(provider.calc_aggregate([measure], qrels, run)[measure], 0.0625)
 
+    def test_non_numeric_qids(self):
+        qrels = {'Q0': {'D0': 0, 'D1': 1}, 'Q1': {'D0': 0, 'D3': 2}}
+        run = {'Q0': {'D0': 1.2, 'D1': 1.0}, 'Q1': {'D0': 2.4, 'D3': 3.6}}
+        measure = ir_measures.ERR@10
+        with self.assertWarns(UserWarning):
+            result = list(ir_measures.gdeval.iter_calc([measure], qrels, run))
+        self.assertEqual([(r.query_id, r.value) for r in result], [('Q0', 0.03125), ('Q1', 0.1875)])
+
+    def test_max_judgment(self):
+        qrels = {'Q0': {'D0': 0, 'D1': 5}}
+        run = {'Q0': {'D0': 1.2, 'D1': 1.0}}
+        with self.assertRaises(ValueError):
+            ir_measures.gdeval.calc_aggregate([ir_measures.ERR@10], qrels, run)
 
 
 if __name__ == '__main__':
