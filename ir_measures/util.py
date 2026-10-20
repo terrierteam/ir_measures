@@ -6,7 +6,7 @@ import gzip
 import contextlib
 import itertools
 import tempfile
-from typing import Dict, List
+from typing import Any, Dict, List
 from collections import defaultdict
 from typing import NamedTuple, Union, Iterable
 import ir_measures
@@ -336,7 +336,7 @@ def parse_measure(measure: str) -> 'ir_measures.Measure':
         raise ValueError(_AST_PARSE_ERROR.format('not an expression'))
     node = node.value
     at_param = None
-    args = {}
+    args: Dict[str, Any] = {}
     if isinstance(node, ast.BinOp) and isinstance(node.op, ast.MatMult):
         at_param = _ast_to_value(node.right)
         node = node.left
@@ -344,6 +344,8 @@ def parse_measure(measure: str) -> 'ir_measures.Measure':
         if len(node.args):
             raise ValueError(_AST_PARSE_ERROR.format('args must be named'))
         for keyword in node.keywords:
+            if keyword.arg is None:
+                raise ValueError(_AST_PARSE_ERROR.format("args must be named"))
             args[keyword.arg] = _ast_to_value(keyword.value)
         node = node.func
     if not isinstance(node, ast.Name):
