@@ -141,7 +141,7 @@ class SumAgg(Agg):
         return self.sum
 
 
-registry = {}
+registry: dict = {}
 def register(measure, aliases=[], name=None):
     if name is None:
         name = measure.__name__

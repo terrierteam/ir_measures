@@ -2,7 +2,7 @@ trectools>=0.0.44
 ranx>=0.1.11
 pyndeval>=0.0.6
 mypy
-ruff
+ruff<0.16
 cwl-eval
 pytest
 pytest-cov
