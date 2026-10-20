@@ -62,12 +62,11 @@ class GdevalEvaluator(providers.Evaluator):
         self.invocations = invocations
 
     def _iter_calc(self, run):
-        qid_map = defaultdict(lambda: len(qid_map), self.qid_map)
         def remap(run):
             for d in ir_measures.util.RunConverter(run).as_namedtuple_iter():
-                yield d._replace(query_id=str(qid_map[d.query_id]))
+                yield d._replace(query_id=str(self.qid_map[d.query_id]))
         run = list(remap(run))
-        qid_unmap = {str(v): k for k, v in qid_map.items()}
+        qid_unmap = {str(v): k for k, v in self.qid_map.items()}
         with tempfile.NamedTemporaryFile() as perlf, \
              ir_measures.util.QrelsConverter(self.qrels).as_tmp_file() as qrelsf, \
              ir_measures.util.RunConverter(run).as_tmp_file() as runf:
