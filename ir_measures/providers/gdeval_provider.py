@@ -2,6 +2,7 @@ import pkgutil
 import subprocess
 import tempfile
 import warnings
+from collections import defaultdict
 import ir_measures
 from ir_measures import providers, measures, Metric
 from ir_measures.providers.base import Any, Choices, NOT_PROVIDED
@@ -56,17 +57,15 @@ class GdevalEvaluator(providers.Evaluator):
     def __init__(self, measures, qrels, invocations):
         super().__init__(measures, set(q.query_id for q in qrels))
         # gdeval.pl only accepts integer query ids, so use integers internally and map back afterwards
-        self.qid_map = {}
-        for q in qrels:
-            self.qid_map.setdefault(q.query_id, len(self.qid_map))
+        self.qid_map = defaultdict(lambda: len(self.qid_map))
         self.qrels = [q._replace(query_id=str(self.qid_map[q.query_id])) for q in qrels]
         self.invocations = invocations
 
     def _iter_calc(self, run):
-        qid_map = dict(self.qid_map)
+        qid_map = defaultdict(lambda: len(qid_map), self.qid_map)
         def remap(run):
             for d in ir_measures.util.RunConverter(run).as_namedtuple_iter():
-                yield d._replace(query_id=str(qid_map.setdefault(d.query_id, len(qid_map))))
+                yield d._replace(query_id=str(qid_map[d.query_id]))
         run = list(remap(run))
         qid_unmap = {str(v): k for k, v in qid_map.items()}
         with tempfile.NamedTemporaryFile() as perlf, \
