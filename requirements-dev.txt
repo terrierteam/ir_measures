@@ -8,4 +8,5 @@ pytest
 pytest-cov
 pytest-subtests
 pytest-json-report
-trec-eval @ git+https://github.com/usnistgov/trec_eval.git@trec_eval_v11#subdirectory=te-python
+#trec-eval @ git+https://github.com/usnistgov/trec_eval.git@trec_eval_v11#subdirectory=te-python
+trec-eval @ git+https://github.com/cmacdonald/trec_eval.git@ir_measures_fixes#subdirectory=te-python
