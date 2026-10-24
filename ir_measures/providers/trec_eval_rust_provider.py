@@ -1,5 +1,5 @@
 from .pytrec_eval_provider import PytrecEvalProvider
-from ir_measures import providers, Metric
+from ir_measures import providers
 
 class TeRustProvider(PytrecEvalProvider):
     
