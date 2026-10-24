@@ -1,11 +1,8 @@
 import unittest
 import ir_measures
 from ir_measures import AP, RR, Rprec, NumRet, NumRel, P, R
+from ir_measures.providers.trec_eval_rust_provider import TeRustProvider
 
-try:
-    from trec_eval.compat.ir_measures import TeRustProvider
-except ImportError:
-    TeRustProvider = None
 
 QRELS = '''
 0 0 D0 0
