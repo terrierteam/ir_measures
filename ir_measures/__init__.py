@@ -35,6 +35,7 @@ accuracy = providers.registry['accuracy']
 cwl_eval = providers.registry['cwl_eval']
 compat = providers.registry['compat']
 gdeval = providers.registry['gdeval']
+trec_eval = providers.registry['trec_eval']
 pytrec_eval = providers.registry['pytrec_eval']
 trectools = providers.registry['trectools']
 judged = providers.registry['judged']
@@ -50,7 +51,7 @@ CwlMetric = providers.CwlMetric
 
 DefaultPipeline = providers.FallbackProvider([
     runtime,
-    pytrec_eval,
+    trec_eval, #pytrec_eval,
     cwl_eval,
     compat,
     pyndeval,
