@@ -197,7 +197,7 @@ class PytrecEvalEvaluator(providers.Evaluator):
 
 class PytrecEvalInvoker:
     def __init__(self, pte, qrels, measure_map, rel_level, judged_only):
-        self.evaluator = pte.RelevanceEvaluator(qrels, [m for _, m in measure_map.values()], relevance_level=rel_level, judged_docs_only_flag=1 if judged_only else 0)
+        self.evaluator = pte.RelevanceEvaluator(qrels, [m for _, m in measure_map.values()], relevance_level=rel_level, judged_docs_only_flag=judged_only)
         self.measure_map = measure_map
 
     def iter_calc(self, run):
