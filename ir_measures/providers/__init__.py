@@ -11,12 +11,13 @@ from ir_measures.providers.trectools_provider import TrectoolsProvider
 from ir_measures.providers.msmarco_provider import MsMarcoProvider
 from ir_measures.providers.ranx_provider import RanxProvider
 from ir_measures.providers.runtime_provider import RuntimeProvider, define, define_byquery
+from ir_measures.providers.trec_eval_rust_provider import TeRustProvider
 
 __all__ = [
 	'registry', 'register',
 	'Provider', 'Evaluator',
 	'AccuracyProvider', 'FallbackProvider', 'CompatProvider', 'CwlEvalProvider', 'CwlMetric', 'PyNdEvalProvider',
 	'PytrecEvalProvider', 'JudgedProvider', 'GdevalProvider', 'TrectoolsProvider', 'MsMarcoProvider',
-	'RanxProvider', 'RuntimeProvider',
+	'RanxProvider', 'RuntimeProvider', 'TeRustProvider', 
 	'define', 'define_byquery',
 ]
