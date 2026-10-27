@@ -2,6 +2,8 @@ from .pytrec_eval_provider import PytrecEvalProvider
 from ir_measures import providers
 
 class TeRustProvider(PytrecEvalProvider):
+
+    NAME = 'trec_eval'
     
     def __init__(self):
         super().__init__()
