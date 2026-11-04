@@ -15,7 +15,12 @@ class _RBP(measures.Measure):
     SUPPORTED_PARAMS = {
         'cutoff': measures.ParamInfo(dtype=int, required=False, desc='ranking cutoff threshold'),
         'p': measures.ParamInfo(dtype=float, default=0.8, desc='persistence'),
-        'rel': measures.ParamInfo(dtype=int, required=False, desc='minimum relevance score to be considered relevant (inclusive), or NOT_PROVIDED to use graded relevance')
+        'rel': measures.ParamInfo(dtype=int, required=False, desc='minimum relevance score to be considered relevant (inclusive), or NOT_PROVIDED to use graded relevance'),
+        'residual': measures.ParamInfo(
+            dtype=bool,
+            default=False,
+            desc='report RBP residuals when using the cwl_eval provider',
+        )
     }
 
 
