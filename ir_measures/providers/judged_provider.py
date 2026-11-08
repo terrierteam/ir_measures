@@ -54,7 +54,8 @@ class JudgedEvaluator(providers.Evaluator):
 
                     # A cutoff larger than the run size causes
                     # this calculation to be incorrect.
-                    value = judged_c / cutoff
+                    # An empty ranking has no judged documents.
+                    value = judged_c / cutoff if cutoff else 0.
 
                     yield Metric(query_id=qid, measure=measure, value=value)
 
