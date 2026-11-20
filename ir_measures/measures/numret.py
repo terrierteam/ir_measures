@@ -24,3 +24,21 @@ NumRet = _NumRet()
 NumRelRet = NumRet(rel=1)
 measures.register(NumRet)
 measures.register(NumRelRet, name='NumRelRet')
+
+
+class _NumNonRelJudgedRet(measures.Measure):
+    """Count retrieved documents with a nonnegative judgment below the relevance threshold."""
+    __name__ = 'NumNonRelJudgedRet'
+    NAME = __name__
+    PRETTY_NAME = 'Number of Retrieved Judged Non-relevant Documents'
+    SHORT_DESC = 'Counts retrieved documents judged below the relevance threshold, excluding unjudged documents.'
+    SUPPORTED_PARAMS = {
+        'rel': measures.ParamInfo(dtype=int, default=1, desc='positive minimum grade for a judgment to count as relevant (inclusive)')
+    }
+
+    def aggregator(self):
+        return SumAgg()
+
+
+NumNonRelJudgedRet = _NumNonRelJudgedRet()
+measures.register(NumNonRelJudgedRet)

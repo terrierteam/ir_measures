@@ -32,6 +32,7 @@ class PytrecEvalProvider(providers.Provider):
         measures._R(cutoff=Any(), judged_only=Any()),
         measures._Bpref(rel=Any()),
         measures._NumRet(rel=Any()),
+        measures._NumNonRelJudgedRet(rel=Any()),
         measures._NumQ(),
         measures._NumRel(rel=Choices(1)), # for some reason, relevance_level doesn't flow through to num_rel, so can only support rel=1
         measures._SetAP(rel=Any(), judged_only=Any()),
@@ -108,6 +109,12 @@ class PytrecEvalProvider(providers.Provider):
                 else:
                     invocation_key = (measure['rel'], 0, None, False)
                     measure_str = 'num_rel_ret'
+            elif measure.NAME == 'NumNonRelJudgedRet':
+                rel = measure['rel']
+                if rel < 1:
+                    raise ValueError('NumNonRelJudgedRet requires a positive relevance threshold')
+                invocation_key = (rel, 0, None, False)
+                measure_str = 'num_nonrel_judged_ret'
             elif measure.NAME == 'NumQ':
                 # Doesn't matter where this goes... Put it in an existing invocation, or just (1,) if none yet exist
                 if invocations:
