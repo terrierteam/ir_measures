@@ -1,7 +1,44 @@
-from typing import Iterable, List
+import logging
+from typing import Iterable, Iterator, List
 from ir_measures import providers
-from ir_measures.util import QrelsConverter, RunConverter
+from ir_measures.util import QrelsConverter, RunConverter, ScoredDoc, TYPE_RUN
 from ir_measures.measures.base import Measure
+
+
+logger = logging.getLogger(__name__)
+
+
+def _iter_until_first_tie(run: Iterator[ScoredDoc]) -> Iterator[ScoredDoc]:
+    first_docs: dict[tuple[str, float], str] = {}
+    for result in run:
+        key = (result.query_id, result.score)
+        if first_docs.setdefault(key, result.doc_id) != result.doc_id:
+            logger.warning(
+                'Run contains tied scores within a query. Evaluation providers can break ties '
+                'differently, so measures may use different document rankings.'
+            )
+            yield result
+            return
+        yield result
+
+
+def _iter_with_tie_warning(run: Iterator[ScoredDoc]) -> Iterator[ScoredDoc]:
+    yield from _iter_until_first_tie(run)
+    yield from run
+
+
+def _tee_run_with_tie_warning(run: TYPE_RUN, count: int) -> list[RunConverter]:
+    converter = RunConverter(run)
+    if logger.isEnabledFor(logging.WARNING):
+        run_format, _ = converter.predict_type()
+        if run_format == 'namedtuple_iter':
+            # Observe the shared source as providers consume it, without another tee cursor.
+            converter = RunConverter(_iter_with_tie_warning(converter.as_namedtuple_iter()))
+        elif run_format in ('dict_of_dict', 'pd_dataframe'):
+            # Preserve the original input format and any provider-specific columns.
+            for _ in _iter_until_first_tie(converter.as_namedtuple_iter()):
+                pass
+    return converter.tee(count)
 
 
 class FallbackProvider(providers.Provider):
@@ -98,6 +135,6 @@ class FallbackEvaluator(providers.Evaluator):
         self.evaluators = evaluators
 
     def _iter_calc(self, run):
-        runs_teed = RunConverter(run).tee(len(self.evaluators))
+        runs_teed = _tee_run_with_tie_warning(run, len(self.evaluators))
         for evaluator, run in zip(self.evaluators, runs_teed):
             yield from evaluator.iter_calc(run.run)

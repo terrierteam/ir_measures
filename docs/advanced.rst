@@ -38,6 +38,15 @@ directly in the software. If you wish to only score some of the queries provided
 may of course filter down the qrels provided to ir-measures to only those queries.
 
 
+Tied Run Scores
+---------------------------------------
+
+Evaluation providers can order documents with equal scores differently. For example, a tie at
+rank 1 can affect which document counts towards precision at 1. When a run contains ties within
+a query and a single evaluation uses multiple providers, ir-measures logs a warning about the
+possible difference in rankings.
+
+
 .. _custom_measures:
 
 Custom Measures
