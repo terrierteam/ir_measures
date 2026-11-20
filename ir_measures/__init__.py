@@ -15,7 +15,7 @@ from ir_measures.util import (
 from ir_measures import measures
 from ir_measures.measures import (
     Accuracy, alpha_DCG, alpha_nDCG, AP, AP_IA, BaseMeasure, BPM, Bpref, BPref, Compat, ERR, ERR_IA, infAP, INSQ, INST,
-    IPrec, Judged, MAP, MAP_IA, MeanAgg, Measure, MRR, nDCG, NDCG, NERR10, NERR11, NERR8, NERR9, nERR_IA, nNRBP, NRBP,
+    IPrec, Judged, MAP, MAP_IA, MeanAgg, Measure, MRR, NCG, nDCG, NDCG, NERR10, NERR11, NERR8, NERR9, nERR_IA, nNRBP, NRBP,
     NumQ, NumRel, NumRelRet, NumRet, P, P_IA, ParamInfo, Precision, R, RBP, Recall, Rprec, RPrec, RR, SDCG, SetAP, SetF,
     SetP, SetR, SetRelP, StRecall, Success, SumAgg, α_DCG, α_nDCG
 )
@@ -38,6 +38,7 @@ gdeval = providers.registry['gdeval']
 pytrec_eval = providers.registry['pytrec_eval']
 trectools = providers.registry['trectools']
 judged = providers.registry['judged']
+ncg = providers.registry['ncg']
 msmarco = providers.registry['msmarco']
 pyndeval = providers.registry['pyndeval']
 ranx = providers.registry['ranx']
@@ -56,6 +57,7 @@ DefaultPipeline = providers.FallbackProvider([
     pyndeval,
     # trectools,  # buggy; will add back later
     judged,
+    ncg,
     msmarco,
     gdeval,  # doesn't work when installed from package #9
     accuracy,
@@ -71,13 +73,13 @@ qrel_inputs = DefaultPipeline.qrel_inputs
 
 __all__ = [
     'accuracy', 'cwl_eval', 'compat', 'gdeval', 'pytrec_eval', 'trectools', 'judged', 'msmarco', 'pyndeval', 'ranx',
-    'runtime',
+    'ncg', 'runtime',
     'define', 'define_byquery',
     'CwlMetric',
     'DefaultPipeline',
     'evaluator', 'calc_ctxt', 'iter_calc', 'calc_aggregate', 'calc',
     'Accuracy', 'alpha_DCG', 'alpha_nDCG', 'AP', 'AP_IA', 'BaseMeasure', 'BPM', 'Bpref', 'BPref', 'Compat', 'ERR',
-    'ERR_IA', 'infAP', 'INSQ', 'INST', 'IPrec', 'Judged', 'MAP', 'MAP_IA', 'MeanAgg', 'Measure', 'MRR', 'nDCG', 'NDCG',
+    'ERR_IA', 'infAP', 'INSQ', 'INST', 'IPrec', 'Judged', 'MAP', 'MAP_IA', 'MeanAgg', 'Measure', 'MRR', 'NCG', 'nDCG', 'NDCG',
     'NERR10', 'NERR11', 'NERR8', 'NERR9', 'nERR_IA', 'nNRBP', 'NRBP', 'NumQ', 'NumRel', 'NumRelRet', 'NumRet', 'P',
     'P_IA', 'ParamInfo', 'Precision', 'R', 'RBP', 'Recall', 'Rprec', 'RPrec', 'RR', 'SDCG', 'SetAP', 'SetF', 'SetP',
     'SetR', 'SetRelP', 'StRecall', 'Success', 'SumAgg', 'α_DCG', 'α_nDCG',
