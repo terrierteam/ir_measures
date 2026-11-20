@@ -1,4 +1,5 @@
 from typing import Optional
+from urllib.parse import quote
 import os
 import json
 import requests
@@ -7,11 +8,14 @@ import gzip
 from pylatexenc.latex2text import LatexNodes2Text
 from docutils import nodes
 from docutils.parsers.rst import Directive
+from pyparsing import ParseException
+from sphinx.util import logging
 
 latex_converter = LatexNodes2Text()
+logger = logging.getLogger(__name__)
 
 # Cache file to store BibTeX entries
-CACHE_FILE = "dblp_cache.json.gz"
+CACHE_FILE = os.path.join(os.path.dirname(__file__), "..", "dblp_cache.json.gz")
 
 
 def load_dblp_cache():
@@ -83,25 +87,34 @@ class CiteDblpDirective(CiteDirective):
 
     def run(self):
         dblp_id = self.arguments[0]
+        record_url = f"https://dblp.org/rec/{quote(dblp_id)}"
+        cached = dblp_cache.get(dblp_id)
+        try:
+            bibtex = cached
+            if bibtex is None:
+                bibtex = []
+                for variant in (0, 1):
+                    response = requests.get(f"{record_url}.bib?param={variant}", timeout=10)
+                    response.raise_for_status()
+                    bibtex.append(response.text)
+            short_entries, full_entries = [bibtexparser.loads(entry).entries for entry in bibtex]
+            if not short_entries or not full_entries:
+                raise ValueError("DBLP response contains no BibTeX entries")
+        except (requests.RequestException, ParseException, KeyError, ValueError) as exc:
+            logger.info("Using a DBLP record link for %s because BibTeX is unavailable: %s", dblp_id, exc)
+            return [CiteNode(
+                self.get_citation_id(),
+                super().get_citation() or f"DBLP: {quote(dblp_id)}",
+                super().get_link() or record_url,
+                None,
+            )]
 
-        if dblp_id in dblp_cache:
-            bibtex_entry_short, bibtex_entry_full = dblp_cache[dblp_id]
-        else:
-            # Fetch BibTeX entry from DBLP
-            try:
-                response = requests.get(f"https://dblp.org/rec/{dblp_id}.bib?param=0")
-                response.raise_for_status()
-                bibtex_entry_short = response.text
-                response = requests.get(f"https://dblp.org/rec/{dblp_id}.bib?param=1")
-                response.raise_for_status()
-                bibtex_entry_full = response.text
-                dblp_cache[dblp_id] = [bibtex_entry_short, bibtex_entry_full]  # Save to cache
-                save_dblp_cache()  # Persist the cache
-            except requests.RequestException as e:
-                error_msg = f"Failed to fetch BibTeX for DBLP ID '{dblp_id}': {str(e)}"
-                return [nodes.error(None, nodes.Text(error_msg))]
-        self.bibtex_entry_short = bibtex_entry_short
-        self.bibtex_entry_full = bibtex_entry_full
+        if cached is None:
+            dblp_cache[dblp_id] = bibtex
+            save_dblp_cache()
+        self.short_entry = short_entries[0]
+        self.full_entry = full_entries[0]
+        self.bibtex_entry_full = bibtex[1]
         return super().run()
 
     def get_citation_id(self) -> str:
@@ -111,7 +124,7 @@ class CiteDblpDirective(CiteDirective):
         citation = super().get_citation()
         if citation is not None:
             return citation
-        res = bibtexparser.loads(self.bibtex_entry_short).entries[0]
+        res = self.short_entry
         authors = latex_converter.latex_to_text(res.get('author', ''))
         if authors:
             authors = authors.split(' and\n')
@@ -139,7 +152,7 @@ class CiteDblpDirective(CiteDirective):
         link = super().get_link()
         if link is not None:
             return link
-        res = bibtexparser.loads(self.bibtex_entry_full).entries[0]
+        res = self.full_entry
         return latex_converter.latex_to_text(res.get('url', ''))
 
     def get_bibtex(self) -> Optional[str]:
