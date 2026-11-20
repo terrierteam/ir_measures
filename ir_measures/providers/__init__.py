@@ -6,6 +6,7 @@ from ir_measures.providers.cwl_eval import CwlEvalProvider, CwlMetric
 from ir_measures.providers.pyndeval_provider import PyNdEvalProvider
 from ir_measures.providers.pytrec_eval_provider import PytrecEvalProvider
 from ir_measures.providers.judged_provider import JudgedProvider
+from ir_measures.providers.ncg_provider import NCGProvider
 from ir_measures.providers.gdeval_provider import GdevalProvider
 from ir_measures.providers.trectools_provider import TrectoolsProvider
 from ir_measures.providers.msmarco_provider import MsMarcoProvider
@@ -17,6 +18,6 @@ __all__ = [
 	'Provider', 'Evaluator',
 	'AccuracyProvider', 'FallbackProvider', 'CompatProvider', 'CwlEvalProvider', 'CwlMetric', 'PyNdEvalProvider',
 	'PytrecEvalProvider', 'JudgedProvider', 'GdevalProvider', 'TrectoolsProvider', 'MsMarcoProvider',
-	'RanxProvider', 'RuntimeProvider',
+	'NCGProvider', 'RanxProvider', 'RuntimeProvider',
 	'define', 'define_byquery',
 ]
