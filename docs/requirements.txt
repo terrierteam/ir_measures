@@ -2,5 +2,6 @@ sphinx
 sphinx-autodoc-typehints
 furo
 sphinx-tabs
-bibtexparser
+# The Sphinx citation extension uses the v1 loads() API.
+bibtexparser<2
 pylatexenc
