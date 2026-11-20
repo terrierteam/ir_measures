@@ -7,6 +7,39 @@ from .base import BaseMeasureTest
 
 class TestPytrecEval(BaseMeasureTest):
 
+    def test_num_nonrel_judged_ret(self):
+        measure, = ir_measures.parse_trec_measure('num_nonrel_judged_ret')
+        self.assertEqual(measure, ir_measures.NumNonRelJudgedRet)
+        self.assertEqual(measure, ir_measures.parse_measure('NumNonRelJudgedRet'))
+        stricter = measure(rel=2)
+        qrels = {
+            'q1': {'relevant': 2, 'partial': 1, 'irrelevant': 0, 'unjudged_in_pool': -1},
+            'q2': {'irrelevant': 0},
+            'missing_run': {'irrelevant': 0},
+        }
+        run = {
+            'q1': dict.fromkeys(('relevant', 'partial', 'irrelevant', 'unjudged_in_pool', 'unjudged'), 1.0),
+            'q2': {'irrelevant': 1.0},
+        }
+
+        results = ir_measures.calc([measure, stricter], qrels, run)
+        self.assertEqual(results.aggregated, {measure: 2, stricter: 3})
+        self.assertEqual(set(results.per_query), {
+            Metric('q1', measure, 1),
+            Metric('q1', stricter, 2),
+            Metric('q2', measure, 1),
+            Metric('q2', stricter, 1),
+            Metric('missing_run', measure, 0),
+            Metric('missing_run', stricter, 0),
+        })
+
+    def test_num_nonrel_judged_ret_requires_positive_threshold(self):
+        for rel in (0, -1):
+            with self.subTest(rel=rel):
+                measure = ir_measures.NumNonRelJudgedRet(rel=rel)
+                with self.assertRaisesRegex(ValueError, 'positive relevance threshold'):
+                    measure.evaluator({'q': {'d': 0}})
+
     def test_NumRet(self):
         qrels = list(ir_measures.read_trec_qrels('''
 0 0 D0 0
