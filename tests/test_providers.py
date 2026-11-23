@@ -9,6 +9,24 @@ from ir_measures.measures.accuracy import Accuracy
 
 class TestPytrecEval(unittest.TestCase):
 
+    def test_ignore_self(self):
+        qrels = {'a': {'a': 1, 'b': 2}, 'b': {'a': 1}, 'c': {'c': 1}}
+        run = {'a': {'a': 3, 'b': 2}, 'b': {'b': 4, 'a': 1}, 'c': {'c': 9}}
+        filtered = {'a': {'b': 2}, 'b': {'a': 1}, 'c': {}}
+        measures = [nDCG@1, AP@1, R@1, P@1, RR]
+        requested = [m(ignore_self=True) for m in measures]
+        for provider in [ir_measures.pytrec_eval, ir_measures.DefaultPipeline]:
+            ordinary = provider.calc(measures, qrels, run).per_query
+            expected = [Metric(q, m(ignore_self=True), v)
+                        for q, m, v in provider.iter_calc(measures, qrels, filtered)]
+            evaluator = provider.evaluator(measures + requested, ir_measures.util.QrelsConverter(qrels).as_namedtuple_iter())
+            for _ in range(2):
+                docs = ir_measures.util.RunConverter(run).as_namedtuple_iter()
+                self.assertCountEqual(evaluator.iter_calc(docs), ordinary + expected)
+            self.assertCountEqual(provider.iter_calc(requested, qrels, run), expected)
+        self.assertEqual(run['c'], {'c': 9})
+        self.assertEqual((R(ignore_self=True)@1).calc_aggregate({'a': qrels['a']}, run), 0.5)
+
     def test_empty(self):
         qrels = list(ir_measures.read_trec_qrels('''
 0 0 D0 0
