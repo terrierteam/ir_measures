@@ -2,7 +2,7 @@ import warnings
 import contextlib
 import itertools
 from typing import Iterator, Iterable, Dict, Union, List
-from ir_measures.util import Metric, TYPE_QREL, TYPE_RUN, CalcResults
+from ir_measures.util import Metric, TYPE_QREL, TYPE_RUN, CalcResults, QrelsConverter, RunConverter
 from ir_measures.measures.base import Measure, _NOT_PROVIDED
 
 
@@ -51,6 +51,33 @@ class Evaluator:
         return CalcResults(agg, metrics)
 
 
+class _IgnoreSelfEvaluator(Evaluator):
+    def __init__(self, provider, measures, qrels):
+        ordinary = [m for m in measures if not m.params.get('ignore_self')]
+        self.filtered_measures = {}
+        for measure in measures:
+            if measure.params.get('ignore_self'):
+                measure.validate_params()
+                self.filtered_measures[measure(ignore_self=False)] = measure
+
+        self.ordinary = None
+        if ordinary:
+            first, second = QrelsConverter(qrels).tee(2)
+            self.ordinary = provider._evaluator(ordinary, first.qrels)
+            qrels = second.qrels
+        self.filtered = provider._evaluator(list(self.filtered_measures), qrels)
+        super().__init__(measures, self.filtered.qrel_qids)
+
+    def _iter_calc(self, run):
+        converter = RunConverter(run)
+        if self.ordinary is not None:
+            ordinary, converter = converter.tee(2)
+            yield from self.ordinary.iter_calc(ordinary.run)
+        docs = (doc for doc in converter.as_namedtuple_iter() if doc.query_id != doc.doc_id)
+        for metric in self.filtered.iter_calc(docs):
+            yield Metric(metric.query_id, self.filtered_measures[metric.measure], metric.value)
+
+
 class Provider:
     """
     The base class for all measure providers (e.g., :ref:`providers.pytrec_eval`, :ref:`providers.gdeval`, etc.).
@@ -77,13 +104,16 @@ class Provider:
         can efficiently process multiple runs.
         """
         self._check_available()
+        measures = list(measures)
+        if any(m.params.get('ignore_self') for m in measures):
+            return _IgnoreSelfEvaluator(self, measures, qrels)
         return self._evaluator(measures, qrels)
 
     @contextlib.contextmanager
     def calc_ctxt(self, measures, qrels):
         warnings.warn("calc_ctxt deprecated in 0.2.0. Please use .evaluator(measures, qrels) instead.", DeprecationWarning)
         self._check_available()
-        evaluator = self._evaluator(measures, qrels)
+        evaluator = self.evaluator(measures, qrels)
         def _eval(run):
             yield from evaluator.iter_calc(run)
         yield _eval
@@ -99,7 +129,7 @@ class Provider:
         raise NotImplementedError()
 
     def _iter_calc(self, measures: Iterable[Measure], qrels: TYPE_QREL, run: TYPE_RUN):
-        return self._evaluator(measures, qrels).iter_calc(run)
+        return self.evaluator(measures, qrels).iter_calc(run)
 
     def calc_aggregate(self, measures: Iterable[Measure], qrels: TYPE_QREL, run: TYPE_RUN) -> Dict[Measure, Union[float, int]]:
         """
