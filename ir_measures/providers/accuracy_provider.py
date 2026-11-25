@@ -34,7 +34,12 @@ class AccuracyEvaluator(providers.Evaluator):
 
                 # Only report if one relevant document was retrieved
                 if len(nonrels) >= 2:
-                    value = 1. - sum(nonrels[:-1]) / (float(nonrels[-1]) * (len(nonrels) - 1))
+                    if nonrels[-1] == 0:
+                        # No non relevant document was retrieved, so no
+                        # relevant one is ranked below a non relevant one
+                        value = 1.
+                    else:
+                        value = 1. - sum(nonrels[:-1]) / (float(nonrels[-1]) * (len(nonrels) - 1))
                     yield Metric(query_id=qid, measure=measure, value=value)
  
 
